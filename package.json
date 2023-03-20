@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "pull": "git pull && yarn",
-    "dev": "next dev -p 1110",
+    "dev": "next dev",
     "build": "next build && next export",
     "start": "next start",
     "lint": "next lint"
@@ -26,6 +26,8 @@
     "eslint-config-prettier": "^8.7.0",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-simple-import-sort": "^10.0.0",
-    "prettier": "^2.8.4"
+    "prettier": "^2.8.4",
+    "file-loader": "^6.2.0",
+    "url-loader": "^4.1.1"
   }
 }
