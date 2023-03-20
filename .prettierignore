@@ -1,0 +1,11 @@
+.next
+public
+node_modules
+/net/http/gateway.ts
+/net/http/gatewayComponents.ts
+*.d.ts
+*.config.js
+/.vscode/
+/.husky/
+/out/
+/doc/
