@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import NextImage from 'next/image';
 import { forwardRef, ReactNode, useState } from 'react';
 
@@ -13,7 +14,7 @@ interface ImageProps extends BoxProps {
   onError?: ReactNode;
 }
 
-export const Imagex = forwardRef((props: ImageProps, ref: any) => {
+export const Image = forwardRef((props: ImageProps, ref: any) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isError, setIsError] = useState(false);
 
@@ -60,10 +61,13 @@ export const Imagex = forwardRef((props: ImageProps, ref: any) => {
   ) : (
     <>
       <NextImage
-        alt={alt}
         ref={ref}
-        src={src!}
+        alt={alt}
+        width={0}
+        height={0}
         {...boxProps}
+        src={src!}
+        loading="eager"
         onLoad={() => setIsLoaded(true)}
         onError={() => setIsError(true)}
       />

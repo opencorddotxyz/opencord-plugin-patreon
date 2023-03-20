@@ -8,6 +8,7 @@ export interface BaseStyles {
 
 export interface BaseProps extends BaseStyles {
   id?: string;
+  src?: string;
   style?: CSSProperties;
   extStyle?: CSSProperties;
   className?: string | string[];
@@ -19,10 +20,11 @@ export type BoxProps = CSSProperties & BaseProps;
 
 export const getBoxProps = (props: BoxProps) => {
   const {
-    style,
     id,
+    src,
     className: _class,
     onClick,
+    style,
     extStyle = {},
     size,
     ...styles
@@ -36,6 +38,7 @@ export const getBoxProps = (props: BoxProps) => {
     id,
     onClick,
     className,
+    src,
     style: {
       ...style,
       ...styles,
