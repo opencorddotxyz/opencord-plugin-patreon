@@ -34,4 +34,4 @@ const nextConfig = {
   },
 };
 
-module.exports = withBundleAnalyzer(withTM(nextConfig));
+module.exports = withBundleAnalyzer(nextConfig);
