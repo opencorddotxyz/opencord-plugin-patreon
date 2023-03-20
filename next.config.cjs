@@ -1,5 +1,7 @@
-const dotenv = require('dotenv');
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
+import NextBundleAnalyzer from '@next/bundle-analyzer';
+import dotenv from 'dotenv';
+
+const withBundleAnalyzer = NextBundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
 });
 
@@ -26,7 +28,7 @@ const nextConfig = {
     disableStaticImages: true,
     unoptimized: true,
   },
-  webpack: function (config, options) {
+  webpack: function (config, _options) {
     config.resolve.fallback = {
       crypto: false,
       path: false,
