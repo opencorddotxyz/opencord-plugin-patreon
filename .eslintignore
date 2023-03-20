@@ -1,10 +1,7 @@
-
-# dependencies
-/node_modules/*
+.next
+out
+public
+node_modules
 /net/http/gateway.ts
 /net/http/gatewayComponents.ts
 *.d.ts
-*.config.js
-jest.config.js
-jest.setup.js
-wasm_exec.js

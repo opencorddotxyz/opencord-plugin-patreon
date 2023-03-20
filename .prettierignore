@@ -1,10 +1,6 @@
 .next
-public
+out
 node_modules
 /net/http/gateway.ts
 /net/http/gatewayComponents.ts
 *.d.ts
-/.vscode/
-/.husky/
-/out/
-/doc/
