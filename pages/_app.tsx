@@ -1,6 +1,6 @@
-import '../style/reset.css';
-import '../style/fonts.css';
-import '../style/global.css';
+import '../styles/reset.css';
+import '../styles/fonts.css';
+import '../styles/global.css';
 
 import { AppProps } from 'next/app';
 import Head from 'next/head';
