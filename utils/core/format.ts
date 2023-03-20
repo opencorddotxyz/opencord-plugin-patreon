@@ -1,5 +1,5 @@
+import { toInt } from './base';
 import { isIntString, isString } from './is';
-import { toInt } from './number';
 
 export type TDate = number | string | Date;
 
@@ -11,7 +11,6 @@ export type TDate = number | string | Date;
 export function toDate(time: TDate): Date {
   if (isString(time) && isIntString(time as string)) {
     const timestamp = toInt(time as string) as number;
-
     return new Date(timestamp);
   }
 
