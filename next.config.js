@@ -1,5 +1,10 @@
 /** @type {import('next').NextConfig} */
 
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+})
+
+
 const nextConfig = {
   reactStrictMode: true,
   webpack: function (config, options) {
@@ -20,7 +25,7 @@ const nextConfig = {
         }
       }
     })
-    
+
     return config
   },
   images: {
@@ -29,4 +34,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+module.exports = withBundleAnalyzer(withTM(nextConfig));
