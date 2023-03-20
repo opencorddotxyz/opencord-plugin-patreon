@@ -3,13 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "pull": "git pull && yarn",
     "dev": "APP_ENV=development next dev",
-    "pro": "APP_ENV=production next dev",
+    "prod": "APP_ENV=production next dev",
     "build": "next build && next export",
-    "build:dev": "APP_ENV=development yarn build && next export",
-    "start": "next start",
-    "lint": "next lint"
+    "build:dev": "APP_ENV=development yarn build"
   },
   "dependencies": {
     "axios": "^1.3.4",
