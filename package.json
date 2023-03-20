@@ -4,13 +4,14 @@
   "private": true,
   "scripts": {
     "pull": "git pull && yarn",
-    "dev": "next dev",
+    "dev": "APP_ENV=development next dev",
+    "pro": "APP_ENV=production next dev",
     "build": "next build && next export",
+    "build:dev": "APP_ENV=development yarn build && next export",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
-    "@next/bundle-analyzer": "^13.2.4",
     "axios": "^1.3.4",
     "next": "^13.2.4",
     "react": "^18.2.0",
@@ -31,6 +32,7 @@
     "file-loader": "^6.2.0",
     "prettier": "^2.8.4",
     "typescript": "^5.0.2",
-    "url-loader": "^4.1.1"
+    "url-loader": "^4.1.1",
+    "@next/bundle-analyzer": "^13.2.4"
   }
 }

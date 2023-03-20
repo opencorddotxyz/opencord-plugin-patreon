@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 
 const IndexPage: NextPage = () => {
-  return <div />;
+  return <div>hello world {process.env.NEXT_PUBLIC_BASE_URL} </div>;
 };
 
 export default IndexPage;

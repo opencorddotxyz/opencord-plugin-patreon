@@ -1,9 +1,21 @@
-/** @type {import('next').NextConfig} */
-
+const dotenv = require('dotenv');
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
-})
+});
 
+const env = {};
+const loaded = dotenv.config({
+  path: `.env.${process.env.APP_ENV || process.env.NODE_ENV}`,
+  silent: true,
+});
+
+env['NEXT_PUBLIC_APP_ENV'] = process.env.APP_ENV;
+
+Object.keys(process.env).forEach((key) => {
+  if (key.startsWith('NEXT_PUBLIC_')) {
+    env[key] = loaded.parsed[key];
+  }
+});
 
 const nextConfig = {
   reactStrictMode: true,
@@ -11,7 +23,7 @@ const nextConfig = {
     config.resolve.fallback = {
       crypto: false,
       path: false,
-      fs: false
+      fs: false,
     };
     config.module.rules.push({
       test: /\.(png|jpg|gif|eot|ttf|woff|woff2|svg)$/i,
@@ -22,16 +34,17 @@ const nextConfig = {
           name: '[path][name].[ext]',
           encoding: 'base64',
           fallback: require.resolve('file-loader'),
-        }
-      }
-    })
+        },
+      },
+    });
 
-    return config
+    return config;
   },
   images: {
     disableStaticImages: true,
     unoptimized: true,
   },
+  env,
 };
 
 module.exports = withBundleAnalyzer(nextConfig);
