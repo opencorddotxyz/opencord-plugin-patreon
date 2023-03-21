@@ -51,7 +51,7 @@ export function isIntString(e: any): boolean {
   return !isNaN(number) && Number.isInteger(number);
 }
 
-export function isArray(e: unknown): boolean {
+export function isArray(e: any): e is any[] {
   return Array.isArray(e);
 }
 
@@ -69,4 +69,8 @@ export function isFunction(e: unknown): boolean {
 
 export function isClass(e: any): boolean {
   return isFunction(e) && e.toString().startsWith('class ');
+}
+
+export function isBrowser() {
+  return typeof window !== 'undefined';
 }

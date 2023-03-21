@@ -1,11 +1,21 @@
 import { NextPage } from 'next';
+import { useEffect } from 'react';
 
 import { Center, Column } from '@/components/Flex';
 import { Image } from '@/components/Image';
 import { Text } from '@/components/Text';
+import { useRouterQuery } from '@/hooks/useRouterQuery';
 import { icons, images } from '@/utils/assets';
+import { setLocal } from '@/utils/store';
 
 const OAuthPage: NextPage = () => {
+  const { code, state } = useRouterQuery(['code', 'state']);
+  useEffect(() => {
+    if (code) {
+      setLocal('code', code);
+    }
+  }, [code, state]);
+
   return (
     <Center
       width="100%"
