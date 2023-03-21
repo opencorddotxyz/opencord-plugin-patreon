@@ -1,10 +1,9 @@
-import { Center, Column, Row } from '@/components/Flex';
-import { Image } from '@/components/Image';
-import { Spinner } from '@/components/Spinner';
-import { Text } from '@/components/Text';
-
-import { useConnectPatreon } from '../hooks/useConnectPatreon';
-import { usePatreonInfo } from '../hooks/usePatreonInfo';
+import { Center, Column, Row } from '@/components/core/Flex';
+import { Image } from '@/components/core/Image';
+import { Spinner } from '@/components/core/Spinner';
+import { Text } from '@/components/core/Text';
+import { useConnectPatreon } from '@/hooks/useConnectPatreon';
+import { usePatreonInfo } from '@/hooks/usePatreonInfo';
 
 const PatronNotConnectPage = () => {
   const { datas: patreonInfo, loading } = usePatreonInfo();

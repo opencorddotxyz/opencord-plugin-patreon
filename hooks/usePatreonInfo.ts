@@ -1,4 +1,4 @@
-import { useAsync } from '@/hooks/useAsync';
+import { useAsync } from '@/hooks/core/useAsync';
 import { mockPatreonDatas, PatreonInfo } from '@/utils/mock';
 
 export const usePatreonInfo = () => {

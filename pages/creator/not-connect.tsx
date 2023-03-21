@@ -1,10 +1,9 @@
-import { Center, Column, Expand, Row } from '@/components/Flex';
-import { Image } from '@/components/Image';
-import { Spinner } from '@/components/Spinner';
-import { Text } from '@/components/Text';
+import { Center, Column, Expand, Row } from '@/components/core/Flex';
+import { Image } from '@/components/core/Image';
+import { Spinner } from '@/components/core/Spinner';
+import { Text } from '@/components/core/Text';
+import { useConnectPatreon } from '@/hooks/useConnectPatreon';
 import { icons } from '@/utils/assets';
-
-import { useConnectPatreon } from '../hooks/useConnectPatreon';
 
 const CreatorNotConnectPage = () => {
   const { connecting, connectPatreon } = useConnectPatreon();

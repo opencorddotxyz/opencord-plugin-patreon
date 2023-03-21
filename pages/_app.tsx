@@ -4,9 +4,12 @@ import '../styles/global.css';
 
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
 
 export default function App({ Component, pageProps, router }: AppProps) {
+  useEffect(() => {
+    document.body.classList.add('hide-scrollbar');
+  }, []);
   return (
     <>
       <Header />

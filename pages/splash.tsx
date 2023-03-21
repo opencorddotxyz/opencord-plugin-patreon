@@ -1,16 +1,18 @@
-import { Center, Column, Row } from '@/components/Flex';
-import { Image } from '@/components/Image';
-import { Spinner } from '@/components/Spinner';
-import { Text } from '@/components/Text';
-
-import { useConnectPatreon } from './hooks/useConnectPatreon';
-import { usePatreonInfo } from './hooks/usePatreonInfo';
+import { Center, Column, Row } from '@/components/core/Flex';
+import { Image } from '@/components/core/Image';
+import { Spinner } from '@/components/core/Spinner';
+import { Text } from '@/components/core/Text';
+import { MembershipLevelItem } from '@/components/MembershipLevels/MembershipLevelItem';
+import { MembershipLevelsHeader } from '@/components/MembershipLevels/MembershipLevelsHeader';
+import { useConnectPatreon } from '@/hooks/useConnectPatreon';
+import { usePatreonInfo } from '@/hooks/usePatreonInfo';
 
 const PatronNotConnectPage = () => {
   const { datas: patreonInfo, loading } = usePatreonInfo();
   const { connecting, connectPatreon } = useConnectPatreon();
 
   const name = patreonInfo?.creator?.name ?? 'Unknown';
+  const levels = patreonInfo?.levels ?? [];
 
   const _header = (
     <>
@@ -32,6 +34,7 @@ const PatronNotConnectPage = () => {
         textAlign="center"
         color={'rgba(255, 255, 255, 0.8)'}
         marginBottom="20px"
+        maxWidth="600px"
       >
         As a {name} patron, you can connect your Patreon account to
         automatically receive roles based on your membership level and claim
@@ -69,6 +72,7 @@ const PatronNotConnectPage = () => {
         textAlign="center"
         color={'rgba(255, 255, 255, 0.3)'}
         marginBottom="30px"
+        maxWidth="600px"
       >
         <Text>
           Note: If you have already connected your Patreon account, please
@@ -85,6 +89,38 @@ const PatronNotConnectPage = () => {
     </>
   );
 
+  const _membershipLevels = (
+    <Column width="100%" maxWidth="840px" alignItems="start">
+      <MembershipLevelsHeader />
+      {levels.length < 1 ? (
+        <Center
+          width="100%"
+          color="rgba(255, 255, 255, 0.6)"
+          fontSize={'12px'}
+          lineHeight="15px"
+          fontWeight={'500'}
+          textAlign="center"
+          padding={'20px 30px'}
+        >
+          <Text>There are no membership levels assigned to roles.</Text>
+        </Center>
+      ) : (
+        [...levels, ...levels, ...levels].map((e, idx) => {
+          return (
+            <MembershipLevelItem
+              key={e.id + idx}
+              level={{
+                ...e,
+                role: e.role?.name,
+                color: e.role?.color,
+              }}
+            />
+          );
+        })
+      )}
+    </Column>
+  );
+
   return loading ? (
     <Center width="100%" height="100vh">
       <Spinner theme="dark" />
@@ -93,6 +129,7 @@ const PatronNotConnectPage = () => {
     <Column width="100%" padding="30px">
       {_header}
       {_connectPatreon}
+      {_membershipLevels}
     </Column>
   );
 };
