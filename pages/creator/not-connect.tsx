@@ -69,6 +69,7 @@ const CreatorNotConnectPage = () => {
             color={'#16B8F3'}
             textDecorationLine="underline"
             onClick={connectPatreon}
+            cursor="pointer"
           >
             &nbsp;refresh&nbsp;
           </Text>
