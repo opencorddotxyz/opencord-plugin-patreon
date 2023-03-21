@@ -26,7 +26,7 @@ const _Header = () => {
       <title>Patreon Membership NFT Pass</title>
       <meta
         name="description"
-        content="Welcome your Patreon to Opencord. Automatically assign roles and reward them with a Membership NFT Pass based on their tier."
+        content="Welcome your Patrons to Opencord. Automatically assign roles and reward them with a Membership NFT Pass based on their tier."
       />
     </Head>
   );
