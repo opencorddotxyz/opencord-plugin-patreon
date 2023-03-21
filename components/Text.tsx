@@ -8,13 +8,17 @@ interface TextProps extends BoxProps {
 
 export const Text = forwardRef((props: TextProps, ref: any) => {
   const { children, maxLines, style = {} } = props;
-  const maxLinesStyle: BoxProps = {
-    display: '-webkit-box',
-    WebkitBoxOrient: 'vertical',
-    WebkitLineClamp: maxLines ?? 'none',
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
-  };
+  const maxLinesStyle: BoxProps = maxLines
+    ? {
+        display: '-webkit-box',
+        WebkitBoxOrient: 'vertical',
+        WebkitLineClamp: maxLines ?? 'none',
+        textOverflow: 'ellipsis',
+        overflow: 'hidden',
+      }
+    : {
+        display: 'inline',
+      };
   const boxProps = getBoxProps({
     ...props,
     ...{
