@@ -2,17 +2,17 @@
   "name": "opencord-plugin-patreon",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "pull": "git pull && yarn",
     "dev": "APP_ENV=development next dev",
-    "pro": "APP_ENV=production next dev",
+    "prod": "APP_ENV=production next dev",
     "build": "next build && next export",
-    "build:dev": "APP_ENV=development yarn build && next export",
-    "start": "next start",
-    "lint": "next lint"
+    "build:dev": "APP_ENV=development yarn build",
+    "preview": "yarn build && next start",
+    "preview:dev": "yarn build && next start"
   },
   "dependencies": {
-    "axios": "^1.3.4",
+    "axios": "^0.27.2",
     "next": "^13.2.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
@@ -27,7 +27,10 @@
     "eslint": "^8.36.0",
     "eslint-config-next": "^13.2.4",
     "eslint-config-prettier": "^8.7.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "file-loader": "^6.2.0",
     "prettier": "^2.8.4",
