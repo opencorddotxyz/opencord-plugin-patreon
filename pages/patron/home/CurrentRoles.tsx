@@ -17,7 +17,6 @@ export const CurrentRoles = (props: {
         padding="0 30px 30px 30px"
       >
         <Text
-          color="#fff"
           fontSize={'16px'}
           lineHeight="20px"
           fontWeight={'700'}
@@ -51,7 +50,6 @@ export const CurrentRoles = (props: {
           >
             {roles.length < 1 ? (
               <Text
-                color="#fff"
                 fontSize="14px"
                 lineHeight="18px"
                 fontWeight="600"
@@ -74,7 +72,6 @@ export const CurrentRoles = (props: {
                       marginRight="6px"
                     />
                     <Text
-                      color="#fff"
                       fontSize="14px"
                       lineHeight="18px"
                       fontWeight="600"

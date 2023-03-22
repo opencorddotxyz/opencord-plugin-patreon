@@ -33,7 +33,6 @@ const PatronNotConnectPage = () => {
         padding="0 30px 30px 30px"
       >
         <Text
-          color="#fff"
           fontSize={'24px'}
           lineHeight="30px"
           fontWeight={'700'}
@@ -43,7 +42,6 @@ const PatronNotConnectPage = () => {
           Patreon Membership NFT Pass
         </Text>
         <Text
-          color="#fff"
           fontSize={'16px'}
           lineHeight="20px"
           fontWeight={'700'}
@@ -107,6 +105,7 @@ const PatronNotConnectPage = () => {
             marginBottom="20px"
           />
           <Center
+            color="#000"
             width="100px"
             height="30px"
             borderRadius="4px"

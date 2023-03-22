@@ -14,7 +14,6 @@ const CreatorNotConnectPage = () => {
         <Expand />
         <Image src={icons('patreon.svg')} size="64px" />
         <Text
-          color="#fff"
           fontSize={'32px'}
           lineHeight="40px"
           fontWeight={'700'}
@@ -35,6 +34,7 @@ const CreatorNotConnectPage = () => {
           based on their tier.
         </Text>
         <Center
+          color="#000"
           width="140px"
           height="30px"
           borderRadius="4px"

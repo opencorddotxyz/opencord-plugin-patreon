@@ -5,7 +5,6 @@ export const MembershipLevelsHeader = () => {
   return (
     <>
       <Text
-        color="#fff"
         fontSize={'16px'}
         lineHeight="20px"
         fontWeight={'700'}

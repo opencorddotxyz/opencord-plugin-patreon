@@ -20,7 +20,6 @@ export const NotEligible = (props: { name: string; link: string }) => {
             marginRight="4px"
           />
           <Text
-            color="#fff"
             fontSize={'16px'}
             lineHeight="20px"
             fontWeight={'700'}
@@ -39,7 +38,6 @@ export const NotEligible = (props: { name: string; link: string }) => {
           <Image
             size="12px"
             src={icons('warning.svg')}
-            color="#fff"
             display="inline"
             marginRight="4px"
           />

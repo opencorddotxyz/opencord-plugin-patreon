@@ -92,7 +92,6 @@ const PatronNotConnectPage = () => {
     <>
       <Image src={patreonInfo?.creator.image} size="72px" />
       <Text
-        color="#fff"
         fontSize={'24px'}
         lineHeight="30px"
         fontWeight={'700'}

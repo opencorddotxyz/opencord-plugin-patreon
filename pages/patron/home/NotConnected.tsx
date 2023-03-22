@@ -8,6 +8,7 @@ export const NotConnected = () => {
   return (
     <>
       <Center
+        color="#000"
         width="140px"
         height="30px"
         borderRadius="4px"

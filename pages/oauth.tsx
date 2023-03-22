@@ -35,7 +35,6 @@ const OAuthPage: NextPage = () => {
         >
           <Image src={icons('ok.svg')} size="72px" />
           <Text
-            color="#fff"
             fontSize={'32px'}
             lineHeight="40px"
             fontWeight={'700'}

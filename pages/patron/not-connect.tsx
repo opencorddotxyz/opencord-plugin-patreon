@@ -15,7 +15,6 @@ const PatronNotConnectPage = () => {
     <>
       <Image src={patreonInfo?.creator.image} size="72px" />
       <Text
-        color="#fff"
         fontSize={'24px'}
         lineHeight="30px"
         fontWeight={'700'}
@@ -42,6 +41,7 @@ const PatronNotConnectPage = () => {
   const _connectPatreon = (
     <>
       <Center
+        color="#000"
         width="140px"
         height="30px"
         borderRadius="4px"
