@@ -1,15 +1,18 @@
-export interface SignUpRequest {
-  credential: string; // ###2022-07-08###-###
-  nickname: string; // ###2022-07-08###-###
+export interface LoginRequest {
+  code: string;
 }
 
-export interface ServerMemberRoleOverview {
-  id: string; // ###2022-07-08###-###
-  name: string; // ###2022-07-08###-###
-  addedWith: number; // ###2022-07-08###-###
+export interface LoginResponse {
+  token: string; 
+  setup: boolean;
+  manageable: boolean;
 }
 
-export interface SignUpResponse {
-	token: string // ###2022-07-08###-###
-	userId: string // ###2022-07-08###-###
+
+export interface ValidateOAuth2TokenRequest { 
+  code: string;
+}
+
+export interface ValidateOAuth2TokenResponse { 
+  
 }

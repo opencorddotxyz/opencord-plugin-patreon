@@ -12,6 +12,14 @@ export function index() {
  * @description "Sign up"
  * @param req
  */
-export function signUp(req: components.SignUpRequest) {
-	return client.post<components.SignUpResponse>("/v1/users/signup", req)
+export function login(req: components.LoginRequest) {
+	return client.post<components.LoginResponse>("/v1/login", req)
+}
+
+/**
+ * @description "Validating Receipt of the OAuth Token"
+ * @param req
+ */
+export function validateOAuth2Token(req: components.ValidateOAuth2TokenRequest) {
+	return client.post<components.ValidateOAuth2TokenResponse>("/v1/oauth2/token", req)
 }
