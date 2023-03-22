@@ -7,6 +7,7 @@
 
 # testing
 /coverage
+/net/http/_mock.ts
 
 # next.js
 /.next/

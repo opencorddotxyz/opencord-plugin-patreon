@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 
-import { error, info } from '@/utils/log';
+import { error, info } from '@/utils/core/log';
 
 type Param = {
   [k: string]: any;
