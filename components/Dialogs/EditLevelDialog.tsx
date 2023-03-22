@@ -48,7 +48,6 @@ export const EditLevelDialog = () => {
       return;
     }
     setSaving(true);
-    // todo save level info
     const success = await onSave?.(level);
     setSaving(false);
     if (success) {
