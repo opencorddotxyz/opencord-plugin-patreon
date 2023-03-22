@@ -4,6 +4,10 @@ import { Image } from '@/components/core/Image';
 import { TextInput } from '@/components/core/Input/TextInput';
 import { Spinner } from '@/components/core/Spinner';
 import { Text } from '@/components/core/Text';
+import {
+  EditLevelDialog,
+  openEditLevelDialog,
+} from '@/components/Dialogs/EditLevelDialog';
 import { MembershipLevelItemEditable } from '@/components/MembershipLevels/MembershipLevelItem';
 import {
   MembershipLevelsHeaderEditable,
@@ -11,10 +15,15 @@ import {
 } from '@/components/MembershipLevels/MembershipLevelsHeader';
 import { useEditCreatorInfo } from '@/hooks/useEditCreatorInfo';
 import { usePatreonInfo } from '@/hooks/usePatreonInfo';
+import { isNotEqual } from '@/utils/core/diff';
+import { Role } from '@/utils/mock';
 
 const PatronNotConnectPage = () => {
   const { datas, loading } = usePatreonInfo();
   const {
+    saveLevelInfo,
+    linkRoles,
+    deleteOutdatedLevel,
     refresh,
     refreshing,
     saving,
@@ -117,7 +126,7 @@ const PatronNotConnectPage = () => {
             height="30px"
             borderRadius="4px"
             background="#fff"
-            fontWeight={500}
+            fontWeight={600}
             cursor={'pointer'}
             userSelect="none"
             onClick={saveCreatorInfo}
@@ -157,8 +166,29 @@ const PatronNotConnectPage = () => {
           <Text>There are no membership levels assigned to roles.</Text>
         </Center>
       ) : (
-        levels.map((e, idx) => {
-          return <MembershipLevelItemEditable key={e.id + idx} level={e} />;
+        levels.map((level, idx) => {
+          return (
+            <MembershipLevelItemEditable
+              key={level.id + idx}
+              level={level}
+              onEditLevel={() => {
+                openEditLevelDialog({
+                  level: level,
+                  onSave: async (newLevel) => {
+                    if (isNotEqual(level, newLevel)) {
+                      return await saveLevelInfo(newLevel);
+                    }
+                    return true;
+                  },
+                });
+              }}
+              onLinkRole={() => {
+                // todo link role select menu
+                const linkedRoles: Role[] = [];
+                linkRoles(level, linkedRoles);
+              }}
+            />
+          );
         })
       )}
     </Column>
@@ -175,9 +205,16 @@ const PatronNotConnectPage = () => {
         marginBottom="30px"
       >
         <MembershipLevelsOutdatedHeader />
-        {levelsOutdated.map((e, idx) => {
+        {levelsOutdated.map((level, idx) => {
           return (
-            <MembershipLevelItemEditable isDelete key={e.id + idx} level={e} />
+            <MembershipLevelItemEditable
+              isDelete
+              key={level.id + idx}
+              level={level}
+              onDeleteLevel={() => {
+                deleteOutdatedLevel(level);
+              }}
+            />
           );
         })}
       </Column>
@@ -189,6 +226,7 @@ const PatronNotConnectPage = () => {
     </Center>
   ) : (
     <Column width="100%" padding="30px">
+      <EditLevelDialog />
       {_body}
       {_membershipLevels}
       {_membershipLevelsOutdated}

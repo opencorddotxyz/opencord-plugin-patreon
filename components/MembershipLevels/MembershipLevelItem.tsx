@@ -3,7 +3,7 @@ import { Center, Expand, Row } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
 import { Text } from '@/components/core/Text';
 import { icons } from '@/utils/assets';
-import { PatreonLevel, Role } from '@/utils/mock';
+import { PatreonLevel } from '@/utils/mock';
 
 import styles from './style.module.css';
 
@@ -80,15 +80,15 @@ export const MembershipLevelItem = (props: { level: PatreonLevel }) => {
 
 export const MembershipLevelItemEditable = (props: {
   isDelete?: boolean;
-  onDeleteRole?: (role: Role) => void;
-  onLinkRole?: (role: Role) => void;
-  onEditLevel?: (level: PatreonLevel) => void;
+  onDeleteLevel?: () => void;
+  onLinkRole?: () => void;
+  onEditLevel?: () => void;
   level: PatreonLevel;
 }) => {
   const {
     level,
     isDelete = false,
-    onDeleteRole,
+    onDeleteLevel,
     onLinkRole,
     onEditLevel,
   } = props;
@@ -105,7 +105,7 @@ export const MembershipLevelItemEditable = (props: {
       cursor={!isDelete ? 'pointer' : 'auto'}
       onClick={() => {
         if (!isDelete) {
-          onEditLevel?.(level);
+          onEditLevel?.();
         }
       }}
     >
@@ -115,9 +115,9 @@ export const MembershipLevelItemEditable = (props: {
           cursor="pointer"
           onClick={() => {
             if (isDelete) {
-              onDeleteRole?.(role);
+              onDeleteLevel?.();
             } else {
-              onEditLevel?.(level);
+              onEditLevel?.();
             }
           }}
         >
@@ -189,7 +189,7 @@ export const MembershipLevelItemEditable = (props: {
             userSelect="none"
             textDecorationLine="underline"
             onClick={() => {
-              onLinkRole?.(role);
+              onLinkRole?.();
             }}
           >
             Add Role

@@ -1,5 +1,5 @@
 import { isNotEmpty } from '@/utils/core/is';
-import { store, useProvider, useStore } from '@/utils/store/useStore';
+import { store, useStore } from '@/utils/store/useStore';
 
 import { Box } from '../core/Box';
 import { Center } from '../core/Flex';
@@ -21,7 +21,6 @@ export const hideToast = () => {
 };
 
 export const Toast = () => {
-  useProvider(kShowToast, false);
   const [text] = useStore(kShowToast);
   const show = isNotEmpty(text);
   return show ? (
