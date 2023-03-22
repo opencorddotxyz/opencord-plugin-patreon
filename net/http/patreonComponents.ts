@@ -4,15 +4,15 @@ export interface LoginRequest {
 
 export interface LoginResponse {
   token: string;
-  setup: boolean;
   manageable: boolean;
-  spaceProfile?: SpaceProfile;
+  setup: boolean;
   connected: boolean;
-  membershipLevels?: Array<MembershipLevel>;
-  outdatedMembershipLevels?: Array<MembershipLevel>;
   eligible: boolean;
   minted: boolean;
+  spaceProfile?: SpaceProfile;
+  membershipLevels?: Array<MembershipLevel>;
   corrMembershipLevel?: MembershipLevel;
+  outdatedMembershipLevels?: Array<MembershipLevel>;
 }
 
 export interface SpaceProfile {
@@ -35,7 +35,6 @@ export interface Role {
   name: string;
   color: string;
 }
-
 export interface ValidateOAuth2TokenRequest {
   code: string;
 }

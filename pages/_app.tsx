@@ -5,12 +5,13 @@ import '../styles/global.css';
 import ocClient from 'libs/opencord-client';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { memo, useEffect } from 'react';
 
 import { Text } from '@/components/core/Text';
 import { StateType } from '@/constants/store';
 import useAsyncEffect from '@/hooks/core/useAsyncEffect';
-import { login } from '@/net/http/_mock';
+import { login } from '@/net/http/patreon';
 import { store, useProvider, useStore } from '@/utils/store/useStore';
 
 import { InfoPageFrame } from './oauth';
@@ -19,6 +20,7 @@ export default function App({ Component, pageProps, router }: AppProps) {
   useProvider(StateType.IN_OPENCORD, true);
   useProvider(StateType.MANAGEABLE, false);
   const [inOC] = useStore(StateType.IN_OPENCORD);
+  const currentPath = useRouter().asPath;
 
   useEffect(() => {
     document.body.classList.add('hide-scrollbar');
@@ -26,19 +28,18 @@ export default function App({ Component, pageProps, router }: AppProps) {
 
   useAsyncEffect(async () => {
     const response = await ocClient.getCode();
+    console.info('!!! plugin debug: ocClient response = ', response);
+
     if (response.code === -32002) {
-      // not in oc
-      // return store.set(StateType.IN_OPENCORD, false);
+      return store.set(StateType.IN_OPENCORD, false);
     }
 
-    const TRUE = true;
-    if (TRUE) {
-      // if (response.data?.code) {
+    if (response.data?.code) {
       try {
-        const loginResponse = await login({ code: '123123123' });
-        // const loginResponse = await login({ code: response.data.code });
+        const loginResponse = await login({ code: response.data.code });
         console.info('!!! plugin debug: login response = ', loginResponse);
-        const { manageable, setup } = loginResponse;
+        const { data } = loginResponse;
+        const { setup, manageable } = data;
 
         store.set(StateType.MANAGEABLE, manageable);
         store.set(StateType.BEEN_SET, setup);
@@ -57,7 +58,11 @@ export default function App({ Component, pageProps, router }: AppProps) {
   return (
     <>
       <Header />
-      {inOC ? <Component {...pageProps} key={router.route} /> : <NotInOC />}
+      {!inOC && currentPath !== '/oauth' ? (
+        <NotInOC />
+      ) : (
+        <Component {...pageProps} key={router.route} />
+      )}
     </>
   );
 }

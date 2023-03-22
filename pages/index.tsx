@@ -2,6 +2,8 @@ import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
+import { Center } from '@/components/core/Flex';
+import { Spinner } from '@/components/core/Spinner';
 import { StateType } from '@/constants/store';
 import { useStore } from '@/utils/store/useStore';
 
@@ -26,7 +28,12 @@ const IndexPage: NextPage = () => {
     }
   }, [manageable, router]);
 
-  return <div>manageable not available</div>;
+  return (
+    <Center width="100%" height="100vh">
+      <Spinner theme="dark" />
+      OC auth not yet
+    </Center>
+  );
 };
 
 export default IndexPage;
