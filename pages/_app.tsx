@@ -5,7 +5,7 @@ import '../styles/global.css';
 import ocClient from 'libs/opencord-client';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
 
 import { StateType } from '@/constants/store';
 import useAsyncEffect from '@/hooks/useAsyncEffect';
@@ -18,6 +18,10 @@ registerStaleCallback(() => {
 });
 
 export default function App({ Component, pageProps, router }: AppProps) {
+  useEffect(() => {
+    document.body.classList.add('hide-scrollbar');
+  }, []);
+
   useProvider('loggedIn', false);
   useProvider(StateType.IN_OPENCORD, true);
 

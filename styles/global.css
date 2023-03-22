@@ -30,11 +30,11 @@ div:focus {
   -webkit-tap-highlight-color: rgb(0 0 0 / 0%);
 }
 
-.hide-scollbar {
+.hide-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
 
-.hide-scollbar::-webkit-scrollbar {
+.hide-scrollbar::-webkit-scrollbar {
   display: none;
 }

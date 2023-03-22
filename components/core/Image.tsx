@@ -14,6 +14,8 @@ interface ImageProps extends BoxProps {
   onError?: ReactNode;
 }
 
+const imgLoader = (p: { src: string }) => p.src;
+
 export const Image = forwardRef((props: ImageProps, ref: any) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -22,7 +24,13 @@ export const Image = forwardRef((props: ImageProps, ref: any) => {
     ...props,
     extStyle: {
       ...props.extStyle,
-      display: isLoaded && !isError ? 'block' : 'none',
+      display:
+        isLoaded && !isError
+          ? props.display ??
+            props.style?.display ??
+            props.extStyle?.display ??
+            'block'
+          : 'none',
       objectFit: 'cover',
       backgroundSize: 'cover',
       backgroundPosition: 'center',
@@ -45,14 +53,8 @@ export const Image = forwardRef((props: ImageProps, ref: any) => {
         {...boxProps}
         extStyle={{
           display: 'block',
-          color: '#666',
-          textAlign: 'center',
-          overflow: 'hidden',
-          background: props.background ?? '#fff',
         }}
-      >
-        None
-      </Center>
+      />
     ),
   } = props;
 
@@ -65,9 +67,11 @@ export const Image = forwardRef((props: ImageProps, ref: any) => {
         alt={alt}
         width={0}
         height={0}
+        unoptimized
         {...boxProps}
         src={src!}
         loading="eager"
+        loader={imgLoader}
         onLoad={() => setIsLoaded(true)}
         onError={() => setIsError(true)}
       />

@@ -1,9 +1,9 @@
 import { NextPage } from 'next';
 import { useEffect } from 'react';
 
-import { Center, Column } from '@/components/Flex';
-import { Image } from '@/components/Image';
-import { Text } from '@/components/Text';
+import { Center, Column } from '@/components/core/Flex';
+import { Image } from '@/components/core/Image';
+import { Text } from '@/components/core/Text';
 import { useRouterQuery } from '@/hooks/useRouterQuery';
 import { icons, images } from '@/utils/assets';
 import { setLocal } from '@/utils/store';
