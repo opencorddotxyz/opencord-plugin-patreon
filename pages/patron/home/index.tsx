@@ -147,16 +147,7 @@ const PatronNotConnectPage = () => {
         </Center>
       ) : (
         levels.map((e, idx) => {
-          return (
-            <MembershipLevelItem
-              key={e.id + idx}
-              level={{
-                ...e,
-                role: e.role?.name,
-                color: e.role?.color,
-              }}
-            />
-          );
+          return <MembershipLevelItem key={e.id + idx} level={e} />;
         })
       )}
     </Column>

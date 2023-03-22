@@ -1,16 +1,22 @@
+import { Box } from '@/components/core/Box';
 import { Center, Column } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
 import { TextInput } from '@/components/core/Input/TextInput';
 import { Spinner } from '@/components/core/Spinner';
 import { Text } from '@/components/core/Text';
-import { MembershipLevelItem } from '@/components/MembershipLevels/MembershipLevelItem';
-import { MembershipLevelsHeader } from '@/components/MembershipLevels/MembershipLevelsHeader';
+import { MembershipLevelItemEditable } from '@/components/MembershipLevels/MembershipLevelItem';
+import {
+  MembershipLevelsHeaderEditable,
+  MembershipLevelsOutdatedHeader,
+} from '@/components/MembershipLevels/MembershipLevelsHeader';
 import { useEditCreatorInfo } from '@/hooks/useEditCreatorInfo';
 import { usePatreonInfo } from '@/hooks/usePatreonInfo';
 
 const PatronNotConnectPage = () => {
   const { datas, loading } = usePatreonInfo();
   const {
+    refresh,
+    refreshing,
     saving,
     saveCreatorInfo,
     datas: patreonInfo,
@@ -23,6 +29,7 @@ const PatronNotConnectPage = () => {
   } = useEditCreatorInfo(datas);
 
   const levels = patreonInfo?.levels ?? [];
+  const levelsOutdated = patreonInfo?.outdatedLevels ?? [];
 
   const _body = (
     <>
@@ -127,8 +134,16 @@ const PatronNotConnectPage = () => {
   );
 
   const _membershipLevels = (
-    <Column width="100%" maxWidth="840px" alignItems="start">
-      <MembershipLevelsHeader />
+    <Column
+      width="100%"
+      maxWidth="840px"
+      alignItems="start"
+      marginBottom="30px"
+    >
+      <MembershipLevelsHeaderEditable
+        refresh={refresh}
+        refreshing={refreshing}
+      />
       {levels.length < 1 ? (
         <Center
           width="100%"
@@ -143,20 +158,30 @@ const PatronNotConnectPage = () => {
         </Center>
       ) : (
         levels.map((e, idx) => {
-          return (
-            <MembershipLevelItem
-              key={e.id + idx}
-              level={{
-                ...e,
-                role: e.role?.name,
-                color: e.role?.color,
-              }}
-            />
-          );
+          return <MembershipLevelItemEditable key={e.id + idx} level={e} />;
         })
       )}
     </Column>
   );
+
+  const _membershipLevelsOutdated =
+    levelsOutdated.length < 1 ? (
+      <Box />
+    ) : (
+      <Column
+        width="100%"
+        maxWidth="840px"
+        alignItems="start"
+        marginBottom="30px"
+      >
+        <MembershipLevelsOutdatedHeader />
+        {levelsOutdated.map((e, idx) => {
+          return (
+            <MembershipLevelItemEditable isDelete key={e.id + idx} level={e} />
+          );
+        })}
+      </Column>
+    );
 
   return loading ? (
     <Center width="100%" height="100vh">
@@ -166,6 +191,7 @@ const PatronNotConnectPage = () => {
     <Column width="100%" padding="30px">
       {_body}
       {_membershipLevels}
+      {_membershipLevelsOutdated}
     </Column>
   );
 };

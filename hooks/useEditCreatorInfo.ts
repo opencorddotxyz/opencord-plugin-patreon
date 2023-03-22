@@ -24,7 +24,7 @@ export const useEditCreatorInfo = (datas?: PatreonInfo) => {
   }, [datas]);
 
   // listen to datas changes
-  const [info] = useStore(kCreatorInfoKey);
+  const [info] = useStore<PatreonInfo>(kCreatorInfoKey);
 
   const [saving, setSaving] = useState(false);
   const saveCreatorInfo = async () => {
@@ -34,7 +34,17 @@ export const useEditCreatorInfo = (datas?: PatreonInfo) => {
     setSaving(false);
   };
 
+  const [refreshing, setRefreshing] = useState(false);
+  const refresh = async () => {
+    if (refreshing) return;
+    setRefreshing(true);
+    // todo refresh
+    setRefreshing(false);
+  };
+
   return {
+    refresh,
+    refreshing,
     saving,
     saveCreatorInfo,
     datas: info,
