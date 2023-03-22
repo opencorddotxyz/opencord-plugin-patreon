@@ -74,3 +74,7 @@ export function isClass(e: any): boolean {
 export function isBrowser() {
   return typeof window !== 'undefined';
 }
+
+export function isDev(): boolean {
+  return process.env.NODE_ENV === 'development';
+}
