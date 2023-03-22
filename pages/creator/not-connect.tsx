@@ -1,4 +1,4 @@
-import { Center, Column, Expand, Row } from '@/components/core/Flex';
+import { Center, Column, Expand } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
 import { Spinner } from '@/components/core/Spinner';
 import { Text } from '@/components/core/Text';
@@ -34,25 +34,23 @@ const CreatorNotConnectPage = () => {
           Automatically assign roles and reward them with a Membership NFT Pass
           based on their tier.
         </Text>
-        <Row
-          padding="6px 48px"
+        <Center
+          width="140px"
+          height="30px"
           borderRadius="4px"
           background="#fff"
           fontWeight={500}
-          cursor={connecting ? 'progress' : 'pointer'}
+          cursor={'pointer'}
           userSelect="none"
           onClick={connectPatreon}
+          marginBottom="10px"
         >
-          {connecting && (
-            <Spinner
-              size="16px"
-              thickness="2px"
-              marginRight="8px"
-              theme="light"
-            />
+          {connecting ? (
+            <Spinner size="16px" thickness="2px" theme="light" />
+          ) : (
+            'Connect Patreon'
           )}
-          Connect Patreon
-        </Row>
+        </Center>
         <Expand />
         <Text
           fontSize={'14px'}
