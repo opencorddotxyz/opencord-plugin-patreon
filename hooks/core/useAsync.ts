@@ -10,7 +10,7 @@ export const useAsync = <T = any>(
 ): {
   loading: boolean;
   success: boolean;
-  datas: T | undefined;
+  data: T | undefined;
   run: () => Promise<T | undefined>;
 } => {
   const { immediately = true } = props ?? {};
@@ -43,7 +43,7 @@ export const useAsync = <T = any>(
   return {
     loading,
     success,
-    datas,
+    data: datas,
     run: runFun,
   };
 };
