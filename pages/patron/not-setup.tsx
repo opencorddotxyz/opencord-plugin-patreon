@@ -1,6 +1,6 @@
-import { Center, Column } from '@/components/Flex';
-import { Image } from '@/components/Image';
-import { Text } from '@/components/Text';
+import { Center, Column } from '@/components/core/Flex';
+import { Image } from '@/components/core/Image';
+import { Text } from '@/components/core/Text';
 import { images } from '@/utils/assets';
 
 const NotSetupPage = () => {

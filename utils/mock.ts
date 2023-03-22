@@ -5,11 +5,17 @@ interface PatreonCreator {
   image: string;
 }
 
+interface Role {
+  name: string;
+  color: string;
+}
+
 interface PatreonLevel {
   id: string;
   name: string;
   description: string;
   image: string;
+  role?: Role;
 }
 
 export interface PatreonInfo {
@@ -33,6 +39,10 @@ export const mockPatreonDatas: PatreonInfo = {
       image:
         'https://c10.patreonusercontent.com/4/patreon-media/p/reward/8288842/ee4477cd232d42178e346a89be04ec71/eyJ3Ijo0MDB9/1.png?token-time=2145916800&token-hash=ey2dDHB666569dmXQwRcA7xkgc8ZmKFvBskXbr3wAzU%3D',
       id: '111',
+      role: {
+        name: 'Člen komunity',
+        color: '#226ce1',
+      },
     },
     {
       name: 'Fanoušek',
@@ -41,14 +51,22 @@ export const mockPatreonDatas: PatreonInfo = {
       image:
         'https://c10.patreonusercontent.com/4/patreon-media/p/reward/5971374/7aaa5c0ed4334d7ab536abebf80741bd/eyJ3Ijo0MDB9/1.png?token-time=2145916800&token-hash=xyUocOxATS5yMtYKfvQcKHv8CS9FDBGq1qcR3HJPhnQ%3D',
       id: '222',
+      role: {
+        name: 'Fanoušek',
+        color: '#f77a6d',
+      },
     },
     {
-      name: 'Fanoušek',
+      name: 'KryptoBlázen',
       description:
         'Jedeme! Jinak než bez krypta to nejde. Chci, aby se všichni lidi na týhle planetě o tom dozvěděli a mile rád obětuju svůj fiat, když to pomůže k osvětě :) CO ZA SVÝ PRACHY DOSTANEŠ - odemčení celého Discordu - Patreonké cally - patreonské srazy - AirdropHunting',
       image:
         'https://c10.patreonusercontent.com/4/patreon-media/p/reward/5971375/e896ec5e508746e4962cbc4afbed93f8/eyJ3Ijo0MDB9/1.png?token-time=2145916800&token-hash=3jWLUC5cNN1a8TuUSlKSGdZGzLAAE6fUCnwfKOBM2vk%3D',
       id: '333',
+      role: {
+        name: 'KryptoBlázen',
+        color: '#8086a8',
+      },
     },
     {
       name: 'KryptoKokot',
