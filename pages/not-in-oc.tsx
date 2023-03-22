@@ -5,7 +5,7 @@ import { Image } from '@/components/core/Image';
 import { Text } from '@/components/core/Text';
 import { images, placeholders } from '@/utils/assets';
 
-const OAuthPage: NextPage = () => {
+const NotInOCPage: NextPage = () => {
   return (
     <Center
       width="100%"
@@ -33,7 +33,7 @@ const OAuthPage: NextPage = () => {
           padding="30px 40px 60px 40px"
         >
           <Image
-            src={placeholders('ok.svg')}
+            src={placeholders('error.svg')}
             width="260px"
             height="160px"
             marginBottom="10px"
@@ -44,15 +44,30 @@ const OAuthPage: NextPage = () => {
             fontWeight={'700'}
             margin={'10px'}
           >
-            Connected
+            Runtime Error
           </Text>
           <Text
+            color="rgba(255, 255, 255, 0.6)"
             fontSize={'16px'}
             lineHeight="20px"
             fontWeight={'400'}
-            color={'rgba(255, 255, 255, 0.6)'}
           >
-            You can now close this window and return to Opencord to continue.
+            <Text display="inline">
+              In order to ensure the best performance and experience, please use
+              this plugin within{' '}
+            </Text>
+            <Text
+              display="inline"
+              color={'#16B8F3'}
+              textDecorationLine="underline"
+              onClick={() => {
+                window.open('https://www.opencord.xyz', '_blank');
+              }}
+              cursor="pointer"
+            >
+              Opencord
+            </Text>
+            <Text>.</Text>
           </Text>
         </Column>
       </Center>
@@ -60,4 +75,4 @@ const OAuthPage: NextPage = () => {
   );
 };
 
-export default OAuthPage;
+export default NotInOCPage;

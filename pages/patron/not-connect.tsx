@@ -66,17 +66,18 @@ const PatronNotConnectPage = () => {
         color={'rgba(255, 255, 255, 0.3)'}
         marginBottom="30px"
       >
-        <Text>
+        <Text display="inline">
           Note: If you have already connected your Patreon account, please
         </Text>
         <Text
+          display="inline"
           color={'#16B8F3'}
           textDecorationLine="underline"
           onClick={connectPatreon}
         >
           &nbsp;refresh&nbsp;
         </Text>
-        <Text>to proceed to the next step.</Text>
+        <Text display="inline">to proceed to the next step.</Text>
       </Text>
     </>
   );

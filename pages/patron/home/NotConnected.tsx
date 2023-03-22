@@ -34,10 +34,11 @@ export const NotConnected = () => {
         marginBottom="30px"
         maxWidth="600px"
       >
-        <Text>
+        <Text display="inline">
           Note: If you have already connected your Patreon account, please
         </Text>
         <Text
+          display="inline"
           color={'#16B8F3'}
           textDecorationLine="underline"
           onClick={connectPatreon}
@@ -45,7 +46,7 @@ export const NotConnected = () => {
         >
           &nbsp;refresh&nbsp;
         </Text>
-        <Text>to proceed to the next step.</Text>
+        <Text display="inline">to proceed to the next step.</Text>
       </Text>
     </>
   );

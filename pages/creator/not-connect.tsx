@@ -60,10 +60,11 @@ const CreatorNotConnectPage = () => {
           color={'rgba(255, 255, 255, 0.4)'}
           marginBottom="30px"
         >
-          <Text>
+          <Text display="inline">
             Note: If you have already connected your Patreon account, please
           </Text>
           <Text
+            display="inline"
             color={'#16B8F3'}
             textDecorationLine="underline"
             onClick={connectPatreon}
@@ -71,7 +72,7 @@ const CreatorNotConnectPage = () => {
           >
             &nbsp;refresh&nbsp;
           </Text>
-          <Text>to proceed to the next step.</Text>
+          <Text display="inline">to proceed to the next step.</Text>
         </Text>
       </Column>
     </Center>
