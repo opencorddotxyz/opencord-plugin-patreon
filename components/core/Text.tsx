@@ -17,7 +17,7 @@ export const Text = forwardRef((props: TextProps, ref: any) => {
         overflow: 'hidden',
       }
     : {
-        display: 'inline',
+        display: 'inline-block',
       };
   const boxProps = getBoxProps({
     ...props,

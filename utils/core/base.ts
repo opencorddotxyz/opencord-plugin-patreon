@@ -33,6 +33,10 @@ export const range = (start: number, end?: number) => {
   return Array.from({ length: end - start }, (_, index) => start + index);
 };
 
+export function clamp(num: number, min: number, max: number): number {
+  return num < max ? (num > min ? num : min) : max;
+}
+
 export function toInt(str: string) {
   return parseInt(str, 10);
 }
