@@ -38,3 +38,7 @@ div:focus {
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+a {
+  color: #16b8f3;
+}

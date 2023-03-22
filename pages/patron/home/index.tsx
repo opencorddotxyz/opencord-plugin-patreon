@@ -20,9 +20,10 @@ const useCurrentStep = () => {
   const [eligible, _setEligible] = useState(false);
   const [needMint, _setNeedMint] = useState(false);
   const [mintSuccess, _setMintSuccess] = useState(false);
+
   const {
     loading,
-    datas: _userInfo,
+    data: _userInfo,
     run: fetchUserInfo,
   } = useAsync<{
     roles: { name: string; color: string }[];
@@ -34,6 +35,7 @@ const useCurrentStep = () => {
     },
     { immediately: false },
   );
+
   return {
     connected,
     eligible,
@@ -62,7 +64,7 @@ const useCurrentStep = () => {
 };
 
 const PatronNotConnectPage = () => {
-  const { datas: patreonInfo, loading } = usePatreonInfo();
+  const { data: patreonInfo, loading } = usePatreonInfo();
   const name = patreonInfo?.creator?.name ?? 'Unknown';
   const levels = patreonInfo?.levels ?? [];
 

@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import { Center, Column, Expand, Row } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
 import { Spinner } from '@/components/core/Spinner';
@@ -38,6 +40,7 @@ const CreatorNotConnectPage = () => {
           padding="6px 48px"
           borderRadius="4px"
           background="#fff"
+          color="#282828"
           fontWeight={500}
           cursor={connecting ? 'progress' : 'pointer'}
           userSelect="none"
@@ -65,14 +68,7 @@ const CreatorNotConnectPage = () => {
           <Text>
             Note: If you have already connected your Patreon account, please
           </Text>
-          <Text
-            color={'#16B8F3'}
-            textDecorationLine="underline"
-            onClick={connectPatreon}
-            cursor="pointer"
-          >
-            &nbsp;refresh&nbsp;
-          </Text>
+          <Link href="/">&nbsp;refresh&nbsp;</Link>
           <Text>to proceed to the next step.</Text>
         </Text>
       </Column>

@@ -1,38 +1,32 @@
 import { NextPage } from 'next';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
-import { Center } from '@/components/Flex';
-import { getPatreonAuthUrl } from '@/utils/patreon';
-import { clearAllLocal } from '@/utils/store';
+import { StateType } from '@/constants/store';
 import { useStore } from '@/utils/store/useStore';
 
 const IndexPage: NextPage = () => {
-  const [loggedIn] = useStore<boolean>('loggedIn');
+  const router = useRouter();
+  const [manageable] = useStore(StateType.MANAGEABLE);
 
-  return (
-    <Center width="100%" height="100vh">
-      {loggedIn ? (
-        <>
-          <button
-            onClick={() => {
-              clearAllLocal();
-            }}
-          >
-            log out
-          </button>
-        </>
-      ) : (
-        <div>
-          <button
-            onClick={() => {
-              window.open(getPatreonAuthUrl());
-            }}
-          >
-            Login with Patreon
-          </button>
-        </div>
-      )}
-    </Center>
-  );
+  useEffect(() => {
+    if (!manageable) {
+      return;
+    }
+
+    console.log('will change router', manageable);
+    if (manageable) {
+      router.push({
+        pathname: 'creator',
+      });
+    } else {
+      router.push({
+        pathname: 'patron',
+      });
+    }
+  }, [manageable, router]);
+
+  return <div>manageable not available</div>;
 };
 
 export default IndexPage;
