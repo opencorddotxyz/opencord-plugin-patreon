@@ -8,7 +8,7 @@ import Head from 'next/head';
 import { memo, useEffect } from 'react';
 
 import { StateType } from '@/constants/store';
-import useAsyncEffect from '@/hooks/useAsyncEffect';
+import useAsyncEffect from '@/hooks/core/useAsyncEffect';
 import { registerStaleCallback } from '@/utils/checkLocal';
 import { store, useProvider } from '@/utils/store/useStore';
 
