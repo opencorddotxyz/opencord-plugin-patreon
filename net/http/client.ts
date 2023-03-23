@@ -1,10 +1,24 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 
-import { error, info } from '@/utils/log';
+import { error, info } from '@/utils/core/log';
+
+import {
+  applyAuthTokenInterceptor,
+  getAccessToken,
+} from './interceptors/token';
 
 type Param = {
   [k: string]: any;
 };
+
+type BusinessInfo = {
+  code: number;
+  message: string;
+  title: string;
+  ok: string;
+};
+
+export type ComposedResponse<T> = AxiosResponse<T> & BusinessInfo;
 
 const supportMethods = [
   'get',
@@ -16,7 +30,7 @@ const supportMethods = [
   'patch',
 ];
 
-type ClientFuncWithPathParam = <T = any, R = AxiosResponse<T>>(
+type ClientFuncWithPathParam = <T = any, R = ComposedResponse<T>>(
   url: string,
   pathParam?: Param,
   param?: Param,
@@ -35,6 +49,8 @@ type Client = {
 const instance: AxiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
 });
+
+applyAuthTokenInterceptor(instance);
 
 function replacePathParams(path: string, param: Param) {
   const restParam = { ...param };
@@ -58,10 +74,10 @@ async function withTransformData<T = any>(
   pathParam?: Param,
   param?: Param,
   method = 'get',
-): Promise<AxiosResponse<T>> {
+): Promise<ComposedResponse<T>> {
   const { parsedPath, restParam } = replacePathParams(url, pathParam || {});
 
-  let response = {} as AxiosResponse<T>;
+  let response = {} as ComposedResponse<T>;
   info('patreon http <=', {
     url,
     param: JSON.stringify({
@@ -117,5 +133,7 @@ supportMethods.forEach((method) => {
     return withTransformData(url, pathParam, bodyParam, method);
   };
 });
+
+export { getAccessToken };
 
 export default client;

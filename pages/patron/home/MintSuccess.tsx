@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import { Box } from '@/components/core/Box';
 import { Column, Row } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
@@ -67,11 +68,7 @@ export const MintSuccess = (props: {
             marginBottom="20px"
           >
             {roles.length < 1 ? (
-              <Text
-                fontSize="14px"
-                lineHeight="18px"
-                fontWeight="600"
-              >
+              <Text fontSize="14px" lineHeight="18px" fontWeight="600">
                 -
               </Text>
             ) : (

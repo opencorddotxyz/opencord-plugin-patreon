@@ -1,7 +1,9 @@
 import { Expand, Row } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
 import { Text } from '@/components/core/Text';
+import { TextColor, TextDP } from '@/styles/constant';
 import { icons } from '@/utils/assets';
+import { hexWithOpacity } from '@/utils/core/format';
 
 import { Box } from '../core/Box';
 
@@ -19,7 +21,7 @@ export const MembershipLevelsHeader = () => {
       </Text>
       <Row
         width="100%"
-        color="rgba(255, 255, 255, 0.6)"
+        color={hexWithOpacity(TextColor.Dark, TextDP.DP2)}
         fontSize={'12px'}
         lineHeight="15px"
         fontWeight={'500'}
@@ -37,7 +39,7 @@ export const MembershipLevelsHeader = () => {
         </Expand>
         <Expand>
           <Row width="100%" justifyContent="end">
-            <Text>Assgined Role</Text>
+            <Text>Assigned Role</Text>
           </Row>
         </Expand>
       </Row>

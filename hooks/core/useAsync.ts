@@ -10,13 +10,13 @@ export const useAsync = <T = any>(
 ): {
   loading: boolean;
   success: boolean;
-  datas: T | undefined;
+  data: T | undefined;
   run: () => Promise<T | undefined>;
 } => {
   const { immediately = true } = props ?? {};
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [datas, setDatas] = useState<T>();
+  const [dataSets, setDataSets] = useState<T>();
 
   const runFun = async () => {
     if (loading) return;
@@ -24,7 +24,7 @@ export const useAsync = <T = any>(
     const results = await run().catch(() => undefined);
     const fetchSuccess = results !== undefined;
     if (fetchSuccess) {
-      setDatas(results);
+      setDataSets(results);
       setSuccess(true);
     } else {
       setSuccess(false);
@@ -43,7 +43,7 @@ export const useAsync = <T = any>(
   return {
     loading,
     success,
-    datas,
+    data: dataSets,
     run: runFun,
   };
 };

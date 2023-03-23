@@ -1,11 +1,12 @@
 import { useState } from 'react';
 
 import { showToast } from '@/components/Dialogs/Toast';
+import { PatreonInfo } from '@/net/http/mock';
+import { MembershipLevel, Role } from '@/net/http/patreonComponents';
 import { isEmpty } from '@/utils/core/is';
-import { PatreonInfo, PatreonLevel, Role } from '@/utils/mock';
 import { store, useInit, useStore } from '@/utils/store/useStore';
 
-export const useEditCreatorInfo = (datas?: PatreonInfo) => {
+export const useEditCreatorInfo = (dataSets?: PatreonInfo) => {
   const kCreatorInfoKey = 'kCreatorInfoKey';
   const getCreatorInfo = () => store.get<PatreonInfo>(kCreatorInfoKey);
   const setCreatorInfo = (
@@ -20,19 +21,19 @@ export const useEditCreatorInfo = (datas?: PatreonInfo) => {
 
   // init creator states
   useInit(() => {
-    if (datas && !getCreatorInfo()) {
-      setCreatorInfo(() => datas);
+    if (dataSets && !getCreatorInfo()) {
+      setCreatorInfo(() => dataSets);
     }
-  }, [datas]);
+  }, [dataSets]);
 
-  // listen to datas changes
+  // listen to data sets changes
   const [info] = useStore<PatreonInfo>(kCreatorInfoKey);
 
   const [saving, setSaving] = useState(false);
   const saveCreatorInfo = async () => {
     if (saving) return;
     info.creator.name = info.creator.name.trim();
-    info.creator.description = info.creator.description.trim();
+    info.creator.intro = info.creator.intro.trim();
     if (isEmpty(info.creator.name)) {
       showToast('Name cannot be empty.');
       return;
@@ -50,10 +51,10 @@ export const useEditCreatorInfo = (datas?: PatreonInfo) => {
     setRefreshing(false);
   };
 
-  const setLevelInfo = (level: PatreonLevel) => {
-    setCreatorInfo((datas) => {
-      if (!datas) return {};
-      const currentLevel = datas.levels.find((e) => e.id === level.id);
+  const setLevelInfo = (level: MembershipLevel) => {
+    setCreatorInfo((dataSets) => {
+      if (!dataSets) return {};
+      const currentLevel = dataSets.levels.find((e) => e.id === level.id);
       if (!currentLevel) {
         return {};
       }
@@ -61,12 +62,12 @@ export const useEditCreatorInfo = (datas?: PatreonInfo) => {
         currentLevel[key] = value;
       }
       return {
-        levels: [...datas.levels],
+        levels: [...dataSets.levels],
       };
     });
   };
 
-  const saveLevelInfo = async (level: PatreonLevel): Promise<boolean> => {
+  const saveLevelInfo = async (level: MembershipLevel): Promise<boolean> => {
     // todo update level info
     const success = true;
     if (success) {
@@ -75,22 +76,22 @@ export const useEditCreatorInfo = (datas?: PatreonInfo) => {
     return success;
   };
 
-  const setLevelRoles = (level: PatreonLevel, roles: Role[]) => {
-    setCreatorInfo((datas) => {
-      if (!datas) return {};
-      const currentLevel = datas.levels.find((e) => e.id === level.id);
+  const setLevelRoles = (level: MembershipLevel, roles: Role[]) => {
+    setCreatorInfo((dataSets) => {
+      if (!dataSets) return {};
+      const currentLevel = dataSets.levels.find((e) => e.id === level.id);
       if (!currentLevel) {
         return {};
       }
       currentLevel.roles = roles;
       return {
-        levels: [...datas.levels],
+        levels: [...dataSets.levels],
       };
     });
   };
 
   const linkRoles = async (
-    level: PatreonLevel,
+    level: MembershipLevel,
     roles: Role[],
   ): Promise<boolean> => {
     // todo link Roles
@@ -101,16 +102,18 @@ export const useEditCreatorInfo = (datas?: PatreonInfo) => {
     return success;
   };
 
-  const setDeletedOutdatedLevel = (level: PatreonLevel) => {
-    setCreatorInfo((datas) => {
-      if (!datas) return {};
+  const setDeletedOutdatedLevel = (level: MembershipLevel) => {
+    setCreatorInfo((dataSets) => {
+      if (!dataSets) return {};
       return {
-        outdatedLevels: datas.outdatedLevels.filter((e) => e.id !== level.id),
+        outdatedLevels: dataSets.outdatedLevels.filter((e) => e.id !== level.id),
       };
     });
   };
 
-  const deleteOutdatedLevel = async (level: PatreonLevel): Promise<boolean> => {
+  const deleteOutdatedLevel = async (
+    level: MembershipLevel,
+  ): Promise<boolean> => {
     // todo delete outdated level
     const success = true;
     if (success) {
@@ -127,14 +130,14 @@ export const useEditCreatorInfo = (datas?: PatreonInfo) => {
     refreshing,
     saving,
     saveCreatorInfo,
-    datas: info,
-    avatar: info?.creator?.image,
+    dataSets: info,
+    avatar: info?.creator?.avatar,
     setAvatar: (avatar: string) => {
-      setCreatorInfo((datas) => {
-        if (!datas) return {};
+      setCreatorInfo((dataSets) => {
+        if (!dataSets) return {};
         return {
           creator: {
-            ...datas.creator,
+            ...dataSets.creator,
             image: avatar,
           },
         };
@@ -142,23 +145,23 @@ export const useEditCreatorInfo = (datas?: PatreonInfo) => {
     },
     name: info?.creator?.name,
     setName: (text: string) => {
-      setCreatorInfo((datas) => {
-        if (!datas) return {};
+      setCreatorInfo((dataSets) => {
+        if (!dataSets) return {};
         return {
           creator: {
-            ...datas.creator,
+            ...dataSets.creator,
             name: text,
           },
         };
       });
     },
-    description: info?.creator?.description,
+    description: info?.creator?.intro,
     setDescription: (text: string) => {
-      setCreatorInfo((datas) => {
-        if (!datas) return {};
+      setCreatorInfo((dataSets) => {
+        if (!dataSets) return {};
         return {
           creator: {
-            ...datas.creator,
+            ...dataSets.creator,
             description: text,
           },
         };

@@ -15,11 +15,11 @@ import {
 } from '@/components/MembershipLevels/MembershipLevelsHeader';
 import { useEditCreatorInfo } from '@/hooks/useEditCreatorInfo';
 import { usePatreonInfo } from '@/hooks/usePatreonInfo';
+import { Role } from '@/net/http/patreonComponents';
 import { isNotEqual } from '@/utils/core/diff';
-import { Role } from '@/utils/mock';
 
-const PatronNotConnectPage = () => {
-  const { datas, loading } = usePatreonInfo();
+const CreatorManagerPage = () => {
+  const { data, loading } = usePatreonInfo();
   const {
     saveLevelInfo,
     linkRoles,
@@ -28,14 +28,15 @@ const PatronNotConnectPage = () => {
     refreshing,
     saving,
     saveCreatorInfo,
-    datas: patreonInfo,
+    dataSets: patreonInfo,
     avatar,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     setAvatar,
     name,
     setName,
     description,
     setDescription,
-  } = useEditCreatorInfo(datas);
+  } = useEditCreatorInfo(data);
 
   const levels = patreonInfo?.levels ?? [];
   const levelsOutdated = patreonInfo?.outdatedLevels ?? [];
@@ -166,10 +167,10 @@ const PatronNotConnectPage = () => {
           <Text>There are no membership levels assigned to roles.</Text>
         </Center>
       ) : (
-        levels.map((level, idx) => {
+        levels.map((level) => {
           return (
             <MembershipLevelItemEditable
-              key={level.id + idx}
+              key={level.id}
               level={level}
               onEditLevel={() => {
                 openEditLevelDialog({
@@ -205,11 +206,11 @@ const PatronNotConnectPage = () => {
         marginBottom="30px"
       >
         <MembershipLevelsOutdatedHeader />
-        {levelsOutdated.map((level, idx) => {
+        {levelsOutdated.map((level) => {
           return (
             <MembershipLevelItemEditable
               isDelete
-              key={level.id + idx}
+              key={level.id}
               level={level}
               onDeleteLevel={() => {
                 deleteOutdatedLevel(level);
@@ -234,4 +235,4 @@ const PatronNotConnectPage = () => {
   );
 };
 
-export default PatronNotConnectPage;
+export default CreatorManagerPage;

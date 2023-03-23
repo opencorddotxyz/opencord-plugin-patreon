@@ -6,14 +6,14 @@ import { useConnectPatreon } from '@/hooks/useConnectPatreon';
 import { usePatreonInfo } from '@/hooks/usePatreonInfo';
 
 const PatronNotConnectPage = () => {
-  const { datas: patreonInfo, loading } = usePatreonInfo();
+  const { data: patreonInfo, loading } = usePatreonInfo();
   const { connecting, connectPatreon } = useConnectPatreon();
 
   const name = patreonInfo?.creator?.name ?? 'Unknown';
 
   const _header = (
     <>
-      <Image src={patreonInfo?.creator.image} size="72px" />
+      <Image src={patreonInfo?.creator.avatar} size="72px" />
       <Text
         fontSize={'24px'}
         lineHeight="30px"

@@ -1,9 +1,13 @@
+import Link from 'next/link';
+
 import { Center, Column, Expand } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
 import { Spinner } from '@/components/core/Spinner';
 import { Text } from '@/components/core/Text';
+import { StateType } from '@/constants/store';
 import { useConnectPatreon } from '@/hooks/useConnectPatreon';
 import { icons } from '@/utils/assets';
+import { store } from '@/utils/store/useStore';
 
 const CreatorNotConnectPage = () => {
   const { connecting, connectPatreon } = useConnectPatreon();
@@ -34,11 +38,11 @@ const CreatorNotConnectPage = () => {
           based on their tier.
         </Text>
         <Center
-          color="#000"
           width="140px"
           height="30px"
           borderRadius="4px"
           background="#fff"
+          color="#282828"
           fontWeight={500}
           cursor={'pointer'}
           userSelect="none"
@@ -64,13 +68,24 @@ const CreatorNotConnectPage = () => {
             Note: If you have already connected your Patreon account, please
           </Text>
           <Text
+            onClick={() => {
+              store.set(StateType.PATREON_CONNECTED, true);
+              store.set(StateType.BEEN_SET, true);
+              // store.set(StateType.BEEN_SET, false);
+            }}
             display="inline"
             color={'#16B8F3'}
             textDecorationLine="underline"
-            onClick={connectPatreon}
+            // onClick={connectPatreon}
             cursor="pointer"
           >
-            &nbsp;refresh&nbsp;
+            <Link
+              href={{
+                pathname: '/',
+              }}
+            >
+              &nbsp;refresh&nbsp;
+            </Link>
           </Text>
           <Text display="inline">to proceed to the next step.</Text>
         </Text>

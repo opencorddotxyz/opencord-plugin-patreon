@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
+import { MembershipLevel } from '@/net/http/patreonComponents';
 import { icons } from '@/utils/assets';
 import { isEmpty, isNotEmpty } from '@/utils/core/is';
-import { PatreonLevel } from '@/utils/mock';
 import { store, useStore } from '@/utils/store/useStore';
 
 import { Box } from '../core/Box';
@@ -18,8 +18,8 @@ import { showToast } from './Toast';
 
 const kEditLevelDialogKey = 'kEditLevelDialogKey';
 interface EditLevelDialogStates {
-  level?: PatreonLevel;
-  onSave?: (level: PatreonLevel) => Promise<boolean>;
+  level?: MembershipLevel;
+  onSave?: (level: MembershipLevel) => Promise<boolean>;
 }
 
 export const openEditLevelDialog = (props: EditLevelDialogStates) => {
@@ -27,11 +27,11 @@ export const openEditLevelDialog = (props: EditLevelDialogStates) => {
 };
 
 export const EditLevelDialog = () => {
-  const [datas, setDatas] =
+  const [dataSets, setDataSets] =
     useStore<EditLevelDialogStates>(kEditLevelDialogKey);
 
-  const { level, onSave } = datas ?? {};
-  const { image = '', name = '', description = '' } = level ?? {};
+  const { level, onSave } = dataSets ?? {};
+  const { image = '', name = '', intro = '' } = level ?? {};
   const isShow = isNotEmpty(level);
 
   const close = () => {
@@ -42,7 +42,7 @@ export const EditLevelDialog = () => {
   const save = async () => {
     if (saving || !level) return;
     level.name = level.name.trim();
-    level.description = level.description.trim();
+    level.intro = level.intro.trim();
     if (isEmpty(level.name)) {
       showToast('Name cannot be empty.');
       return;
@@ -111,10 +111,10 @@ export const EditLevelDialog = () => {
         <TextInput
           value={name}
           onChange={(s) => {
-            setDatas({
-              ...datas,
+            setDataSets({
+              ...dataSets,
               level: {
-                ...datas.level!,
+                ...dataSets.level!,
                 name: s,
               },
             });
@@ -125,13 +125,13 @@ export const EditLevelDialog = () => {
         />
         {subTitle(' Introduction')}
         <TextArea
-          value={description}
+          value={intro}
           onChange={(s) => {
-            setDatas({
-              ...datas,
+            setDataSets({
+              ...dataSets,
               level: {
-                ...datas.level!,
-                description: s,
+                ...dataSets.level!,
+                intro: s,
               },
             });
           }}

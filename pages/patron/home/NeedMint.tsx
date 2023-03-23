@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import { Box } from '@/components/core/Box';
 import { Column, Row } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
@@ -20,11 +21,7 @@ export const NeedMint = (props: {
       >
         <Row marginBottom="10px">
           <Image size="20px" src={images('need-mint.svg')} marginRight="4px" />
-          <Text
-            fontSize={'16px'}
-            lineHeight="20px"
-            fontWeight={'700'}
-          >
+          <Text fontSize={'16px'} lineHeight="20px" fontWeight={'700'}>
             Please mint your {creator} Membership NFT Pass first.
           </Text>
         </Row>
@@ -52,11 +49,7 @@ export const NeedMint = (props: {
             marginBottom="20px"
           >
             {roles.length < 1 ? (
-              <Text
-                fontSize="14px"
-                lineHeight="18px"
-                fontWeight="600"
-              >
+              <Text fontSize="14px" lineHeight="18px" fontWeight="600">
                 -
               </Text>
             ) : (

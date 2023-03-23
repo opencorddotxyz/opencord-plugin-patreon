@@ -2,79 +2,87 @@ import { Box } from '@/components/core/Box';
 import { Center, Expand, Row } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
 import { Text } from '@/components/core/Text';
+import { MembershipLevel } from '@/net/http/patreonComponents';
+import { CssOpacity, GlobalBgColor, TextDP } from '@/styles/constant';
 import { icons } from '@/utils/assets';
-import { PatreonLevel } from '@/utils/mock';
+import { hexWithOpacity } from '@/utils/core/format';
 
 import styles from './style.module.css';
 
-export const MembershipLevelItem = (props: { level: PatreonLevel }) => {
-  const { level } = props;
-  const { image, name, description = '-', roles = [] } = level;
+export const MembershipLevelItem = (props: MembershipLevel) => {
+  const { image, name, intro = '-', roles = [] } = props;
   const role = roles[0];
   const { name: roleName, color: roleColor = 'transparent' } = role ?? {};
   return (
-    <Row
-      width="100%"
-      padding={'10px 30px 10px 0'}
-      borderBottom="1px solid #373737"
-      wordBreak="break-all"
-    >
-      <Row width={72 + 40 + 30}>
-        <Box width="30px" />
-        <Image src={image} size="72px" borderRadius="8px" />
-      </Row>
-      <Expand>
-        <Text
-          width="100%"
-          color="rgba(255, 255, 255, 1)"
-          fontSize="14px"
-          lineHeight="18px"
-          fontWeight="600"
-          maxLines={1}
-          marginRight="20px"
-        >
-          {name}
-        </Text>
-      </Expand>
-      <Expand flex={2}>
-        <Text
-          width="100%"
-          color="rgba(255, 255, 255, 0.6)"
-          fontSize="14px"
-          lineHeight="18px"
-          fontWeight="400"
-          maxLines={2}
-          marginRight="20px"
-        >
-          {description}
-        </Text>
-      </Expand>
-      <Expand
-        justifyContent="end"
-        alignItems="center"
-        color="rgba(255, 255, 255, 1)"
-        fontSize={'14px'}
-        lineHeight="18px"
-        fontWeight={'600'}
+    <>
+      <Row
+        width="100%"
+        padding={'10px 30px 10px 0'}
+        wordBreak="break-all"
+        fontWeight="400"
+        fontSize="14px"
+        lineHeight="17px"
       >
-        {role ? (
-          <>
-            <Box
-              size="12px"
-              minWidth="12px"
-              borderRadius="50%"
-              background={roleColor}
-              marginRight="4px"
-            />
-            <Text maxLines={1} textAlign="end">
-              @{roleName}
-            </Text>
-          </>
-        ) : (
-          <Text>-</Text>
-        )}
-      </Expand>
-    </Row>
+        <Row width={72 + 40 + 30}>
+          <Box width="30px" />
+          <Image
+            src={icons('warning.svg') ?? image}
+            size="72px"
+            borderRadius="8px"
+          />
+        </Row>
+        <Expand>
+          <Text width="100%" fontWeight="600" maxLines={1} marginRight="20px">
+            {name}
+          </Text>
+        </Expand>
+        <Expand flex={2}>
+          <Text width="100%" maxLines={2} marginRight="20px">
+            {intro}
+          </Text>
+        </Expand>
+        <Expand
+          justifyContent="end"
+          alignItems="center"
+          lineHeight="18px"
+          fontWeight={'600'}
+        >
+          {roles && roles.length > 0 ? (
+            <>
+              <Box
+                size="12px"
+                minWidth="12px"
+                borderRadius="50%"
+                background={roleColor}
+                marginRight="4px"
+              />
+              <Text
+                textDecorationLine="underline"
+                color={hexWithOpacity('#ffffff', TextDP.DP3)}
+                maxLines={1}
+                textAlign="end"
+              >
+                @{roleName}
+              </Text>
+              <Image
+                opacity={CssOpacity.Icon}
+                src={icons('rightArrow.svg')}
+                size="18px"
+                marginLeft="10px"
+              />
+            </>
+          ) : (
+            <Text>-</Text>
+          )}
+        </Expand>
+      </Row>
+      <Box
+        width="100%"
+        marginTop="10px"
+        height="1px"
+        background={GlobalBgColor.darkColorBgDP2}
+      />
+    </>
   );
 };
 
@@ -83,7 +91,7 @@ export const MembershipLevelItemEditable = (props: {
   onDeleteLevel?: () => void;
   onLinkRole?: () => void;
   onEditLevel?: () => void;
-  level: PatreonLevel;
+  level: MembershipLevel;
 }) => {
   const {
     level,
@@ -92,7 +100,7 @@ export const MembershipLevelItemEditable = (props: {
     onLinkRole,
     onEditLevel,
   } = props;
-  const { image, name, description = '-', roles = [] } = level;
+  const { image, name, intro = '-', roles = [] } = level;
   const role = roles[0];
   const { name: roleName, color: roleColor = 'transparent' } = role ?? {};
   return (
@@ -154,7 +162,7 @@ export const MembershipLevelItemEditable = (props: {
           maxLines={2}
           marginRight="20px"
         >
-          {description}
+          {intro}
         </Text>
       </Expand>
       <Expand
