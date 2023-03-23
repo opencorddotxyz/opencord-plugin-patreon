@@ -6,15 +6,14 @@ import { Spinner } from '@/components/core/Spinner';
 import { Text } from '@/components/core/Text';
 import { MembershipLevelItem } from '@/components/MembershipLevels/MembershipLevelItem';
 import { MembershipLevelsHeader } from '@/components/MembershipLevels/MembershipLevelsHeader';
+import { CurrentRoles } from '@/components/pages/patron/home/CurrentRoles';
+import { MintSuccess } from '@/components/pages/patron/home/MintSuccess';
+import { NeedMint } from '@/components/pages/patron/home/NeedMint';
+import { NotConnected } from '@/components/pages/patron/home/NotConnected';
+import { NotEligible } from '@/components/pages/patron/home/NotEligible';
 import { useAsync } from '@/hooks/core/useAsync';
 import { usePatreonInfo } from '@/hooks/usePatreonInfo';
 import { MembershipLevel } from '@/net/http/patreonComponents';
-
-import { CurrentRoles } from './CurrentRoles';
-import { MintSuccess } from './MintSuccess';
-import { NeedMint } from './NeedMint';
-import { NotConnected } from './NotConnected';
-import { NotEligible } from './NotEligible';
 
 const useCurrentStep = () => {
   const [connected, _setConnected] = useState(false);
