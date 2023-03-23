@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
-import { PatreonInfo } from '@/utils/mock';
+import { PatreonInfo } from '@/net/http/mock';
 import { store, useInit, useStore } from '@/utils/store/useStore';
 
-export const useEditCreatorInfo = (datas?: PatreonInfo) => {
+export const useEditCreatorInfo = (dataSets?: PatreonInfo) => {
   const kCreatorInfoKey = 'kCreatorInfoKey';
   const getCreatorInfo = () => store.get<PatreonInfo>(kCreatorInfoKey);
   const setCreatorInfo = (
@@ -18,12 +18,12 @@ export const useEditCreatorInfo = (datas?: PatreonInfo) => {
 
   // init creator states
   useInit(() => {
-    if (datas && !getCreatorInfo()) {
-      setCreatorInfo(() => datas);
+    if (dataSets && !getCreatorInfo()) {
+      setCreatorInfo(() => dataSets);
     }
-  }, [datas]);
+  }, [dataSets]);
 
-  // listen to datas changes
+  // listen to dataSets changes
   const [info] = useStore(kCreatorInfoKey);
 
   const [saving, setSaving] = useState(false);
@@ -37,14 +37,14 @@ export const useEditCreatorInfo = (datas?: PatreonInfo) => {
   return {
     saving,
     saveCreatorInfo,
-    datas: info,
+    dataSets: info,
     avatar: info?.creator?.image,
     setAvatar: (avatar: string) => {
-      setCreatorInfo((datas) => {
-        if (!datas) return {};
+      setCreatorInfo((dataSets) => {
+        if (!dataSets) return {};
         return {
           creator: {
-            ...datas.creator,
+            ...dataSets.creator,
             image: avatar,
           },
         };
@@ -52,11 +52,11 @@ export const useEditCreatorInfo = (datas?: PatreonInfo) => {
     },
     name: info?.creator?.name,
     setName: (text: string) => {
-      setCreatorInfo((datas) => {
-        if (!datas) return {};
+      setCreatorInfo((dataSets) => {
+        if (!dataSets) return {};
         return {
           creator: {
-            ...datas.creator,
+            ...dataSets.creator,
             name: text,
           },
         };
@@ -64,11 +64,11 @@ export const useEditCreatorInfo = (datas?: PatreonInfo) => {
     },
     description: info?.creator?.description,
     setDescription: (text: string) => {
-      setCreatorInfo((datas) => {
-        if (!datas) return {};
+      setCreatorInfo((dataSets) => {
+        if (!dataSets) return {};
         return {
           creator: {
-            ...datas.creator,
+            ...dataSets.creator,
             description: text,
           },
         };

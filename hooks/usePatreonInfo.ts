@@ -1,8 +1,10 @@
 import { useAsync } from '@/hooks/core/useAsync';
-import { mockPatreonDatas, PatreonInfo } from '@/utils/mock';
+import { mockPatreonDataSets, PatreonInfo } from '@/net/http/mock';
+import { delay } from '@/utils/core/base';
 
 export const usePatreonInfo = () => {
   return useAsync<PatreonInfo>(async () => {
-    return mockPatreonDatas;
+    await delay(200);
+    return mockPatreonDataSets;
   });
 };

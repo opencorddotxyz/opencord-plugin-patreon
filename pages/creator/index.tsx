@@ -53,6 +53,9 @@ const useCreatorPage = () => {
 const CreatorPage: NextPage = () => {
   const { beenSet } = useCreatorPage();
 
+  if (beenSet === undefined) {
+    return <div>do not login in, not available</div>;
+  }
   return beenSet ? <ManagePage /> : <CreatorNotConnectPage />;
 };
 

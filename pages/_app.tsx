@@ -2,7 +2,6 @@ import '../styles/reset.css';
 import '../styles/fonts.css';
 import '../styles/global.css';
 
-import ocClient from 'libs/opencord-client';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -11,14 +10,16 @@ import { memo, useEffect } from 'react';
 import { Text } from '@/components/core/Text';
 import { StateType } from '@/constants/store';
 import useAsyncEffect from '@/hooks/core/useAsyncEffect';
-import { login } from '@/net/http/patreon';
+// import { login } from '@/net/http/patreon';
+import { login } from '@/net/http/_mock';
+import { setAccessToken } from '@/net/http/interceptors/token';
+// import ocClient from '@/utils/opencord-client';
 import { store, useProvider, useStore } from '@/utils/store/useStore';
 
 import { InfoPageFrame } from './oauth';
 
 export default function App({ Component, pageProps, router }: AppProps) {
   useProvider(StateType.IN_OPENCORD, true);
-  useProvider(StateType.MANAGEABLE, false);
   const [inOC] = useStore(StateType.IN_OPENCORD);
   const currentPath = useRouter().asPath;
 
@@ -27,32 +28,48 @@ export default function App({ Component, pageProps, router }: AppProps) {
   }, []);
 
   useAsyncEffect(async () => {
-    const response = await ocClient.getCode();
-    console.info('!!! plugin debug: ocClient response = ', response);
+    // const response = await ocClient.getCode();
+    // console.info('!!! plugin debug: ocClient response = ', response);
 
-    if (response.code === -32002) {
-      return store.set(StateType.IN_OPENCORD, false);
+    // if (response.code === -32002) {
+    //   return store.set(StateType.IN_OPENCORD, false);
+    // }
+
+    // if (response.data?.code) {
+    try {
+      const loginResponse = await login({ code: 'response.data.code' });
+      console.info('!!! plugin debug: login response = ', loginResponse);
+      const { data } = loginResponse;
+      const {
+        token,
+        manageable,
+        setup,
+        connected,
+        // eligible,
+        // minted,
+        // spaceProfile,
+        // membershipLevels,
+        // corrMembershipLevel,
+        // outdatedMembershipLevels,
+      } = data;
+      console.log('!!! login get ', token, manageable, setup, connected);
+
+      store.set(StateType.MANAGEABLE, manageable);
+      store.set(StateType.BEEN_SET, setup);
+      store.set(StateType.PATREON_CONNECTED, connected);
+
+      // set token step by state change
+      setAccessToken(token);
+
+      // if (errorCode === 5002) {
+      //   setMessage(message);
+
+      //   return;
+      // }
+    } catch (error) {
+      //
     }
-
-    if (response.data?.code) {
-      try {
-        const loginResponse = await login({ code: response.data.code });
-        console.info('!!! plugin debug: login response = ', loginResponse);
-        const { data } = loginResponse;
-        const { setup, manageable } = data;
-
-        store.set(StateType.MANAGEABLE, manageable);
-        store.set(StateType.BEEN_SET, setup);
-
-        // if (errorCode === 5002) {
-        //   setMessage(message);
-
-        //   return;
-        // }
-      } catch (error) {
-        //
-      }
-    }
+    // }
   }, []);
 
   return (

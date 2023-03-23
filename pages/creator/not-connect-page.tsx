@@ -4,8 +4,10 @@ import { Center, Column, Expand } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
 import { Spinner } from '@/components/core/Spinner';
 import { Text } from '@/components/core/Text';
+import { StateType } from '@/constants/store';
 import { useConnectPatreon } from '@/hooks/useConnectPatreon';
 import { icons } from '@/utils/assets';
+import { store } from '@/utils/store/useStore';
 
 const CreatorNotConnectPage = () => {
   const { connecting, connectPatreon } = useConnectPatreon();
@@ -66,7 +68,20 @@ const CreatorNotConnectPage = () => {
           <Text>
             Note: If you have already connected your Patreon account, please
           </Text>
-          <Link href="/">&nbsp;refresh&nbsp;</Link>
+          <Text
+            onClick={() => {
+              store.set(StateType.PATREON_CONNECTED, true);
+              store.set(StateType.BEEN_SET, true);
+            }}
+          >
+            <Link
+              href={{
+                pathname: '/',
+              }}
+            >
+              &nbsp;refresh&nbsp;
+            </Link>
+          </Text>
           <Text>to proceed to the next step.</Text>
         </Text>
       </Column>

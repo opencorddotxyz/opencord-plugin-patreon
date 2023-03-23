@@ -9,6 +9,7 @@ import { useStore } from '@/utils/store/useStore';
 
 const IndexPage: NextPage = () => {
   const router = useRouter();
+
   const [manageable] = useStore(StateType.MANAGEABLE);
 
   useEffect(() => {
