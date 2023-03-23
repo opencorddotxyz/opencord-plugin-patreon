@@ -4,8 +4,8 @@ import { StateType } from '@/constants/store';
 import { useAsync } from '@/hooks/core/useAsync';
 import { useStore } from '@/utils/store/useStore';
 
-import ManagePage from './manage-page';
-import CreatorNotConnectPage from './not-connect-page';
+import CreatorManagerPage from './manage';
+import CreatorNotConnectPage from './not-connect';
 
 const useCreatorPage = () => {
   const [beenSet] = useStore(StateType.BEEN_SET);
@@ -56,7 +56,7 @@ const CreatorPage: NextPage = () => {
   if (beenSet === undefined) {
     return <div>do not login in, not available</div>;
   }
-  return beenSet ? <ManagePage /> : <CreatorNotConnectPage />;
+  return beenSet ? <CreatorManagerPage /> : <CreatorNotConnectPage />;
 };
 
 export default CreatorPage;

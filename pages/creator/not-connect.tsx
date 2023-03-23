@@ -71,6 +71,7 @@ const CreatorNotConnectPage = () => {
             onClick={() => {
               store.set(StateType.PATREON_CONNECTED, true);
               store.set(StateType.BEEN_SET, true);
+              // store.set(StateType.BEEN_SET, false);
             }}
             display="inline"
             color={'#16B8F3'}

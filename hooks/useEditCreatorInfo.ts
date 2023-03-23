@@ -103,10 +103,10 @@ export const useEditCreatorInfo = (dataSets?: PatreonInfo) => {
   };
 
   const setDeletedOutdatedLevel = (level: MembershipLevel) => {
-    setCreatorInfo((datas) => {
-      if (!datas) return {};
+    setCreatorInfo((dataSets) => {
+      if (!dataSets) return {};
       return {
-        outdatedLevels: datas.outdatedLevels.filter((e) => e.id !== level.id),
+        outdatedLevels: dataSets.outdatedLevels.filter((e) => e.id !== level.id),
       };
     });
   };

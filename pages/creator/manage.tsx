@@ -18,7 +18,7 @@ import { usePatreonInfo } from '@/hooks/usePatreonInfo';
 import { Role } from '@/net/http/patreonComponents';
 import { isNotEqual } from '@/utils/core/diff';
 
-const PatronNotConnectPage = () => {
+const CreatorManagerPage = () => {
   const { data, loading } = usePatreonInfo();
   const {
     saveLevelInfo,
@@ -235,4 +235,4 @@ const PatronNotConnectPage = () => {
   );
 };
 
-export default PatronNotConnectPage;
+export default CreatorManagerPage;
