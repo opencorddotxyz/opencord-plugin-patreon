@@ -1,6 +1,6 @@
 import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 
-import { STORAGE_KEY } from '@/constants/storage-key';
+import { STORAGE_KEY_AUTH_TOKEN } from '@/constants/storage-key';
 import { getLocal, removeLocal, setLocal } from '@/utils/store';
 
 type Token = string;
@@ -15,7 +15,7 @@ export const isLoggedIn = (): boolean => {
 };
 
 export const setAuthTokens = (tokens: IAuthTokens): void => {
-  return setLocal(STORAGE_KEY, tokens);
+  return setLocal(STORAGE_KEY_AUTH_TOKEN, tokens);
 };
 
 export const setAccessToken = (token: Token): void => {
@@ -32,7 +32,7 @@ export const setAccessToken = (token: Token): void => {
 };
 
 export const clearAuthTokens = (): void => {
-  return removeLocal(STORAGE_KEY);
+  return removeLocal(STORAGE_KEY_AUTH_TOKEN);
 };
 
 export const getAccessToken = (): Token | undefined => {
@@ -49,7 +49,7 @@ const getAuthTokens = (): IAuthTokens | undefined => {
   let rawTokens: IAuthTokens | undefined;
 
   try {
-    rawTokens = getLocal(STORAGE_KEY);
+    rawTokens = getLocal(STORAGE_KEY_AUTH_TOKEN);
 
     return rawTokens;
   } catch (error: unknown) {

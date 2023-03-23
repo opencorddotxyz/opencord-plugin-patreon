@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import { openNewTab } from '@/utils/location';
 import { getPatreonAuthUrl } from '@/utils/patreon';
 
 export const useConnectPatreon = () => {
@@ -12,9 +13,7 @@ export const useConnectPatreon = () => {
     if (isConnected) {
       // todo jump to dashboard page
     } else {
-      setConnecting(true);
-      window.open(getPatreonAuthUrl());
-      // todo connect patreon
+      openNewTab(getPatreonAuthUrl());
     }
     setConnecting(false);
   };

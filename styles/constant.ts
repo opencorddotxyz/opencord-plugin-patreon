@@ -20,12 +20,6 @@ export enum BoxShadowOpacity {
   dark = 0.3,
 }
 
-export const CloseIconCss = {
-  boxSize: '12px',
-  transition: '0.3s',
-  opacity: CssOpacity.Icon,
-  _hover: { opacity: CssOpacity.Opaque },
-};
 export enum TextColor {
   Light = '#282828',
   Dark = '#ffffff',
