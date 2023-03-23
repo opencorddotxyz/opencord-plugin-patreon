@@ -15,7 +15,6 @@ const PatronNotConnectPage = () => {
     <>
       <Image src={patreonInfo?.creator.image} size="72px" />
       <Text
-        color="#fff"
         fontSize={'24px'}
         lineHeight="30px"
         fontWeight={'700'}
@@ -42,6 +41,7 @@ const PatronNotConnectPage = () => {
   const _connectPatreon = (
     <>
       <Center
+        color="#000"
         width="140px"
         height="30px"
         borderRadius="4px"
@@ -66,17 +66,18 @@ const PatronNotConnectPage = () => {
         color={'rgba(255, 255, 255, 0.3)'}
         marginBottom="30px"
       >
-        <Text>
+        <Text display="inline">
           Note: If you have already connected your Patreon account, please
         </Text>
         <Text
+          display="inline"
           color={'#16B8F3'}
           textDecorationLine="underline"
           onClick={connectPatreon}
         >
           &nbsp;refresh&nbsp;
         </Text>
-        <Text>to proceed to the next step.</Text>
+        <Text display="inline">to proceed to the next step.</Text>
       </Text>
     </>
   );

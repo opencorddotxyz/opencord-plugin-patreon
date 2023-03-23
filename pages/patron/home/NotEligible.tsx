@@ -20,7 +20,6 @@ export const NotEligible = (props: { name: string; link: string }) => {
             marginRight="4px"
           />
           <Text
-            color="#fff"
             fontSize={'16px'}
             lineHeight="20px"
             fontWeight={'700'}
@@ -39,11 +38,11 @@ export const NotEligible = (props: { name: string; link: string }) => {
           <Image
             size="12px"
             src={icons('warning.svg')}
-            color="#fff"
             display="inline"
             marginRight="4px"
           />
           <Text
+            display="inline"
             color="rgba(255, 255, 255, 1)"
             fontSize={'14px'}
             lineHeight="18px"
@@ -55,6 +54,7 @@ export const NotEligible = (props: { name: string; link: string }) => {
             please visit the home page of
           </Text>
           <Text
+            display="inline"
             color={'#16B8F3'}
             onClick={() => {
               window.open(link, '_blank');

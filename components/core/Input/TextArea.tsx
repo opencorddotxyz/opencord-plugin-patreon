@@ -21,7 +21,7 @@ export const TextArea = forwardRef(
       value = '',
       hint = '',
       rows = 1,
-      maxLines = 5,
+      maxLines,
       lineHeight = 20,
       onChange,
       onSubmit,
@@ -32,6 +32,7 @@ export const TextArea = forwardRef(
     const inputRef = ref ?? _ref;
 
     const updateInputHeight = () => {
+      if (!maxLines) return;
       if (!inputRef.current) return;
       const minHeight = rows * lineHeight;
       const maxHeight = maxLines * lineHeight;

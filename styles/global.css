@@ -19,6 +19,7 @@ body,
   font-family: Outfit, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica,
     Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   background: #282828;
+  color: #fff;
 }
 
 /* remove mobile focus color */
@@ -36,4 +37,14 @@ div:focus {
 
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }

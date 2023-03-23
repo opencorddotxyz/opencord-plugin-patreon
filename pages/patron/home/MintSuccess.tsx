@@ -25,7 +25,6 @@ export const MintSuccess = (props: {
             marginRight="4px"
           />
           <Text
-            color="#fff"
             fontSize={'16px'}
             lineHeight="20px"
             fontWeight={'700'}
@@ -69,7 +68,6 @@ export const MintSuccess = (props: {
           >
             {roles.length < 1 ? (
               <Text
-                color="#fff"
                 fontSize="14px"
                 lineHeight="18px"
                 fontWeight="600"
@@ -92,7 +90,6 @@ export const MintSuccess = (props: {
                       marginRight="6px"
                     />
                     <Text
-                      color="#fff"
                       fontSize="14px"
                       lineHeight="18px"
                       fontWeight="600"

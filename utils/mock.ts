@@ -1,22 +1,21 @@
-interface PatreonCreator {
+export interface PatreonCreator {
   id: string;
   name: string;
   description: string;
   image: string;
 }
-
-interface Role {
+export interface Role {
   id: string;
   name: string;
   color: string;
 }
 
-interface PatreonLevel {
+export interface PatreonLevel {
   id: string;
   name: string;
   description: string;
   image: string;
-  role?: Role;
+  roles?: Role[];
 }
 
 export interface PatreonInfo {
@@ -41,11 +40,13 @@ export const mockPatreonDatas: PatreonInfo = {
       image:
         'https://c10.patreonusercontent.com/4/patreon-media/p/reward/8288842/ee4477cd232d42178e346a89be04ec71/eyJ3Ijo0MDB9/1.png?token-time=2145916800&token-hash=ey2dDHB666569dmXQwRcA7xkgc8ZmKFvBskXbr3wAzU%3D',
       id: '111',
-      role: {
-        id: '111',
-        name: 'Člen komunity',
-        color: '#226ce1',
-      },
+      roles: [
+        {
+          id: '111',
+          name: 'Člen komunity',
+          color: '#226ce1',
+        },
+      ],
     },
   ],
   levels: [
@@ -56,11 +57,13 @@ export const mockPatreonDatas: PatreonInfo = {
       image:
         'https://c10.patreonusercontent.com/4/patreon-media/p/reward/8288842/ee4477cd232d42178e346a89be04ec71/eyJ3Ijo0MDB9/1.png?token-time=2145916800&token-hash=ey2dDHB666569dmXQwRcA7xkgc8ZmKFvBskXbr3wAzU%3D',
       id: '111',
-      role: {
-        id: '111',
-        name: 'Člen komunity',
-        color: '#226ce1',
-      },
+      roles: [
+        {
+          id: '111',
+          name: 'Člen komunity',
+          color: '#226ce1',
+        },
+      ],
     },
     {
       name: 'Fanoušek',
@@ -69,7 +72,7 @@ export const mockPatreonDatas: PatreonInfo = {
       image:
         'https://c10.patreonusercontent.com/4/patreon-media/p/reward/5971374/7aaa5c0ed4334d7ab536abebf80741bd/eyJ3Ijo0MDB9/1.png?token-time=2145916800&token-hash=xyUocOxATS5yMtYKfvQcKHv8CS9FDBGq1qcR3HJPhnQ%3D',
       id: '222',
-      role: { id: '222', name: 'Fanoušek', color: '#f77a6d' },
+      roles: [{ id: '222', name: 'Fanoušek', color: '#f77a6d' }],
     },
     {
       name: 'KryptoBlázen',
@@ -78,7 +81,7 @@ export const mockPatreonDatas: PatreonInfo = {
       image:
         'https://c10.patreonusercontent.com/4/patreon-media/p/reward/5971375/e896ec5e508746e4962cbc4afbed93f8/eyJ3Ijo0MDB9/1.png?token-time=2145916800&token-hash=3jWLUC5cNN1a8TuUSlKSGdZGzLAAE6fUCnwfKOBM2vk%3D',
       id: '333',
-      role: { id: '333', name: 'KryptoBlázen', color: '#8086a8' },
+      roles: [{ id: '333', name: 'KryptoBlázen', color: '#8086a8' }],
     },
     {
       name: 'KryptoKokot',

@@ -9,7 +9,6 @@ const NotSetupPage = () => {
       <Column>
         <Image src={images('not-setup.svg')} width="260px" height="160px" />
         <Text
-          color="#fff"
           fontSize={'32px'}
           lineHeight="40px"
           fontWeight={'700'}

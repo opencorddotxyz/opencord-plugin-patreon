@@ -14,7 +14,6 @@ const CreatorNotConnectPage = () => {
         <Expand />
         <Image src={icons('patreon.svg')} size="64px" />
         <Text
-          color="#fff"
           fontSize={'32px'}
           lineHeight="40px"
           fontWeight={'700'}
@@ -35,6 +34,7 @@ const CreatorNotConnectPage = () => {
           based on their tier.
         </Text>
         <Center
+          color="#000"
           width="140px"
           height="30px"
           borderRadius="4px"
@@ -60,10 +60,11 @@ const CreatorNotConnectPage = () => {
           color={'rgba(255, 255, 255, 0.4)'}
           marginBottom="30px"
         >
-          <Text>
+          <Text display="inline">
             Note: If you have already connected your Patreon account, please
           </Text>
           <Text
+            display="inline"
             color={'#16B8F3'}
             textDecorationLine="underline"
             onClick={connectPatreon}
@@ -71,7 +72,7 @@ const CreatorNotConnectPage = () => {
           >
             &nbsp;refresh&nbsp;
           </Text>
-          <Text>to proceed to the next step.</Text>
+          <Text display="inline">to proceed to the next step.</Text>
         </Text>
       </Column>
     </Center>
