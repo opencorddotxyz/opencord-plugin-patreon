@@ -4,6 +4,7 @@ import { Center, Column } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
 import { Text } from '@/components/core/Text';
 import { images, placeholders } from '@/utils/assets';
+import { openNewTab } from '@/utils/location';
 
 const NotInOCPage: NextPage = () => {
   return (
@@ -61,7 +62,7 @@ const NotInOCPage: NextPage = () => {
               color={'#16B8F3'}
               textDecorationLine="underline"
               onClick={() => {
-                window.open('https://www.opencord.xyz', '_blank');
+                openNewTab('https://www.opencord.xyz');
               }}
               cursor="pointer"
             >

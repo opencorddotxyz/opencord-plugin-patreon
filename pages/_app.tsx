@@ -7,17 +7,12 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { memo, useEffect } from 'react';
 
-import { Text } from '@/components/core/Text';
 import { Toast } from '@/components/Dialogs/Toast';
 import { StateType } from '@/constants/store';
 import useAsyncEffect from '@/hooks/core/useAsyncEffect';
-// import { login } from '@/net/http/patreon';
-import { login } from '@/net/http/_mock';
 import { setAccessToken } from '@/net/http/interceptors/token';
-// import ocClient from '@/utils/opencord-client';
+import { login } from '@/net/http/patreon';
 import { store, useProvider, useStore } from '@/utils/store/useStore';
-
-import { InfoPageFrame } from './oauth';
 
 export default function App({ Component, pageProps, router }: AppProps) {
   useProvider(StateType.IN_OPENCORD, true);
@@ -41,18 +36,7 @@ export default function App({ Component, pageProps, router }: AppProps) {
       const loginResponse = await login({ code: 'response.data.code' });
       console.info('!!! plugin debug: login response = ', loginResponse);
       const { data } = loginResponse;
-      const {
-        token,
-        manageable,
-        setup,
-        connected,
-        // eligible,
-        // minted,
-        // spaceProfile,
-        // membershipLevels,
-        // corrMembershipLevel,
-        // outdatedMembershipLevels,
-      } = data;
+      const { token, manageable, setup, connected } = data;
       console.log('!!! login get ', token, manageable, setup, connected);
 
       store.set(StateType.MANAGEABLE, manageable);
@@ -78,7 +62,8 @@ export default function App({ Component, pageProps, router }: AppProps) {
       <Header />
       <Toast />
       {!inOC && currentPath !== '/oauth' ? (
-        <NotInOC />
+        // <NotInOC />
+        <div />
       ) : (
         <Component {...pageProps} key={router.route} />
       )}
@@ -100,25 +85,6 @@ const _Header = () => {
         content="Welcome your Patrons to Opencord. Automatically assign roles and reward them with a Membership NFT Pass based on their tier."
       />
     </Head>
-  );
-};
-
-const NotInOC = () => {
-  return (
-    <InfoPageFrame type={'Runtime Error'}>
-      <Text
-        fontSize={'16px'}
-        lineHeight="20px"
-        fontWeight={'400'}
-        color={'rgba(255, 255, 255, 0.6)'}
-        paddingInline="20px"
-        textAlign="center"
-      >
-        In order to ensure the best performance and experience, please use this
-        plugin within <a href={process.env.NEXT_PUBLIC_OC_APP_SITE}>Opencord</a>
-        .
-      </Text>
-    </InfoPageFrame>
   );
 };
 

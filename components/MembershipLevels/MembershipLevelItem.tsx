@@ -25,11 +25,7 @@ export const MembershipLevelItem = (props: MembershipLevel) => {
       >
         <Row width={72 + 40 + 30}>
           <Box width="30px" />
-          <Image
-            src={icons('warning.svg') ?? image}
-            size="72px"
-            borderRadius="8px"
-          />
+          <Image src={image} size="72px" borderRadius="8px" />
         </Row>
         <Expand>
           <Text width="100%" fontWeight="600" maxLines={1} marginRight="20px">
@@ -47,7 +43,7 @@ export const MembershipLevelItem = (props: MembershipLevel) => {
           lineHeight="18px"
           fontWeight={'600'}
         >
-          {roles && roles.length > 0 ? (
+          {roles.length > 0 ? (
             <>
               <Box
                 size="12px"

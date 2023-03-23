@@ -1,5 +1,6 @@
 import NextBundleAnalyzer from '@next/bundle-analyzer';
 import dotenv from 'dotenv';
+import fileLoader from 'file-loader';
 
 const withBundleAnalyzer = NextBundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
@@ -42,7 +43,7 @@ const nextConfig = {
           limit: 1024 * 30,
           name: '[path][name].[ext]',
           encoding: 'base64',
-          fallback: require.resolve('file-loader'),
+          fallback: fileLoader,
         },
       },
     });
@@ -50,4 +51,4 @@ const nextConfig = {
   },
 };
 
-module.exports = withBundleAnalyzer(nextConfig);
+export default withBundleAnalyzer(nextConfig);
