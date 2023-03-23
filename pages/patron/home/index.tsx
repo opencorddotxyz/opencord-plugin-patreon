@@ -8,6 +8,7 @@ import { MembershipLevelItem } from '@/components/MembershipLevels/MembershipLev
 import { MembershipLevelsHeader } from '@/components/MembershipLevels/MembershipLevelsHeader';
 import { useAsync } from '@/hooks/core/useAsync';
 import { usePatreonInfo } from '@/hooks/usePatreonInfo';
+import { MembershipLevel } from '@/net/http/patreonComponents';
 
 import { CurrentRoles } from './CurrentRoles';
 import { MintSuccess } from './MintSuccess';
@@ -66,7 +67,7 @@ const useCurrentStep = () => {
 const PatronNotConnectPage = () => {
   const { data: patreonInfo, loading } = usePatreonInfo();
   const name = patreonInfo?.creator?.name ?? 'Unknown';
-  const levels = patreonInfo?.levels ?? [];
+  const levels = patreonInfo?.levels ?? ([] as MembershipLevel[]);
 
   const {
     connected,
@@ -92,7 +93,7 @@ const PatronNotConnectPage = () => {
 
   const _header = (
     <>
-      <Image src={patreonInfo?.creator.image} size="72px" />
+      <Image src={patreonInfo?.creator.avatar} size="72px" />
       <Text
         fontSize={'24px'}
         lineHeight="30px"
@@ -148,8 +149,8 @@ const PatronNotConnectPage = () => {
           <Text>There are no membership levels assigned to roles.</Text>
         </Center>
       ) : (
-        levels.map((e, idx) => {
-          return <MembershipLevelItem key={e.id + idx} level={e} />;
+        levels.map((val) => {
+          return <MembershipLevelItem key={val.id} {...val} />;
         })
       )}
     </Column>

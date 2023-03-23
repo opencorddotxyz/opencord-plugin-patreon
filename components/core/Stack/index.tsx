@@ -17,6 +17,7 @@ export const Stack = forwardRef((props: BoxProps, ref: any) => {
     const zIndex = p?.zIndex ?? 1;
     const props = { ...p, ...position, zIndex, position: 'absolute' };
     return (
+      // eslint-disable-next-line react/no-array-index-key
       <Box key={index} {...props}>
         {item}
       </Box>
