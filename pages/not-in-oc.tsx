@@ -1,47 +1,11 @@
 import { NextPage } from 'next';
-import { ReactNode, useEffect } from 'react';
 
 import { Center, Column } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
 import { Text } from '@/components/core/Text';
-import { useRouterQuery } from '@/hooks/useRouterQuery';
-import { icons, images, placeholders } from '@/utils/assets';
-import { setLocal } from '@/utils/store';
+import { images, placeholders } from '@/utils/assets';
 
-const OAuthPage: NextPage = () => {
-  const { code, state } = useRouterQuery(['code', 'state']);
-  useEffect(() => {
-    if (code) {
-      setLocal('code', code);
-    }
-  }, [code, state]);
-
-  return (
-    <InfoPageFrame type={'Connected'}>
-      <Text
-        fontSize={'16px'}
-        lineHeight="20px"
-        fontWeight={'400'}
-        color={'rgba(255, 255, 255, 0.6)'}
-      >
-        You can now close this window and return to Opencord to continue.
-      </Text>
-    </InfoPageFrame>
-  );
-};
-
-export default OAuthPage;
-
-export type InfoPageType = 'Runtime Error' | 'Connected';
-export const InfoPageFrame = (props: {
-  children: ReactNode;
-  type: InfoPageType;
-}) => {
-  const iconMap = {
-    'Runtime Error': icons('warning.svg'),
-    Connected: icons('ok.svg'),
-  };
-
+const NotInOCPage: NextPage = () => {
   return (
     <Center
       width="100%"
@@ -69,7 +33,7 @@ export const InfoPageFrame = (props: {
           padding="30px 40px 60px 40px"
         >
           <Image
-            src={placeholders(iconMap[props.type])}
+            src={placeholders('error.svg')}
             width="260px"
             height="160px"
             marginBottom="10px"
@@ -80,11 +44,35 @@ export const InfoPageFrame = (props: {
             fontWeight={'700'}
             margin={'10px'}
           >
-            {props.type}
+            Runtime Error
           </Text>
-          {props.children}
+          <Text
+            color="rgba(255, 255, 255, 0.6)"
+            fontSize={'16px'}
+            lineHeight="20px"
+            fontWeight={'400'}
+          >
+            <Text display="inline">
+              In order to ensure the best performance and experience, please use
+              this plugin within{' '}
+            </Text>
+            <Text
+              display="inline"
+              color={'#16B8F3'}
+              textDecorationLine="underline"
+              onClick={() => {
+                window.open('https://www.opencord.xyz', '_blank');
+              }}
+              cursor="pointer"
+            >
+              Opencord
+            </Text>
+            <Text>.</Text>
+          </Text>
         </Column>
       </Center>
     </Center>
   );
 };
+
+export default NotInOCPage;

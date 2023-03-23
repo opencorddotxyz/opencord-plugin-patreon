@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import { memo, useEffect } from 'react';
 
 import { Text } from '@/components/core/Text';
+import { Toast } from '@/components/Dialogs/Toast';
 import { StateType } from '@/constants/store';
 import useAsyncEffect from '@/hooks/core/useAsyncEffect';
 // import { login } from '@/net/http/patreon';
@@ -75,6 +76,7 @@ export default function App({ Component, pageProps, router }: AppProps) {
   return (
     <>
       <Header />
+      <Toast />
       {!inOC && currentPath !== '/oauth' ? (
         <NotInOC />
       ) : (

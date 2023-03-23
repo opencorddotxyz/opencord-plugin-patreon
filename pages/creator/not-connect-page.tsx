@@ -18,7 +18,6 @@ const CreatorNotConnectPage = () => {
         <Expand />
         <Image src={icons('patreon.svg')} size="64px" />
         <Text
-          color="#fff"
           fontSize={'32px'}
           lineHeight="40px"
           fontWeight={'700'}
@@ -65,7 +64,7 @@ const CreatorNotConnectPage = () => {
           color={'rgba(255, 255, 255, 0.4)'}
           marginBottom="30px"
         >
-          <Text>
+          <Text display="inline">
             Note: If you have already connected your Patreon account, please
           </Text>
           <Text
@@ -73,6 +72,11 @@ const CreatorNotConnectPage = () => {
               store.set(StateType.PATREON_CONNECTED, true);
               store.set(StateType.BEEN_SET, true);
             }}
+            display="inline"
+            color={'#16B8F3'}
+            textDecorationLine="underline"
+            // onClick={connectPatreon}
+            cursor="pointer"
           >
             <Link
               href={{
@@ -82,7 +86,7 @@ const CreatorNotConnectPage = () => {
               &nbsp;refresh&nbsp;
             </Link>
           </Text>
-          <Text>to proceed to the next step.</Text>
+          <Text display="inline">to proceed to the next step.</Text>
         </Text>
       </Column>
     </Center>
