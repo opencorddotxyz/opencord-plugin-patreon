@@ -2,6 +2,7 @@ import { Column, Row } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
 import { Text } from '@/components/core/Text';
 import { icons, images } from '@/utils/assets';
+import { openNewTab } from '@/utils/location';
 
 export const NotEligible = (props: { name: string; link: string }) => {
   const { name, link } = props;
@@ -57,7 +58,7 @@ export const NotEligible = (props: { name: string; link: string }) => {
             display="inline"
             color={'#16B8F3'}
             onClick={() => {
-              window.open(link, '_blank');
+              openNewTab(link);
             }}
             cursor="pointer"
           >
