@@ -1,14 +1,17 @@
 import { useState } from 'react';
 
+import { StateType } from '@/constants/store';
 import { getPatreonAuthUrl } from '@/utils/patreon';
+import { store } from '@/utils/store/useStore';
 
 export const useConnectPatreon = () => {
   const [connecting, setConnecting] = useState(false);
 
   const connectPatreon = async () => {
-    if (connecting) return;
-    setConnecting(true);
-    const isConnected = false; // todo check isConnected
+    if (connecting) {
+      return;
+    }
+    const isConnected = store.get(StateType.PATREON_CONNECTED); // todo check isConnected
     if (isConnected) {
       // todo jump to dashboard page
     } else {
@@ -16,7 +19,6 @@ export const useConnectPatreon = () => {
       window.open(getPatreonAuthUrl());
       // todo connect patreon
     }
-    setConnecting(false);
   };
   return { connecting, connectPatreon };
 };

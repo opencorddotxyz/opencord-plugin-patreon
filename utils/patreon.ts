@@ -1,6 +1,5 @@
 import { format } from 'url';
 
-
 const scopes = [
   'identity',
   'identity.memberships',
@@ -16,7 +15,7 @@ export function getPatreonAuthUrl() {
     query: {
       response_type: 'code',
       client_id: process.env.NEXT_PUBLIC_CLIENT_ID,
-      redirect_uri: `${process.env.NEXT_PUBLIC_REDIRECT_URI}/oauth`,
+      redirect_uri: `${process.env.NEXT_PUBLIC_APP_URI}/oauth`,
       scope: scopes.join(' '),
       state: 'chill',
     },
