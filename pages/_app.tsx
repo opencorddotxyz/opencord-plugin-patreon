@@ -11,10 +11,8 @@ import { Text } from '@/components/core/Text';
 import { Toast } from '@/components/Dialogs/Toast';
 import { StateType } from '@/constants/store';
 import useAsyncEffect from '@/hooks/core/useAsyncEffect';
-// import { login } from '@/net/http/patreon';
-import { login } from '@/net/http/_mock';
 import { setAccessToken } from '@/net/http/interceptors/token';
-// import ocClient from '@/utils/opencord-client';
+import { login } from '@/net/http/patreon';
 import { store, useProvider, useStore } from '@/utils/store/useStore';
 
 import { InfoPageFrame } from './oauth';
