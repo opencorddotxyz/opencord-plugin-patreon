@@ -3,7 +3,7 @@ import store from 'store2';
 import { isBrowser, isEmpty } from './core/is';
 
 function _getPrefix() {
-  return `opencord-patreon:${process.env.NEXT_PUBLIC_APP_ENV}`;
+  return `opencord-patreon:${process.env.APP_ENV}`;
 }
 
 function _formatKey(key: string, keep?: boolean) {
