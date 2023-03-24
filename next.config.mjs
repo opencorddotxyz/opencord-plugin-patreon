@@ -24,7 +24,7 @@ const loadEnv = () => {
 
 const nextConfig = {
   env: loadEnv(),
-  reactStrictMode: true,
+  reactStrictMode: false,
   images: {
     disableStaticImages: true,
     unoptimized: true,

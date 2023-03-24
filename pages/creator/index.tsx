@@ -1,62 +1,238 @@
-import { NextPage } from 'next';
+import { Box } from '@/components/core/Box';
+import { Center, Column } from '@/components/core/Flex';
+import { Image } from '@/components/core/Image';
+import { TextInput } from '@/components/core/Input/TextInput';
+import { Spinner } from '@/components/core/Spinner';
+import { Text } from '@/components/core/Text';
+import {
+  EditLevelDialog,
+  openEditLevelDialog,
+} from '@/components/Dialogs/EditLevelDialog';
+import { MembershipLevelItemEditable } from '@/components/MembershipLevels/MembershipLevelItem';
+import {
+  MembershipLevelsHeaderEditable,
+  MembershipLevelsOutdatedHeader,
+} from '@/components/MembershipLevels/MembershipLevelsHeader';
+import { useEditCreatorInfo } from '@/hooks/useEditCreatorInfo';
+import { usePatreonInfo } from '@/hooks/usePatreonInfo';
+import { Role } from '@/net/http/patreonComponents';
+import { isNotEqual } from '@/utils/core/diff';
 
-import { StateType } from '@/constants/store';
-import { useAsync } from '@/hooks/core/useAsync';
-import { useStore } from '@/utils/store/useStore';
-
-import CreatorManagerPage from './manage';
-import CreatorNotConnectPage from './not-connect';
-
-const useCreatorPage = () => {
-  const [beenSet] = useStore(StateType.BEEN_SET);
-
-  // page info
+const CreatorManagerPage = () => {
+  const { data, loading } = usePatreonInfo();
   const {
-    loading,
-    data: _userInfo,
-    run: fetchUserInfo,
-  } = useAsync<{
-    roles: { name: string; color: string }[];
-    nft: { image: string };
-  }>(
-    async () => {
-      // todo fetch user's current NFT and roles
-      return undefined;
-    },
-    { immediately: false },
+    saveLevelInfo,
+    linkRoles,
+    deleteOutdatedLevel,
+    refresh,
+    refreshing,
+    saving,
+    saveCreatorInfo,
+    dataSets: patreonInfo,
+    avatar,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    setAvatar,
+    name,
+    setName,
+    description,
+    setDescription,
+  } = useEditCreatorInfo(data);
+
+  const levels = patreonInfo?.levels ?? [];
+  const levelsOutdated = patreonInfo?.outdatedLevels ?? [];
+
+  const _body = (
+    <>
+      <Column
+        width="100%"
+        maxWidth="840px"
+        alignItems="start"
+        padding="0 30px 30px 30px"
+      >
+        <Text
+          fontSize={'24px'}
+          lineHeight="30px"
+          fontWeight={'700'}
+          textAlign="center"
+          marginBottom="30px"
+        >
+          Patreon Membership NFT Pass
+        </Text>
+        <Text
+          fontSize={'16px'}
+          lineHeight="20px"
+          fontWeight={'700'}
+          textAlign="center"
+          marginBottom="10px"
+        >
+          Profile
+        </Text>
+        <Column
+          alignItems="start"
+          width="100%"
+          padding="20px"
+          borderRadius="4px"
+          border="1px solid #373737"
+        >
+          <Text
+            color="rgba(255, 255, 255,1)"
+            fontSize={'14px'}
+            lineHeight="18px"
+            fontWeight={'400'}
+            marginBottom="10px"
+          >
+            Avatar
+          </Text>
+          <Image
+            src={avatar}
+            size="64px"
+            borderRadius={'50%'}
+            marginBottom="10px"
+          />
+          <Text
+            color="rgba(255, 255, 255,1)"
+            fontSize={'14px'}
+            lineHeight="18px"
+            fontWeight={'400'}
+            marginBottom="10px"
+          >
+            Name
+          </Text>
+          <TextInput
+            value={name}
+            onChange={(s) => {
+              setName(s);
+            }}
+            marginBottom="10px"
+          />
+          <Text
+            color="rgba(255, 255, 255,1)"
+            fontSize={'14px'}
+            lineHeight="18px"
+            fontWeight={'400'}
+            marginBottom="10px"
+          >
+            Introduction
+          </Text>
+          <TextInput
+            value={description}
+            onChange={(s) => {
+              setDescription(s);
+            }}
+            marginBottom="20px"
+          />
+          <Center
+            color="#000"
+            width="100px"
+            height="30px"
+            borderRadius="4px"
+            background="#fff"
+            fontWeight={600}
+            cursor={'pointer'}
+            userSelect="none"
+            onClick={saveCreatorInfo}
+          >
+            {saving ? (
+              <Spinner size="16px" thickness="2px" theme="light" />
+            ) : (
+              'Save'
+            )}
+          </Center>
+        </Column>
+      </Column>
+    </>
   );
 
-  return {
-    beenSet,
-    fetchUserInfo,
-    userInfo: {
-      link: 'https://patreon.com',
-      nft: {
-        image:
-          'https://c10.patreonusercontent.com/4/patreon-media/p/reward/5971375/e896ec5e508746e4962cbc4afbed93f8/eyJ3Ijo0MDB9/1.png?token-time=2145916800&token-hash=3jWLUC5cNN1a8TuUSlKSGdZGzLAAE6fUCnwfKOBM2vk%3D',
-      },
-      roles: [
-        {
-          name: 'adminwedewdededededewd',
-          color: '#ff0000',
-        },
-        {
-          name: 'cordewddededewdewwedewdewdewdewdewdewdewdewe',
-          color: '#0000ff',
-        },
-      ],
-    },
-    loading,
-  };
+  const _membershipLevels = (
+    <Column
+      width="100%"
+      maxWidth="840px"
+      alignItems="start"
+      marginBottom="30px"
+    >
+      <MembershipLevelsHeaderEditable
+        refresh={refresh}
+        refreshing={refreshing}
+      />
+      {levels.length < 1 ? (
+        <Center
+          width="100%"
+          color="rgba(255, 255, 255, 0.6)"
+          fontSize={'12px'}
+          lineHeight="15px"
+          fontWeight={'500'}
+          textAlign="center"
+          padding={'20px 30px'}
+        >
+          <Text>There are no membership levels assigned to roles.</Text>
+        </Center>
+      ) : (
+        levels.map((level) => {
+          return (
+            <MembershipLevelItemEditable
+              key={level.id}
+              level={level}
+              onEditLevel={() => {
+                openEditLevelDialog({
+                  level: level,
+                  onSave: async (newLevel) => {
+                    if (isNotEqual(level, newLevel)) {
+                      return await saveLevelInfo(newLevel);
+                    }
+                    return true;
+                  },
+                });
+              }}
+              onLinkRole={() => {
+                // todo link role select menu
+                const linkedRoles: Role[] = [];
+                linkRoles(level, linkedRoles);
+              }}
+            />
+          );
+        })
+      )}
+    </Column>
+  );
+
+  const _membershipLevelsOutdated =
+    levelsOutdated.length < 1 ? (
+      <Box />
+    ) : (
+      <Column
+        width="100%"
+        maxWidth="840px"
+        alignItems="start"
+        marginBottom="30px"
+      >
+        <MembershipLevelsOutdatedHeader />
+        {levelsOutdated.map((level) => {
+          return (
+            <MembershipLevelItemEditable
+              isDelete
+              key={level.id}
+              level={level}
+              onDeleteLevel={() => {
+                deleteOutdatedLevel(level);
+              }}
+            />
+          );
+        })}
+      </Column>
+    );
+
+  return loading ? (
+    <Center width="100%" height="100vh">
+      <Spinner theme="dark" />
+    </Center>
+  ) : (
+    <Column width="100%" padding="30px">
+      <EditLevelDialog />
+      {_body}
+      {_membershipLevels}
+      {_membershipLevelsOutdated}
+    </Column>
+  );
 };
 
-const CreatorPage: NextPage = () => {
-  const { beenSet } = useCreatorPage();
-
-  if (beenSet === undefined) {
-    return <div>do not login in, not available</div>;
-  }
-  return beenSet ? <CreatorManagerPage /> : <CreatorNotConnectPage />;
-};
-
-export default CreatorPage;
+export default CreatorManagerPage;

@@ -1,63 +1,25 @@
 import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 import { STORAGE_KEY_AUTH_TOKEN } from '@/constants/storage-key';
+import { isNotEmpty } from '@/utils/core/is';
 import { getLocal, removeLocal, setLocal } from '@/utils/store';
 
 type Token = string;
-export interface IAuthTokens {
-  accessToken: Token;
-}
 
-export const isLoggedIn = (): boolean => {
-  const token = getAccessToken();
-
-  return !!token;
+export const getAuthToken = (): Token | undefined => {
+  return getLocal(STORAGE_KEY_AUTH_TOKEN);
 };
 
-export const setAuthTokens = (tokens: IAuthTokens): void => {
-  return setLocal(STORAGE_KEY_AUTH_TOKEN, tokens);
+export const setAuthToken = (token: Token): void => {
+  return setLocal(STORAGE_KEY_AUTH_TOKEN, token);
 };
 
-export const setAccessToken = (token: Token): void => {
-  const tokens = getAuthTokens();
-
-  if (!tokens) {
-    throw new Error(
-      'Unable to update access token since there are not tokens currently stored',
-    );
-  }
-
-  tokens.accessToken = token;
-  setAuthTokens(tokens);
-};
-
-export const clearAuthTokens = (): void => {
+export const clearAuthToken = (): void => {
   return removeLocal(STORAGE_KEY_AUTH_TOKEN);
 };
 
-export const getAccessToken = (): Token | undefined => {
-  const tokens = getAuthTokens();
-
-  return tokens ? tokens.accessToken : undefined;
-};
-
-const getAuthTokens = (): IAuthTokens | undefined => {
-  if (typeof window === 'undefined') {
-    return;
-  }
-
-  let rawTokens: IAuthTokens | undefined;
-
-  try {
-    rawTokens = getLocal(STORAGE_KEY_AUTH_TOKEN);
-
-    return rawTokens;
-  } catch (error: unknown) {
-    if (error instanceof SyntaxError) {
-      error.message = `Failed to parse auth tokens: ${rawTokens}`;
-      throw error;
-    }
-  }
+export const isLoggedIn = (): boolean => {
+  return isNotEmpty(getAuthToken());
 };
 
 export const applyAuthTokenInterceptor = (axios: AxiosInstance): void => {
@@ -69,31 +31,30 @@ export const applyAuthTokenInterceptor = (axios: AxiosInstance): void => {
   axios.interceptors.response.use(authTokenResponseInterceptor());
 };
 
-export const useAuthTokenInterceptor = applyAuthTokenInterceptor;
-
-export const authTokenRequestInterceptor = ({
+const authTokenRequestInterceptor = ({
   header = 'Authorization',
   headerPrefix = 'Bearer ',
 }) => {
   return async (
     requestConfig: AxiosRequestConfig,
   ): Promise<AxiosRequestConfig> => {
-    const accessToken = getAccessToken();
-
-    // add token to headers
-    if (accessToken && requestConfig.headers) {
-      requestConfig.headers[header] = `${headerPrefix}${accessToken}`;
+    const authToken = getAuthToken();
+    if (authToken && requestConfig.headers) {
+      requestConfig.headers[header] = `${headerPrefix}${authToken}`;
     }
-
     return requestConfig;
   };
 };
 
-export const authTokenResponseInterceptor = () => {
+const authTokenResponseInterceptor = () => {
   return async (response: AxiosResponse): Promise<AxiosResponse> => {
+    if (response.status === 401) {
+      // log out
+      clearAuthToken();
+    }
     const refreshedToken = response.headers['authorization'];
     if (refreshedToken) {
-      setAccessToken(refreshedToken);
+      setAuthToken(refreshedToken);
     }
 
     return response;

@@ -4,69 +4,20 @@ import '../styles/global.css';
 
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import { memo, useEffect } from 'react';
 
 import { Toast } from '@/components/Dialogs/Toast';
-import { StateType } from '@/constants/store';
-import useAsyncEffect from '@/hooks/core/useAsyncEffect';
-import { setAccessToken } from '@/net/http/interceptors/token';
-import { login } from '@/net/http/patreon';
-import { store, useProvider, useStore } from '@/utils/store/useStore';
 
 export default function App({ Component, pageProps, router }: AppProps) {
-  useProvider(StateType.IN_OPENCORD, true);
-  const [inOC] = useStore(StateType.IN_OPENCORD);
-  const currentPath = useRouter().asPath;
-
   useEffect(() => {
     document.body.classList.add('hide-scrollbar');
-  }, []);
-
-  useAsyncEffect(async () => {
-    // const response = await ocClient.getCode();
-    // console.info('!!! plugin debug: ocClient response = ', response);
-
-    // if (response.code === -32002) {
-    //   return store.set(StateType.IN_OPENCORD, false);
-    // }
-
-    // if (response.data?.code) {
-    try {
-      const loginResponse = await login({ code: 'response.data.code' });
-      console.info('!!! plugin debug: login response = ', loginResponse);
-      const { data } = loginResponse;
-      const { token, manageable, setup, connected } = data;
-      console.log('!!! login get ', token, manageable, setup, connected);
-
-      store.set(StateType.MANAGEABLE, manageable);
-      store.set(StateType.BEEN_SET, setup);
-      store.set(StateType.PATREON_CONNECTED, connected);
-
-      // set token step by state change
-      setAccessToken(token);
-
-      // if (errorCode === 5002) {
-      //   setMessage(message);
-
-      //   return;
-      // }
-    } catch (error) {
-      //
-    }
-    // }
   }, []);
 
   return (
     <>
       <Header />
       <Toast />
-      {!inOC && currentPath !== '/oauth' ? (
-        // <NotInOC />
-        <div />
-      ) : (
-        <Component {...pageProps} key={router.route} />
-      )}
+      <Component {...pageProps} key={router.route} />
     </>
   );
 }
@@ -82,7 +33,7 @@ const _Header = () => {
       <title>Patreon Membership NFT Pass</title>
       <meta
         name="description"
-        content="Welcome your Patrons to Opencord. Automatically assign roles and reward them with a Membership NFT Pass based on their tier."
+        content="Automatically assign roles and reward your Patrons with a Membership NFT Pass based on their tier."
       />
     </Head>
   );
