@@ -52,6 +52,7 @@ export const MembershipLevelsHeaderEditable = (props: {
   refreshing: boolean;
 }) => {
   const { refresh, refreshing } = props;
+
   return (
     <>
       <Row width="100%" padding={'0 30px 20px 30px'} onClick={refresh}>
@@ -101,7 +102,7 @@ export const MembershipLevelsHeaderEditable = (props: {
         </Expand>
         <Expand>
           <Row width="100%" justifyContent="end">
-            <Text>Assgined Role</Text>
+            <Text>Assigned Role</Text>
           </Row>
         </Expand>
       </Row>

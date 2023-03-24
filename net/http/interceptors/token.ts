@@ -42,6 +42,7 @@ const authTokenRequestInterceptor = ({
     if (authToken && requestConfig.headers) {
       requestConfig.headers[header] = `${headerPrefix}${authToken}`;
     }
+
     return requestConfig;
   };
 };

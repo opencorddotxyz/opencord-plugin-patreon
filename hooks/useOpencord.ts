@@ -1,8 +1,10 @@
 import { getClient } from '@opencord/client';
 import { AuthInfo } from '@opencord/client/lib/model/opencord';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { useRebuild } from '@/utils/store/useStore';
+
+import useMount from './core/useMount';
 
 type Opencord = ReturnType<typeof getClient>;
 
@@ -30,6 +32,7 @@ class OpencordHelper {
     } catch {
       this.initFailed = true;
     }
+
     return this.inited;
   }
 }
@@ -39,7 +42,7 @@ export const opencordHelper = new OpencordHelper();
 export const useOpencord = () => {
   const rebuild = useRebuild();
   const [currentUser, setCurrentUser] = useState<AuthInfo>();
-  useEffect(() => {
+  useMount(() => {
     if (!opencordHelper.inited) {
       opencordHelper.init();
       rebuild();
@@ -64,8 +67,8 @@ export const useOpencord = () => {
         }
       }
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  });
+
   return {
     currentUser,
     isInited: opencordHelper.inited,

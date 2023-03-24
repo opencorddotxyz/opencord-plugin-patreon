@@ -102,3 +102,11 @@ export function getAvailableRolesForMembershipLevel(
     params,
   );
 }
+
+/**
+ * @description "Request new uploads"
+ * @param req
+ */
+export function createObjectUploads(req: components.CreateUploadsRequest) {
+  return client.post<components.CreateUploadsResponse>('/v1/uploads', req);
+}

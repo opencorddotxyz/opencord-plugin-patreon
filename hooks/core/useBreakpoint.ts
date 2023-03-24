@@ -20,6 +20,7 @@ const _getBreakpoint = () => {
   if (width >= 1600 && width < 2000) {
     return { isXXL: true, isPC: true };
   }
+
   return { isXXXL: true, isPC: true };
 };
 
@@ -51,5 +52,6 @@ const initScreenReSizeListener = () => {
 export const useBreakpoint = (): DeviceSize => {
   initScreenReSizeListener();
   const [breakpoint] = useConsumer(kScreenReSizeListenerKey);
+
   return breakpoint ?? _getBreakpoint();
 };

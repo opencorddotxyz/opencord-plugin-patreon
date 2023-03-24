@@ -5,6 +5,7 @@ import { useConnectPatreon } from '@/hooks/useConnectPatreon';
 
 export const NotConnected = () => {
   const { connecting, connectPatreon } = useConnectPatreon();
+
   return (
     <>
       <Center
