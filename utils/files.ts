@@ -1,6 +1,6 @@
 import Compressor from 'compressorjs';
 
-import { createObjectUploads } from '@/net/http/_mock';
+import { createObjectUploads } from '@/net/http/patreon';
 import {
   UploadPayloadRequest,
   UploadPresignedObject,
