@@ -9,7 +9,7 @@ interface UserAuthInfo {
 const kCurrentAuthKey = 'currentAuth';
 
 export const isLoggedIn = (): boolean => {
-  return isNotEmpty(getCurrentAuth() && getAuthToken());
+  return isNotEmpty(getCurrentAuth()) && isNotEmpty(getAuthToken());
 };
 
 export const logout = () => {
@@ -29,12 +29,12 @@ export const login = (
   setAuthToken(props.token);
 };
 
-export const setCurrentAuth = (auth?: UserAuthInfo) => {
-  storage.set(kCurrentAuthKey, auth);
+export const getCurrentAuth = () => {
+  return storage.get<UserAuthInfo>(kCurrentAuthKey);
 };
 
-export const getCurrentAuth = (): UserAuthInfo | undefined => {
-  return storage.get(kCurrentAuthKey);
+export const setCurrentAuth = (auth?: UserAuthInfo) => {
+  storage.set(kCurrentAuthKey, auth);
 };
 
 export const getAuthKey = () => {
@@ -44,7 +44,7 @@ export const getAuthKey = () => {
 };
 
 export const getAuthToken = () => {
-  return storage.get(getAuthKey());
+  return storage.get<string>(getAuthKey());
 };
 
 export const setAuthToken = (token?: string): void => {
@@ -53,7 +53,7 @@ export const setAuthToken = (token?: string): void => {
 
 const kOAuthKey = 'oauthToken';
 export const getOAuthToken = () => {
-  return storage.get(kOAuthKey);
+  return storage.get<string>(kOAuthKey);
 };
 
 export const setOAuthToken = (token?: string): void => {
