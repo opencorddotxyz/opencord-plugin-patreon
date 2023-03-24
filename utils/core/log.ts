@@ -1,3 +1,4 @@
+import { jsonEncode } from './base';
 import { formatDate } from './format';
 
 type LogType = 'info' | 'error';
@@ -19,4 +20,14 @@ export const info = (scope: string, ...content: any[]) => {
 
 export const error = (scope: string, ...content: any[]) => {
   log('error', scope, ...content);
+};
+
+export const alertInfo = (data: any) => {
+  if (typeof alert !== 'undefined') {
+    alert(
+      jsonEncode({
+        content: data,
+      }),
+    );
+  }
 };

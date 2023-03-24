@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Text } from '@/components/core/Text';
 import { InfoFrame } from '@/components/not-in-oc';
 import { useRouterQuery } from '@/hooks/useRouterQuery';
-import { setAuthTokens } from '@/net/http/interceptors/token';
+import { setAuthToken } from '@/net/http/interceptors/token';
 import { validateOAuth2Token } from '@/net/http/patreon';
 import { placeholders } from '@/utils/assets';
 
@@ -35,7 +35,7 @@ const OAuthPage: NextPage = () => {
     setLoading(true);
     try {
       if (code && state) {
-        setAuthTokens({ accessToken: state });
+        setAuthToken(state);
 
         validateOAuth2Token({ code });
       } else {

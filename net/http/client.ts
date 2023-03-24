@@ -2,10 +2,7 @@ import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 
 import { error, info } from '@/utils/core/log';
 
-import {
-  applyAuthTokenInterceptor,
-  getAccessToken,
-} from './interceptors/token';
+import { applyAuthTokenInterceptor, getAuthToken } from './interceptors/token';
 
 type Param = {
   [k: string]: any;
@@ -134,6 +131,6 @@ supportMethods.forEach((method) => {
   };
 });
 
-export { getAccessToken };
+export { getAuthToken };
 
 export default client;
