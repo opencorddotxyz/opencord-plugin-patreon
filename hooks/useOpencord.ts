@@ -21,9 +21,10 @@ class OpencordHelper {
       const oc = getClient({
         debug: process.env.NODE_ENV === 'development',
       });
+      this.inited = true;
       this.inOpencord = oc.platform !== 'unknown';
-      this.inited = oc.version !== '';
-      if (this.inited) {
+      this.initFailed = oc.version !== '';
+      if (!this.initFailed) {
         this.client = oc;
       }
     } catch {

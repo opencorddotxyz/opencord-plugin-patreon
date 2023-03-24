@@ -4,11 +4,27 @@ import '../styles/global.css';
 
 import { AppProps } from 'next/app';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { memo, useEffect } from 'react';
 
 import { Toast } from '@/components/Dialogs/Toast';
+import { useOpencord } from '@/hooks/useOpencord';
 
 export default function App({ Component, pageProps, router }: AppProps) {
+  const _router = useRouter();
+  const { isInOpencord, isInited } = useOpencord();
+
+  useEffect(() => {
+    if (
+      isInited &&
+      !isInOpencord &&
+      !['/oauth', '/not-in-oc'].includes(_router.pathname)
+    ) {
+      _router.replace('/not-in-oc');
+      return;
+    }
+  }, [isInOpencord, isInited, _router]);
+
   useEffect(() => {
     document.body.classList.add('hide-scrollbar');
   }, []);
