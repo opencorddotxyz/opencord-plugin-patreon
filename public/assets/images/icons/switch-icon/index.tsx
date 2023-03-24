@@ -1,19 +1,17 @@
-import { useColor } from '@/hooks';
+import { icons } from '@/utils/assets';
 
-import checkboxOn from './checkboxOn.svg';
-import checkboxOnLight from './checkboxOnLight.svg';
-import radioOff from './radioOff.svg';
-import radioOffLight from './radioOffLight.svg';
-import radioOn from './radioOn.svg';
-import radioOnLight from './radioOnLight.svg';
+function addPrefix(prefix: string) {
+  return function (sourceName: string) {
+    return `${prefix}${sourceName}`;
+  };
+}
+const switchIconPrefix = addPrefix('/switch-icon/');
 
 export const useSwitchIcon = () => {
-  const {isLight} = useColor();
-
   return {
-    checkboxOnSvg: isLight ? checkboxOn : checkboxOnLight,
-    checkboxOffSvg:isLight ? radioOff : radioOffLight,
-    radioOffSvg: isLight ? radioOff : radioOffLight,
-    radioOnSvg: isLight ? radioOn : radioOnLight,
+    checkboxOnSvg: icons(switchIconPrefix('checkboxOn.svg')),
+    checkboxOffSvg: icons(switchIconPrefix('radioOff.svg')),
+    radioOffSvg: icons(switchIconPrefix('radioOff.svg')),
+    radioOnSvg: icons(switchIconPrefix('radioOn.svg')),
   };
-}; 
+};

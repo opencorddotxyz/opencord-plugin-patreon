@@ -1,7 +1,7 @@
 import { useSwitchIcon } from '@/public/assets/images/icons/switch-icon';
 import { CssOpacity } from '@/styles/constant';
 
-import { Image, ImageProps } from './core/Image';
+import { Image, ImageProps } from './Image';
 
 interface RadioProps extends ImageProps {
   isChecked: boolean;
