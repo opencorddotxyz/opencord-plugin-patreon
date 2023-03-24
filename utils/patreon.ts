@@ -1,5 +1,7 @@
 import { format } from 'url';
 
+import { getAccessToken } from '@/net/http/client';
+
 const scopes = [
   'identity',
   'identity.memberships',
@@ -8,6 +10,8 @@ const scopes = [
 ];
 
 export function getPatreonAuthUrl() {
+  const token = getAccessToken();
+
   return format({
     protocol: 'https',
     host: 'patreon.com',
@@ -17,7 +21,7 @@ export function getPatreonAuthUrl() {
       client_id: process.env.NEXT_PUBLIC_CLIENT_ID,
       redirect_uri: `${process.env.NEXT_PUBLIC_APP_URI}/oauth`,
       scope: scopes.join(' '),
-      state: 'chill',
+      state: token,
     },
   });
 }

@@ -3,9 +3,21 @@ import { NextPage } from 'next';
 import { Center, Column } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
 import { Text } from '@/components/core/Text';
+import useMount from '@/hooks/core/useMount';
+import { useRouterQuery } from '@/hooks/useRouterQuery';
+import { setAccessToken } from '@/net/http/interceptors/token';
+import { validateOAuth2Token } from '@/net/http/patreon';
 import { images, placeholders } from '@/utils/assets';
 
 const OAuthPage: NextPage = () => {
+  const { code, state } = useRouterQuery(['code', 'state']);
+  useMount(async () => {
+    console.log('!!! oauth change ', `${code} | ${state}`);
+    setAccessToken(state);
+
+    await validateOAuth2Token({ code });
+  });
+
   return (
     <Center
       width="100%"
