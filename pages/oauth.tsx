@@ -1,76 +1,55 @@
 import { NextPage } from 'next';
+import { useMemo, useState } from 'react';
 
-import { Center, Column } from '@/components/core/Flex';
-import { Image } from '@/components/core/Image';
 import { Text } from '@/components/core/Text';
+import { InfoFrame } from '@/components/not-in-oc';
 import useMount from '@/hooks/core/useMount';
 import { useRouterQuery } from '@/hooks/useRouterQuery';
 import { setAuthTokens } from '@/net/http/interceptors/token';
 import { validateOAuth2Token } from '@/net/http/patreon';
-import { images, placeholders } from '@/utils/assets';
+import { placeholders } from '@/utils/assets';
 
 const OAuthPage: NextPage = () => {
-  const { code, state } = useRouterQuery(['code', 'state']);
-  useMount(async () => {
-    console.log('!!! oauth change ', `${code} | ${state}`);
-    if (code && state) {
-      setAuthTokens({ accessToken: state });
+  const [loading, setLoading] = useState(true);
 
-      await validateOAuth2Token({ code });
+  const { title, content } = useMemo(() => {
+    const _title = loading ? 'Validating...' : 'Connected';
+    const _content = loading
+      ? 'We are validating your request, please wait a moment.'
+      : 'You can now close this window and return to Opencord to continue.';
+
+    return { title: _title, content: _content };
+  }, [loading]);
+
+  const { code, state } = useRouterQuery(['code', 'state']);
+
+  useMount(async () => {
+    setLoading(true);
+    try {
+      console.log('!!! oauth change ', `${code} | ${state}`);
+      if (code && state) {
+        setAuthTokens({ accessToken: state });
+
+        await validateOAuth2Token({ code });
+      }
+    } catch (error) {
+      //
+    } finally {
+      setLoading(false);
     }
   });
 
   return (
-    <Center
-      width="100%"
-      height="100vh"
-      transform="rotate(180deg)"
-      backgroundRepeat="no-repeat"
-      backgroundImage={`url("${images('bg-logo.svg')}")`}
-      backgroundPosition="100% 100%"
-      backgroundSize="625px 528px"
-    >
-      <Center
-        width="100%"
-        height="100vh"
-        transform="rotate(180deg)"
-        backgroundRepeat="no-repeat"
-        backgroundImage={`url("${images('bg-logo.svg')}")`}
-        backgroundPosition="100% 100%"
-        backgroundSize="625px 528px"
+    <InfoFrame title={title} bannerImg={placeholders('ok.svg')}>
+      <Text
+        fontSize={'16px'}
+        lineHeight="20px"
+        fontWeight={'400'}
+        color={'rgba(255, 255, 255, 0.6)'}
       >
-        <Column
-          maxWidth="550px"
-          borderRadius="12px"
-          background="#333333"
-          boxShadow="0px 0px 8px rgba(0, 0, 0, 0.15)"
-          padding="30px 40px 60px 40px"
-        >
-          <Image
-            src={placeholders('ok.svg')}
-            width="260px"
-            height="160px"
-            marginBottom="10px"
-          />
-          <Text
-            fontSize={'32px'}
-            lineHeight="40px"
-            fontWeight={'700'}
-            margin={'10px'}
-          >
-            Connected
-          </Text>
-          <Text
-            fontSize={'16px'}
-            lineHeight="20px"
-            fontWeight={'400'}
-            color={'rgba(255, 255, 255, 0.6)'}
-          >
-            You can now close this window and return to Opencord to continue.
-          </Text>
-        </Column>
-      </Center>
-    </Center>
+        {content}
+      </Text>
+    </InfoFrame>
   );
 };
 
