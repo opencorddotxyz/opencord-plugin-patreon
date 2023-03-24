@@ -8,17 +8,21 @@ import { useRouterQuery } from '@/hooks/useRouterQuery';
 import { setAuthTokens } from '@/net/http/interceptors/token';
 import { validateOAuth2Token } from '@/net/http/patreon';
 import { placeholders } from '@/utils/assets';
+import { delay } from '@/utils/core/base';
 
 const OAuthPage: NextPage = () => {
   const [loading, setLoading] = useState(true);
 
-  const { title, content } = useMemo(() => {
+  const { title, content, bannerImg } = useMemo(() => {
     const _title = loading ? 'Validating...' : 'Connected';
     const _content = loading
-      ? 'We are validating your request, please wait a moment.'
+      ? 'We are validating your request, please wait a moment get result.'
       : 'You can now close this window and return to Opencord to continue.';
+    const _bannerImg = loading
+      ? placeholders('error.svg')
+      : placeholders('ok.svg');
 
-    return { title: _title, content: _content };
+    return { title: _title, content: _content, bannerImg: _bannerImg };
   }, [loading]);
 
   const { code, state } = useRouterQuery(['code', 'state']);
@@ -26,6 +30,7 @@ const OAuthPage: NextPage = () => {
   useMount(async () => {
     setLoading(true);
     try {
+      await delay(200);
       console.log('!!! oauth change ', `${code} | ${state}`);
       if (code && state) {
         setAuthTokens({ accessToken: state });
@@ -40,7 +45,7 @@ const OAuthPage: NextPage = () => {
   });
 
   return (
-    <InfoFrame title={title} bannerImg={placeholders('ok.svg')}>
+    <InfoFrame title={title} bannerImg={bannerImg}>
       <Text
         fontSize={'16px'}
         lineHeight="20px"
