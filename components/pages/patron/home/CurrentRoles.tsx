@@ -9,6 +9,7 @@ export const CurrentRoles = (props: {
   nft: { image: string };
 }) => {
   const { roles, nft } = props;
+
   return (
     <>
       <Column

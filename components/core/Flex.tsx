@@ -38,6 +38,7 @@ export const Column = forwardRef((props: BoxProps, ref: any) => {
 
 export const Expand = forwardRef((props: BoxProps, ref: any) => {
   const newProps = { flex: 1, display: 'flex', ...(props as any) };
+
   return (
     <Box ref={ref} {...newProps}>
       {props?.children}

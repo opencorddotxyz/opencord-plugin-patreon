@@ -11,6 +11,7 @@ export const MintSuccess = (props: {
   creator: string;
 }) => {
   const { roles, nft, creator } = props;
+
   return (
     <>
       <Column

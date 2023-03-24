@@ -15,12 +15,14 @@ const IndexPage: NextPage = () => {
   useEffect(() => {
     if (isInited && !isInOpencord) {
       router.replace('/not-in-oc');
+
       return;
     }
 
     if (isInitFailed) {
       // todo init failed
       router.replace('/not-in-oc');
+
       return;
     }
 
@@ -32,20 +34,25 @@ const IndexPage: NextPage = () => {
     if (manageable) {
       if (!connected) {
         router.replace('/creator/not-connect');
+
         return;
       }
       router.replace('/creator');
+
       return;
     } else {
       if (!setup) {
         router.replace('/patron/not-setup');
+
         return;
       }
       if (!connected) {
         router.replace('/patron/not-connect');
+
         return;
       }
       router.replace('/patron');
+
       return;
     }
   }, [

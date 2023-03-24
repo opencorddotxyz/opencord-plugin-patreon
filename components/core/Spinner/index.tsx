@@ -41,5 +41,6 @@ export const Spinner = (props?: SpinnerProps) => {
     }, delay);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return inited ? <div {...boxProps} /> : <div />;
 };

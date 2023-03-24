@@ -23,6 +23,7 @@ export const hideToast = () => {
 export const Toast = () => {
   const [text] = useStore(kShowToast);
   const show = isNotEmpty(text);
+
   return show ? (
     <Center
       width="100vw"

@@ -21,12 +21,25 @@ export const mockPatreonDataSets: PatreonInfo = {
         'Přístup na Discord. Otevření místností se všemi ekosystémy, airdropy, farmařením, kam si můžete přijít pro radu. Zavřené zůstavají sekce jako AirdropHunting a podobně',
       image:
         'https://c10.patreonusercontent.com/4/patreon-media/p/reward/8288842/ee4477cd232d42178e346a89be04ec71/eyJ3Ijo0MDB9/1.png?token-time=2145916800&token-hash=ey2dDHB666569dmXQwRcA7xkgc8ZmKFvBskXbr3wAzU%3D',
-      id: '111',
+      id: 'out-111',
       roles: [
         {
-          id: '111',
-          name: 'Člen komunity',
+          id: 'r-111',
+          name: 'admin',
           color: '#226ce1',
+          selected: false,
+        },
+        {
+          id: 'r-222',
+          name: 'rd',
+          color: 'red',
+          selected: true,
+        },
+        {
+          id: 'r-333',
+          name: 'bd',
+          color: 'blue',
+          selected: false,
         },
       ],
     },
@@ -41,9 +54,16 @@ export const mockPatreonDataSets: PatreonInfo = {
       id: '111',
       roles: [
         {
-          id: '111',
-          name: 'Člen komunity',
+          id: 'r-111',
+          name: 'admin',
           color: '#226ce1',
+          selected: true,
+        },
+        {
+          id: 'r-222',
+          name: 'owner',
+          color: 'red',
+          selected: true,
         },
       ],
     },
@@ -54,7 +74,14 @@ export const mockPatreonDataSets: PatreonInfo = {
       image:
         'https://c10.patreonusercontent.com/4/patreon-media/p/reward/5971374/7aaa5c0ed4334d7ab536abebf80741bd/eyJ3Ijo0MDB9/1.png?token-time=2145916800&token-hash=xyUocOxATS5yMtYKfvQcKHv8CS9FDBGq1qcR3HJPhnQ%3D',
       id: '222',
-      roles: [{ id: '222', name: 'Fanoušek', color: '#f77a6d' }],
+      roles: [
+        {
+          id: '222',
+          name: 'Fanoušek',
+          color: '#f77a6d',
+          selected: true,
+        },
+      ],
     },
     {
       name: 'KryptoBlázen',
@@ -63,7 +90,32 @@ export const mockPatreonDataSets: PatreonInfo = {
       image:
         'https://c10.patreonusercontent.com/4/patreon-media/p/reward/5971375/e896ec5e508746e4962cbc4afbed93f8/eyJ3Ijo0MDB9/1.png?token-time=2145916800&token-hash=3jWLUC5cNN1a8TuUSlKSGdZGzLAAE6fUCnwfKOBM2vk%3D',
       id: '333',
-      roles: [{ id: '333', name: 'KryptoBlázen', color: '#8086a8' }],
+      roles: [
+        {
+          id: '333',
+          name: 'KryptoBlázen',
+          color: '#8086a8',
+          selected: true,
+        },
+        {
+          id: 'r-111',
+          name: 'admin',
+          color: '#226ce1',
+          selected: true,
+        },
+        {
+          id: 'r-222',
+          name: 'owner',
+          color: 'red',
+          selected: false,
+        },
+        {
+          id: 'r-333',
+          name: 'everyone',
+          color: 'blue',
+          selected: false,
+        },
+      ],
     },
   ],
 };

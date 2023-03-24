@@ -36,6 +36,7 @@ export const useEditCreatorInfo = (dataSets?: PatreonInfo) => {
     info.creator.intro = info.creator.intro.trim();
     if (isEmpty(info.creator.name)) {
       showToast('Name cannot be empty.');
+
       return;
     }
     setSaving(true);
@@ -58,9 +59,11 @@ export const useEditCreatorInfo = (dataSets?: PatreonInfo) => {
       if (!currentLevel) {
         return {};
       }
+
       for (const [key, value] of Object.entries(level)) {
         currentLevel[key] = value;
       }
+
       return {
         levels: [...dataSets.levels],
       };
@@ -73,6 +76,7 @@ export const useEditCreatorInfo = (dataSets?: PatreonInfo) => {
     if (success) {
       setLevelInfo(level);
     }
+
     return success;
   };
 
@@ -84,6 +88,7 @@ export const useEditCreatorInfo = (dataSets?: PatreonInfo) => {
         return {};
       }
       currentLevel.roles = roles;
+
       return {
         levels: [...dataSets.levels],
       };
@@ -99,14 +104,18 @@ export const useEditCreatorInfo = (dataSets?: PatreonInfo) => {
     if (success) {
       setLevelRoles(level, roles);
     }
+
     return success;
   };
 
   const setDeletedOutdatedLevel = (level: MembershipLevel) => {
     setCreatorInfo((dataSets) => {
       if (!dataSets) return {};
+
       return {
-        outdatedLevels: dataSets.outdatedLevels.filter((e) => e.id !== level.id),
+        outdatedLevels: dataSets.outdatedLevels.filter(
+          (e) => e.id !== level.id,
+        ),
       };
     });
   };
@@ -119,6 +128,7 @@ export const useEditCreatorInfo = (dataSets?: PatreonInfo) => {
     if (success) {
       setDeletedOutdatedLevel(level);
     }
+
     return success;
   };
 
@@ -135,6 +145,7 @@ export const useEditCreatorInfo = (dataSets?: PatreonInfo) => {
     setAvatar: (avatar: string) => {
       setCreatorInfo((dataSets) => {
         if (!dataSets) return {};
+
         return {
           creator: {
             ...dataSets.creator,
@@ -147,6 +158,7 @@ export const useEditCreatorInfo = (dataSets?: PatreonInfo) => {
     setName: (text: string) => {
       setCreatorInfo((dataSets) => {
         if (!dataSets) return {};
+
         return {
           creator: {
             ...dataSets.creator,
@@ -159,6 +171,7 @@ export const useEditCreatorInfo = (dataSets?: PatreonInfo) => {
     setDescription: (text: string) => {
       setCreatorInfo((dataSets) => {
         if (!dataSets) return {};
+
         return {
           creator: {
             ...dataSets.creator,

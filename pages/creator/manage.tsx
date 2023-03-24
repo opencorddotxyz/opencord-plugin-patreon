@@ -1,3 +1,6 @@
+import { isEmpty } from 'lodash';
+import { useState } from 'react';
+
 import { Box } from '@/components/core/Box';
 import { Center, Column } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
@@ -8,18 +11,24 @@ import {
   EditLevelDialog,
   openEditLevelDialog,
 } from '@/components/Dialogs/EditLevelDialog';
+import { showToast } from '@/components/Dialogs/Toast';
 import { MembershipLevelItemEditable } from '@/components/MembershipLevels/MembershipLevelItem';
 import {
   MembershipLevelsHeaderEditable,
   MembershipLevelsOutdatedHeader,
 } from '@/components/MembershipLevels/MembershipLevelsHeader';
+import { SelectImage } from '@/components/select-image';
 import { useEditCreatorInfo } from '@/hooks/useEditCreatorInfo';
 import { usePatreonInfo } from '@/hooks/usePatreonInfo';
+import { mockPatreonDataSets } from '@/net/http/mock';
 import { Role } from '@/net/http/patreonComponents';
 import { isNotEqual } from '@/utils/core/diff';
+import { ImageType, uploadFiles } from '@/utils/files';
 
 const CreatorManagerPage = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data, loading } = usePatreonInfo();
+
   const {
     saveLevelInfo,
     linkRoles,
@@ -30,16 +39,18 @@ const CreatorManagerPage = () => {
     saveCreatorInfo,
     dataSets: patreonInfo,
     avatar,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     setAvatar,
     name,
     setName,
     description,
     setDescription,
-  } = useEditCreatorInfo(data);
+  } = useEditCreatorInfo(mockPatreonDataSets);
 
   const levels = patreonInfo?.levels ?? [];
   const levelsOutdated = patreonInfo?.outdatedLevels ?? [];
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [uploadImageLoading, setUploadImageLoading] = useState(false);
 
   const _body = (
     <>
@@ -83,12 +94,50 @@ const CreatorManagerPage = () => {
           >
             Avatar
           </Text>
-          <Image
-            src={avatar}
-            size="64px"
-            borderRadius={'50%'}
-            marginBottom="10px"
-          />
+          <SelectImage
+            selectChange={async (files) => {
+              if (files === null || files === undefined) {
+                return;
+              }
+              if (loading) {
+                return;
+              }
+              try {
+                setUploadImageLoading(true);
+                const result = await uploadFiles(files, {
+                  type: ImageType.AVATAR,
+                });
+
+                if (!isEmpty(result)) {
+                  const imageInfo = result?.[0];
+                  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                  const { localPath = '', uploadedUrl = '' } = imageInfo ?? {};
+                  setAvatar(uploadedUrl);
+
+                  const updateUserResult: {
+                    code: number;
+                    message: string;
+                  } = (await saveCreatorInfo()) as any;
+                  if (updateUserResult.code) {
+                    if (updateUserResult.code === 2000) {
+                      showToast(updateUserResult.message);
+                    }
+
+                    return;
+                  }
+                }
+              } finally {
+                setUploadImageLoading(false);
+              }
+            }}
+          >
+            <Image
+              src={avatar}
+              size="64px"
+              borderRadius={'50%'}
+              marginBottom="10px"
+            />
+          </SelectImage>
           <Text
             color="rgba(255, 255, 255,1)"
             fontSize={'14px'}
@@ -179,6 +228,7 @@ const CreatorManagerPage = () => {
                     if (isNotEqual(level, newLevel)) {
                       return await saveLevelInfo(newLevel);
                     }
+
                     return true;
                   },
                 });

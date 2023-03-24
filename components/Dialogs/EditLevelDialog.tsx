@@ -45,6 +45,7 @@ export const EditLevelDialog = () => {
     level.intro = level.intro.trim();
     if (isEmpty(level.name)) {
       showToast('Name cannot be empty.');
+
       return;
     }
     setSaving(true);

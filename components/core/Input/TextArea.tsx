@@ -39,6 +39,7 @@ export const TextArea = forwardRef(
       if (inputRef.current.value === '\n') {
         inputRef.current.value = '';
         inputRef.current.style.height = 'auto';
+
         return;
       }
       inputRef.current.style.height = 'auto';
@@ -51,6 +52,7 @@ export const TextArea = forwardRef(
       const timer = setInterval(() => {
         updateInputHeight();
       }, 100);
+
       return clearInterval(timer);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);

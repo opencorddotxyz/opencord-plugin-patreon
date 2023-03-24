@@ -24,6 +24,7 @@ export const setHomeStates = (
 export const useHomeStates = (): GetHomepageResponse | undefined => {
   const [_homeStates] = useStore<GetHomepageResponse>(kHomeStatesKey);
   const homeStates = getHomeStates();
+
   return homeStates;
 };
 
@@ -48,6 +49,7 @@ export const useAPP = () => {
         return;
       }
       setHomeStates(() => homeResponse.data);
+
       return;
     }
     // auto login
@@ -62,6 +64,7 @@ export const useAPP = () => {
     setAuthToken(token);
     setHomeStates(() => homeData);
   }, [currentUser, _isLoggedIn]);
+
   return {
     isInited,
     isInitFailed,

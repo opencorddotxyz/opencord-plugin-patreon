@@ -6,6 +6,7 @@ import { openNewTab } from '@/utils/location';
 
 export const NotEligible = (props: { name: string; link: string }) => {
   const { name, link } = props;
+
   return (
     <>
       <Column

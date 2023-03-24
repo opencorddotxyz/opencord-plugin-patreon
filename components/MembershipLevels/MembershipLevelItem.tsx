@@ -1,3 +1,6 @@
+import { useMemo } from 'react';
+import { Item, Menu } from 'react-contexify';
+
 import { Box } from '@/components/core/Box';
 import { Center, Expand, Row } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
@@ -7,12 +10,15 @@ import { CssOpacity, GlobalBgColor, TextDP } from '@/styles/constant';
 import { icons } from '@/utils/assets';
 import { hexWithOpacity } from '@/utils/core/format';
 
+import { Radio } from '../core/select-icon';
+import { MenuButton } from '../menu/menu-button';
 import styles from './style.module.css';
 
 export const MembershipLevelItem = (props: MembershipLevel) => {
-  const { image, name, intro = '-', roles = [] } = props;
+  const { id, image, name, intro = '-', roles = [] } = props;
   const role = roles[0];
   const { name: roleName, color: roleColor = 'transparent' } = role ?? {};
+
   return (
     <>
       <Row
@@ -43,30 +49,49 @@ export const MembershipLevelItem = (props: MembershipLevel) => {
           lineHeight="18px"
           fontWeight={'600'}
         >
+          <Menu id={id} theme="dark">
+            {roles.map((val) => {
+              return (
+                <Item
+                  key={val.id}
+                  id={val.id}
+                  onClick={(e) => {
+                    // todo
+                    console.log('!!!', e);
+                  }}
+                >
+                  <Box width="100%">{val.name}</Box>
+                </Item>
+              );
+            })}
+          </Menu>
+
           {roles.length > 0 ? (
-            <>
-              <Box
-                size="12px"
-                minWidth="12px"
-                borderRadius="50%"
-                background={roleColor}
-                marginRight="4px"
-              />
-              <Text
-                textDecorationLine="underline"
-                color={hexWithOpacity('#ffffff', TextDP.DP3)}
-                maxLines={1}
-                textAlign="end"
-              >
-                @{roleName}
-              </Text>
-              <Image
-                opacity={CssOpacity.Icon}
-                src={icons('rightArrow.svg')}
-                size="18px"
-                marginLeft="10px"
-              />
-            </>
+            <MenuButton menuId={id}>
+              <>
+                <Box
+                  size="12px"
+                  minWidth="12px"
+                  borderRadius="50%"
+                  background={roleColor}
+                  marginRight="4px"
+                />
+                <Text
+                  textDecorationLine="underline"
+                  color={hexWithOpacity('#ffffff', TextDP.DP3)}
+                  maxLines={1}
+                  textAlign="end"
+                >
+                  @{roleName}
+                </Text>
+                <Image
+                  opacity={CssOpacity.Icon}
+                  src={icons('rightArrow.svg')}
+                  size="18px"
+                  marginLeft="10px"
+                />
+              </>
+            </MenuButton>
           ) : (
             <Text>-</Text>
           )}
@@ -96,9 +121,21 @@ export const MembershipLevelItemEditable = (props: {
     onLinkRole,
     onEditLevel,
   } = props;
-  const { image, name, intro = '-', roles = [] } = level;
-  const role = roles[0];
+  const { image, name, intro = '-', roles = [], id } = level;
+  const role = useMemo(() => {
+    const firstIdx = roles.findIndex((role) => {
+      return !!role.selected;
+    });
+
+    if (firstIdx !== -1) {
+      return roles[firstIdx];
+    } else {
+      return roles[0];
+    }
+  }, [roles]);
+
   const { name: roleName, color: roleColor = 'transparent' } = role ?? {};
+
   return (
     <Row
       width="100%"
@@ -170,24 +207,76 @@ export const MembershipLevelItemEditable = (props: {
         fontWeight={'600'}
       >
         {role ? (
-          <>
-            <Box
-              size="12px"
-              minWidth="12px"
-              borderRadius="50%"
-              background={roleColor}
-              marginRight="4px"
-            />
-            <Text
-              maxLines={1}
-              textAlign="end"
-              color={
-                isDelete ? 'rgba(255,255,255,0.5)' : 'rgba(255, 255, 255, 1)'
-              }
-            >
-              @{roleName}
-            </Text>
-          </>
+          isDelete ? (
+            <Row>
+              <Box
+                size="12px"
+                minWidth="12px"
+                borderRadius="50%"
+                background={roleColor}
+                marginRight="4px"
+              />
+              <Text
+                maxLines={1}
+                textAlign="end"
+                color={
+                  isDelete ? 'rgba(255,255,255,0.5)' : 'rgba(255, 255, 255, 1)'
+                }
+              >
+                @{roleName}
+              </Text>
+            </Row>
+          ) : (
+            <MenuButton menuId={id}>
+              <Menu id={id} theme="oc-menu">
+                {roles.map((val) => {
+                  return (
+                    <Item
+                      key={val.id}
+                      id={val.id}
+                      data={undefined}
+                      onClick={({ data, id }) => {
+                        data;
+                        id;
+                      }}
+                    >
+                      <Row width="100%">
+                        {val.name}
+                        <Expand />
+                        <Radio isChecked={!!val.selected} />
+                      </Row>
+                    </Item>
+                  );
+                })}
+              </Menu>
+              <Row>
+                <Box
+                  size="12px"
+                  minWidth="12px"
+                  borderRadius="50%"
+                  background={roleColor}
+                  marginRight="4px"
+                />
+                <Text
+                  maxLines={1}
+                  textAlign="end"
+                  color={
+                    isDelete
+                      ? 'rgba(255,255,255,0.5)'
+                      : 'rgba(255, 255, 255, 1)'
+                  }
+                >
+                  @{roleName}
+                </Text>
+                <Image
+                  src={icons('right-arrow.svg')}
+                  size="18px"
+                  marginLeft="10px"
+                  opacity={CssOpacity.Icon}
+                />
+              </Row>
+            </MenuButton>
+          )
         ) : (
           <Text
             userSelect="none"
