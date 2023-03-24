@@ -1,14 +1,14 @@
 import { NextPage } from 'next';
 
-// import { StateType } from '@/constants/store';
+import { StateType } from '@/constants/store';
 import { useAsync } from '@/hooks/core/useAsync';
+import { useStore } from '@/utils/store/useStore';
 
-// import { useStore } from '@/utils/store/useStore';
 import CreatorManagerPage from './manage';
 import CreatorNotConnectPage from './not-connect';
 
 const useCreatorPage = () => {
-  // const [beenSet] = useStore(StateType.BEEN_SET);
+  const [beenSet] = useStore(StateType.BEEN_SET);
 
   // page info
   const {
@@ -27,7 +27,7 @@ const useCreatorPage = () => {
   );
 
   return {
-    beenSet: true,
+    beenSet,
     fetchUserInfo,
     userInfo: {
       link: 'https://patreon.com',

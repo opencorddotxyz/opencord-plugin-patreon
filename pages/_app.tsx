@@ -11,8 +11,8 @@ import { memo, useEffect } from 'react';
 import { Toast } from '@/components/Dialogs/Toast';
 import { StateType } from '@/constants/store';
 import useAsyncEffect from '@/hooks/core/useAsyncEffect';
-import { login } from '@/net/http/_mock';
 import { setAccessToken } from '@/net/http/interceptors/token';
+import { login } from '@/net/http/patreon';
 import ocClient from '@/utils/opencord-client';
 import { store, useProvider, useStore } from '@/utils/store/useStore';
 
@@ -32,16 +32,14 @@ export default function App({ Component, pageProps, router }: AppProps) {
     console.info('!!! plugin debug: ocClient response = ', response);
 
     if (response.code === -32002) {
-      // return store.set(StateType.IN_OPENCORD, false);
+      return store.set(StateType.IN_OPENCORD, false);
     } else {
       store.set(StateType.IN_OPENCORD, true);
     }
 
-    return;
-    // eslint-disable-next-line no-constant-condition
-    if ('response.data?.code') {
+    if (response.data?.code) {
       try {
-        const loginResponse = await login({ code: 'response.data.code' });
+        const loginResponse = await login({ code: response.data.code });
         console.info('!!! plugin debug: login response = ', loginResponse);
         const { data } = loginResponse;
         const {
