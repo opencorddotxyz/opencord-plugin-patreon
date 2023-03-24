@@ -1,9 +1,6 @@
-import { useRouter } from 'next/router';
-
-import { getHomepage, GetHomepageResponse, login } from '@/net/http/patreon';
+import { GetHomepageResponse, login } from '@/net/http/patreon';
 import { is2XX } from '@/net/http/utils';
-import { getCurrentAuth, isLoggedIn, login as setLogin } from '@/utils/auth';
-import { isNotEqual } from '@/utils/core/diff';
+import { isLoggedIn, login as setLogin } from '@/utils/auth';
 import { store, useInit, useStore } from '@/utils/store/useStore';
 
 import { useOpencord } from './useOpencord';
@@ -33,50 +30,17 @@ export const useHomeStates = (): GetHomepageResponse | undefined => {
 
 let appLogging = false;
 export const useAPP = () => {
-  const router = useRouter();
-  const { isInited, isInOpencord, isInitFailed, currentUser, getCode } =
-    useOpencord();
+  const { isInited, isInOpencord, isInitFailed, currentUser } = useOpencord();
 
   const homeStates = useHomeStates();
 
   const _isLoggedIn = isLoggedIn();
 
   useInit(async () => {
-    if ((!_isLoggedIn && !currentUser) || homeStates || appLogging) {
+    if (!currentUser || homeStates || appLogging) {
       return;
     }
-    let code = currentUser?.code;
-    if (_isLoggedIn) {
-      // get home states
-      appLogging = true;
-      const homeResponse = await getHomepage();
-      appLogging = false;
-      if (!is2XX(homeResponse)) {
-        return;
-      }
-      const states = homeResponse.data;
-      const currentAuth = getCurrentAuth();
-      if (
-        isNotEqual(currentAuth, {
-          userId: states.userId,
-          channelId: states.channelId,
-        })
-      ) {
-        // need to relogin
-        code = await getCode();
-      } else {
-        // set current homeStates
-        setHomeStates(() => states);
-
-        return;
-      }
-    }
-    if (!code) {
-      // get login code failed
-      router.replace('/404');
-
-      return;
-    }
+    const code = currentUser?.code;
     // auto login
     appLogging = true;
     const loginResponse = await login({ code });

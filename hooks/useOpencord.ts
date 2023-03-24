@@ -2,7 +2,6 @@ import { getClient } from '@opencord/client';
 import { AuthInfo } from '@opencord/client/lib/model/opencord';
 import { useEffect, useState } from 'react';
 
-import { isLoggedIn } from '@/utils/auth';
 import { useRebuild } from '@/utils/store/useStore';
 
 type Opencord = ReturnType<typeof getClient>;
@@ -71,17 +70,11 @@ export const useOpencord = () => {
       opencordHelper.init();
       rebuild();
     }
-    setTimeout(async () => {
-      if (!isLoggedIn()) {
-        // auto getCode
-        await getCode();
-      }
-    });
+    getCode();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return {
-    getCode,
     currentUser,
     isInited: opencordHelper.inited,
     isInitFailed: opencordHelper.initFailed,
