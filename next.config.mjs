@@ -19,6 +19,7 @@ const loadEnv = () => {
       env[key] = loaded.parsed[key];
     }
   });
+
   return env;
 };
 
@@ -47,6 +48,7 @@ const nextConfig = {
         },
       },
     });
+
     return config;
   },
 };
