@@ -20,8 +20,8 @@ const IndexPage: NextPage = () => {
     }
 
     if (isInitFailed) {
-      // todo init failed
-      router.replace('/not-in-oc');
+      // init failed
+      router.replace('/404');
 
       return;
     }

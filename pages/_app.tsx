@@ -22,6 +22,7 @@ export default function App({ Component, pageProps, router }: AppProps) {
       !['/oauth', '/not-in-oc'].includes(_router.pathname)
     ) {
       _router.replace('/not-in-oc');
+
       return;
     }
   }, [isInOpencord, isInited, _router]);

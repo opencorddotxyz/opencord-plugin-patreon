@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 
 import { error, info } from '@/utils/core/log';
 
-import { applyAuthTokenInterceptor, getAuthToken } from './interceptors/token';
+import { applyAuthTokenInterceptor } from './interceptors/token';
 
 type Param = {
   [k: string]: any;
@@ -130,7 +130,5 @@ supportMethods.forEach((method) => {
     return withTransformData(url, pathParam, bodyParam, method);
   };
 });
-
-export { getAuthToken };
 
 export default client;
