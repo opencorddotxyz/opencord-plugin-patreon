@@ -228,6 +228,7 @@ const CreatorManagerPage = () => {
                     if (isNotEqual(level, newLevel)) {
                       return await saveLevelInfo(newLevel);
                     }
+
                     return true;
                   },
                 });

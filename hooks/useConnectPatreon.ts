@@ -20,5 +20,6 @@ export const useConnectPatreon = () => {
       openNewTab(getPatreonAuthUrl());
     }
   };
+
   return { connecting, connectPatreon };
 };

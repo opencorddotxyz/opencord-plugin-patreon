@@ -5,6 +5,7 @@ import { delay } from '@/utils/core/base';
 export const usePatreonInfo = () => {
   return useAsync<PatreonInfo>(async () => {
     await delay(200);
+
     return mockPatreonDataSets;
   });
 };

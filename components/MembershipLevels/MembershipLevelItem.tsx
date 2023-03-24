@@ -18,6 +18,7 @@ export const MembershipLevelItem = (props: MembershipLevel) => {
   const { id, image, name, intro = '-', roles = [] } = props;
   const role = roles[0];
   const { name: roleName, color: roleColor = 'transparent' } = role ?? {};
+
   return (
     <>
       <Row
@@ -134,6 +135,7 @@ export const MembershipLevelItemEditable = (props: {
   }, [roles]);
 
   const { name: roleName, color: roleColor = 'transparent' } = role ?? {};
+
   return (
     <Row
       width="100%"

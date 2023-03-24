@@ -52,6 +52,7 @@ export const MembershipLevelsHeaderEditable = (props: {
   refreshing: boolean;
 }) => {
   const { refresh, refreshing } = props;
+
   return (
     <>
       <Row width="100%" padding={'0 30px 20px 30px'} onClick={refresh}>

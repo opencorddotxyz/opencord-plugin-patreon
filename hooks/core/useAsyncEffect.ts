@@ -15,6 +15,7 @@ function useAsyncEffect(
   useEffect(() => {
     const e = effect();
     let cancelled = false;
+
     async function execute() {
       if (isAsyncGenerator(e)) {
         // eslint-disable-next-line no-constant-condition
@@ -29,6 +30,7 @@ function useAsyncEffect(
       }
     }
     execute();
+
     return () => {
       cancelled = true;
     };

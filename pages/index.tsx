@@ -13,14 +13,30 @@ const IndexPage: NextPage = () => {
   const { setup, manageable, connected, eligible, minted } = homeStates ?? {};
 
   useEffect(() => {
+    console.log(
+      '!!!',
+      isInited,
+      isInOpencord,
+      isInitFailed,
+      homeStates,
+      setup,
+      manageable,
+      connected,
+      eligible,
+      minted,
+      router,
+    );
+
     if (isInited && !isInOpencord) {
       router.replace('/not-in-oc');
+
       return;
     }
 
     if (isInitFailed) {
       // todo init failed
       router.replace('/not-in-oc');
+
       return;
     }
 
@@ -32,20 +48,25 @@ const IndexPage: NextPage = () => {
     if (manageable) {
       if (!connected) {
         router.replace('/creator/not-connect');
+
         return;
       }
       router.replace('/creator');
+
       return;
     } else {
       if (!setup) {
         router.replace('/patron/not-setup');
+
         return;
       }
       if (!connected) {
         router.replace('/patron/not-connect');
+
         return;
       }
       router.replace('/patron');
+
       return;
     }
   }, [

@@ -1,6 +1,6 @@
 import { format } from 'url';
 
-import { getAccessToken } from '@/net/http/client';
+import { getAuthToken } from '@/net/http/client';
 
 const scopes = [
   'identity',
@@ -10,7 +10,7 @@ const scopes = [
 ];
 
 export function getPatreonAuthUrl() {
-  const token = getAccessToken();
+  const token = getAuthToken();
 
   return format({
     protocol: 'https',

@@ -30,6 +30,7 @@ export const useAsync = <T = any>(
       setSuccess(false);
     }
     setLoading(false);
+
     return results;
   };
 

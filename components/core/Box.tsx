@@ -34,6 +34,7 @@ export const getBoxProps = (props: BoxProps) => {
     extStyle.height = size;
   }
   const className = isArray(_class) ? (_class as any)!.join(' ') : _class;
+
   return {
     id,
     onClick,
@@ -50,6 +51,7 @@ export const getBoxProps = (props: BoxProps) => {
 export const Box = forwardRef((props: BoxProps, ref: any) => {
   const { children } = props;
   const boxProps = getBoxProps(props);
+
   return (
     <div ref={ref} {...boxProps}>
       {children}
