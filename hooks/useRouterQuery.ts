@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
+import { useMemo } from 'react';
 
 import { isArray, isString } from '@/utils/core/is';
 
@@ -32,11 +33,12 @@ export const useRouterQuery = <P extends Params>(req: P): ReturnObject<P> => {
   const router = useRouter();
   const allQuery = getRouterFirstQuery(router.query);
 
-  const result = {} as ReturnObject<P>;
+  return useMemo(() => {
+    const _result = {} as ReturnObject<P>;
+    req.map((val) => {
+      _result[val] = allQuery[val] ?? '';
+    });
 
-  req.map((val) => {
-    result[val] = allQuery[val] ?? '';
-  });
-
-  return result;
+    return _result;
+  }, [allQuery, req]);
 };

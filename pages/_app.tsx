@@ -21,7 +21,7 @@ import NotInOCPage from '../components/not-in-oc';
 export default function App({ Component, pageProps, router }: AppProps) {
   useProvider(StateType.IN_OPENCORD, true);
   const [inOC] = useStore(StateType.IN_OPENCORD);
-  const currentPath = useRouter().asPath;
+  const currentPath = useRouter().pathname;
 
   useEffect(() => {
     document.body.classList.add('hide-scrollbar');
