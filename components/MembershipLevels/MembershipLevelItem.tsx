@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { Item, Menu } from 'react-contexify';
 
 import { Box } from '@/components/core/Box';
@@ -9,6 +10,7 @@ import { CssOpacity, GlobalBgColor, TextDP } from '@/styles/constant';
 import { icons } from '@/utils/assets';
 import { hexWithOpacity } from '@/utils/core/format';
 
+import { Radio } from '../core/select-icon';
 import { MenuButton } from '../menu/menu-button';
 import styles from './style.module.css';
 
@@ -54,10 +56,9 @@ export const MembershipLevelItem = (props: MembershipLevel) => {
                   id={val.id}
                   onClick={(e) => {
                     console.log('!!!', e);
-                    //
                   }}
                 >
-                  {val.name}
+                  <Box width="100%">{val.name}</Box>
                 </Item>
               );
             })}
@@ -120,7 +121,18 @@ export const MembershipLevelItemEditable = (props: {
     onEditLevel,
   } = props;
   const { image, name, intro = '-', roles = [], id } = level;
-  const role = roles[0];
+  const role = useMemo(() => {
+    const firstIdx = roles.findIndex((role) => {
+      return !!role.selected;
+    });
+
+    if (firstIdx !== -1) {
+      return roles[firstIdx];
+    } else {
+      return roles[0];
+    }
+  }, [roles]);
+
   const { name: roleName, color: roleColor = 'transparent' } = role ?? {};
   return (
     <Row
@@ -193,23 +205,7 @@ export const MembershipLevelItemEditable = (props: {
         fontWeight={'600'}
       >
         {role ? (
-          <MenuButton menuId={id}>
-            <Menu id={id} theme="oc-menu">
-              {roles.map((val) => {
-                return (
-                  <Item
-                    key={val.id}
-                    id={val.id}
-                    onClick={(e) => {
-                      console.log('!!!', e);
-                      //
-                    }}
-                  >
-                    {val.name}
-                  </Item>
-                );
-              })}
-            </Menu>
+          isDelete ? (
             <Row>
               <Box
                 size="12px"
@@ -227,14 +223,57 @@ export const MembershipLevelItemEditable = (props: {
               >
                 @{roleName}
               </Text>
-              <Image
-                src={icons('right-arrow.svg')}
-                size="18px"
-                marginLeft="10px"
-                opacity={CssOpacity.Icon}
-              />
             </Row>
-          </MenuButton>
+          ) : (
+            <MenuButton menuId={id}>
+              <Menu id={id} theme="oc-menu">
+                {roles.map((val) => {
+                  return (
+                    <Item
+                      key={val.id}
+                      id={val.id}
+                      onClick={(e) => {
+                        console.log('!!!', e);
+                        //
+                      }}
+                    >
+                      <Row width="100%">
+                        {val.name}
+                        <Expand />
+                        <Radio isChecked={!!val.selected} />
+                      </Row>
+                    </Item>
+                  );
+                })}
+              </Menu>
+              <Row>
+                <Box
+                  size="12px"
+                  minWidth="12px"
+                  borderRadius="50%"
+                  background={roleColor}
+                  marginRight="4px"
+                />
+                <Text
+                  maxLines={1}
+                  textAlign="end"
+                  color={
+                    isDelete
+                      ? 'rgba(255,255,255,0.5)'
+                      : 'rgba(255, 255, 255, 1)'
+                  }
+                >
+                  @{roleName}
+                </Text>
+                <Image
+                  src={icons('right-arrow.svg')}
+                  size="18px"
+                  marginLeft="10px"
+                  opacity={CssOpacity.Icon}
+                />
+              </Row>
+            </MenuButton>
+          )
         ) : (
           <Text
             userSelect="none"

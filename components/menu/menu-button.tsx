@@ -46,6 +46,9 @@ export const MenuButton = (props: { children: ReactNode; menuId: string }) => {
 
   return (
     <Box
+      style={{
+        userSelect: 'none',
+      }}
       onClick={(e) => {
         const { x, y, height, width } = e.currentTarget.getBoundingClientRect();
 
