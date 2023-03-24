@@ -232,9 +232,10 @@ export const MembershipLevelItemEditable = (props: {
                     <Item
                       key={val.id}
                       id={val.id}
-                      onClick={(e) => {
-                        console.log('!!!', e);
-                        //
+                      data={undefined}
+                      onClick={({ data, id }) => {
+                        data;
+                        id;
                       }}
                     >
                       <Row width="100%">
