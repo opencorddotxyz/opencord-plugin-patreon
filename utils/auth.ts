@@ -18,13 +18,13 @@ export const logout = () => {
 };
 
 export const login = (
-  props: UserAuthInfo & {
+  props: Partial<UserAuthInfo> & {
     token: string;
   },
 ) => {
   setCurrentAuth({
-    userId: props.userId,
-    channelId: props.channelId,
+    userId: props?.userId ?? '404',
+    channelId: props?.channelId ?? '404',
   });
   setAuthToken(props.token);
 };
@@ -49,4 +49,13 @@ export const getAuthToken = () => {
 
 export const setAuthToken = (token?: string): void => {
   storage.set(getAuthKey(), token);
+};
+
+const kOAuthKey = 'oauthToken';
+export const getOAuthToken = () => {
+  return storage.get(kOAuthKey);
+};
+
+export const setOAuthToken = (token?: string): void => {
+  storage.set(kOAuthKey, token);
 };

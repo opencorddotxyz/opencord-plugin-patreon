@@ -10,12 +10,12 @@ import { CssOpacity, GlobalBgColor, TextDP } from '@/styles/constant';
 import { icons } from '@/utils/assets';
 import { hexWithOpacity } from '@/utils/core/format';
 
-import { Radio } from '../core/select-icon';
-import { MenuButton } from '../menu/menu-button';
+import { Radio } from '../core/Checks';
+import { MenuButton } from '../MenuButton';
 import styles from './style.module.css';
 
 export const MembershipLevelItem = (props: MembershipLevel) => {
-  const { id, image, name, intro = '-', roles = [] } = props;
+  const { image, name, intro = '-', roles = [] } = props;
   const role = roles[0];
   const { name: roleName, color: roleColor = 'transparent' } = role ?? {};
 
@@ -49,49 +49,30 @@ export const MembershipLevelItem = (props: MembershipLevel) => {
           lineHeight="18px"
           fontWeight={'600'}
         >
-          <Menu id={id} theme="dark">
-            {roles.map((val) => {
-              return (
-                <Item
-                  key={val.id}
-                  id={val.id}
-                  onClick={(e) => {
-                    // todo
-                    console.log('!!!', e);
-                  }}
-                >
-                  <Box width="100%">{val.name}</Box>
-                </Item>
-              );
-            })}
-          </Menu>
-
           {roles.length > 0 ? (
-            <MenuButton menuId={id}>
-              <>
-                <Box
-                  size="12px"
-                  minWidth="12px"
-                  borderRadius="50%"
-                  background={roleColor}
-                  marginRight="4px"
-                />
-                <Text
-                  textDecorationLine="underline"
-                  color={hexWithOpacity('#ffffff', TextDP.DP3)}
-                  maxLines={1}
-                  textAlign="end"
-                >
-                  @{roleName}
-                </Text>
-                <Image
-                  opacity={CssOpacity.Icon}
-                  src={icons('rightArrow.svg')}
-                  size="18px"
-                  marginLeft="10px"
-                />
-              </>
-            </MenuButton>
+            <>
+              <Box
+                size="12px"
+                minWidth="12px"
+                borderRadius="50%"
+                background={roleColor}
+                marginRight="4px"
+              />
+              <Text
+                textDecorationLine="underline"
+                color={hexWithOpacity('#ffffff', TextDP.DP3)}
+                maxLines={1}
+                textAlign="end"
+              >
+                @{roleName}
+              </Text>
+              <Image
+                opacity={CssOpacity.Icon}
+                src={icons('rightArrow.svg')}
+                size="18px"
+                marginLeft="10px"
+              />
+            </>
           ) : (
             <Text>-</Text>
           )}
@@ -123,15 +104,7 @@ export const MembershipLevelItemEditable = (props: {
   } = props;
   const { image, name, intro = '-', roles = [], id } = level;
   const role = useMemo(() => {
-    const firstIdx = roles.findIndex((role) => {
-      return !!role.selected;
-    });
-
-    if (firstIdx !== -1) {
-      return roles[firstIdx];
-    } else {
-      return roles[0];
-    }
+    return roles.find((e) => e.selected) ?? roles[0];
   }, [roles]);
 
   const { name: roleName, color: roleColor = 'transparent' } = role ?? {};

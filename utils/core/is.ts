@@ -20,6 +20,7 @@ export function isNotNullish(e: unknown): boolean {
 
 export function isEmpty(e: any): boolean {
   if (e?.size ?? 0 > 0) return false;
+
   return (
     isNaN(e) ||
     isNullish(e) ||
@@ -48,6 +49,7 @@ export function isStringNumber(e: any): boolean {
 export function isIntString(e: any): boolean {
   if (!isString(e)) return false;
   const number = Number(e);
+
   return !isNaN(number) && Number.isInteger(number);
 }
 

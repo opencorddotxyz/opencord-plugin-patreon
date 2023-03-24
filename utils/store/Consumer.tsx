@@ -13,5 +13,6 @@ export const Consumer = (props: {
     currentData: () => children(_store),
     immediately: true,
   });
+
   return memoFilterRef.current.data;
 };

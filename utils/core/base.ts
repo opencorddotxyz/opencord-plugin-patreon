@@ -19,6 +19,7 @@ export const randomInt = (min: number, max?: number) => {
     max = min;
     min = 0;
   }
+
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
@@ -30,6 +31,7 @@ export const range = (start: number, end?: number) => {
     end = start;
     start = 0;
   }
+
   return Array.from({ length: end - start }, (_, index) => start + index);
 };
 
@@ -53,6 +55,7 @@ export const toFixed = (n: number, fractionDigits = 2) => {
   if (s[s.length - 1] === '.') {
     s = s.substring(0, s.length - 1);
   }
+
   return s;
 };
 
@@ -67,8 +70,10 @@ export const toSet = <T = any>(datas: T[], byKey?: (e: T) => any) => {
         keys[key] = true;
       }
     });
+
     return newDatas;
   }
+
   return Array.from(new Set(datas));
 };
 

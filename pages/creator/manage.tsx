@@ -1,4 +1,3 @@
-import { isEmpty } from 'lodash';
 import { useState } from 'react';
 
 import { Box } from '@/components/core/Box';
@@ -23,6 +22,7 @@ import { usePatreonInfo } from '@/hooks/usePatreonInfo';
 import { mockPatreonDataSets } from '@/net/http/mock';
 import { Role } from '@/net/http/patreonComponents';
 import { isNotEqual } from '@/utils/core/diff';
+import { isEmpty } from '@/utils/core/is';
 import { ImageType, uploadFiles } from '@/utils/files';
 
 const CreatorManagerPage = () => {

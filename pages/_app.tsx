@@ -9,33 +9,87 @@ import { useRouter } from 'next/router';
 import { memo, useEffect } from 'react';
 
 import { Toast } from '@/components/Dialogs/Toast';
-import { useOpencord } from '@/hooks/useOpencord';
+import { useAPP } from '@/hooks/useAPP';
 
-export default function App({ Component, pageProps, router }: AppProps) {
-  const _router = useRouter();
-  const { isInOpencord, isInited } = useOpencord();
+export default function App({
+  Component,
+  pageProps,
+  router: _router,
+}: AppProps) {
+  useEffect(() => {
+    document.body.classList.add('hide-scrollbar');
+  }, []);
+
+  const router = useRouter();
+
+  const { homeStates, isInOpencord, isInitFailed, isInited } = useAPP();
+  const { setup, manageable, connected, eligible, minted } = homeStates ?? {};
 
   useEffect(() => {
     if (
       isInited &&
       !isInOpencord &&
-      !['/oauth', '/not-in-oc'].includes(_router.pathname)
+      !['/oauth', '/404', '/not-in-oc'].includes(router.pathname)
     ) {
-      _router.replace('/not-in-oc');
+      router.replace('/not-in-oc');
 
       return;
     }
-  }, [isInOpencord, isInited, _router]);
 
-  useEffect(() => {
-    document.body.classList.add('hide-scrollbar');
-  }, []);
+    if (isInOpencord && isInitFailed) {
+      // init failed
+      router.replace('/404');
+
+      return;
+    }
+
+    if (!homeStates) {
+      // not inited yet
+      return;
+    }
+
+    if (manageable) {
+      if (!connected) {
+        router.replace('/creator/not-connect');
+
+        return;
+      }
+      router.replace('/creator');
+
+      return;
+    } else {
+      if (!setup) {
+        router.replace('/patron/not-setup');
+
+        return;
+      }
+      if (!connected) {
+        router.replace('/patron/not-connect');
+
+        return;
+      }
+      router.replace('/patron');
+
+      return;
+    }
+  }, [
+    isInited,
+    isInOpencord,
+    isInitFailed,
+    homeStates,
+    setup,
+    manageable,
+    connected,
+    eligible,
+    minted,
+    router,
+  ]);
 
   return (
     <>
       <Header />
       <Toast />
-      <Component {...pageProps} key={router.route} />
+      <Component {...pageProps} key={_router.route} />
     </>
   );
 }

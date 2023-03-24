@@ -66,6 +66,7 @@ function diff(
         diffs,
         nestedDiffs.map((difference) => {
           difference.path.unshift(path);
+
           return difference;
         }),
       );
@@ -87,6 +88,7 @@ function diff(
   }
 
   const isNewObjArray = Array.isArray(newObj);
+
   for (const key in newObj) {
     if (!(key in obj)) {
       diffs.push({
@@ -96,5 +98,6 @@ function diff(
       });
     }
   }
+
   return diffs;
 }

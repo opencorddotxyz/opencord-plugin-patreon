@@ -32,7 +32,7 @@ export const InfoFrame = (props: {
         backgroundSize="625px 528px"
       >
         <Column
-          maxWidth="550px"
+          width="560px"
           borderRadius="12px"
           background="#333333"
           boxShadow="0px 0px 8px rgba(0, 0, 0, 0.15)"

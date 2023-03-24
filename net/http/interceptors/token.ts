@@ -1,6 +1,11 @@
 import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 
-import { getAuthToken, logout, setAuthToken } from '@/utils/auth';
+import {
+  getAuthToken,
+  getOAuthToken,
+  logout,
+  setAuthToken,
+} from '@/utils/auth';
 
 export const applyAuthTokenInterceptor = (axios: AxiosInstance): void => {
   if (!axios.interceptors) {
@@ -18,7 +23,8 @@ const authTokenRequestInterceptor = ({
   return async (
     requestConfig: AxiosRequestConfig,
   ): Promise<AxiosRequestConfig> => {
-    const authToken = getAuthToken();
+    const isOauth = (requestConfig.url ?? '').endsWith('/oauth2/token');
+    const authToken = isOauth ? getOAuthToken() : getAuthToken();
     if (authToken && requestConfig.headers) {
       requestConfig.headers[header] = `${headerPrefix}${authToken}`;
     }
