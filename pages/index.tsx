@@ -13,20 +13,6 @@ const IndexPage: NextPage = () => {
   const { setup, manageable, connected, eligible, minted } = homeStates ?? {};
 
   useEffect(() => {
-    console.log(
-      '!!!',
-      isInited,
-      isInOpencord,
-      isInitFailed,
-      homeStates,
-      setup,
-      manageable,
-      connected,
-      eligible,
-      minted,
-      router,
-    );
-
     if (isInited && !isInOpencord) {
       router.replace('/not-in-oc');
 
