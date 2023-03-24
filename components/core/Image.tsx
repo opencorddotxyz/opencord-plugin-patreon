@@ -7,7 +7,7 @@ import { isEmpty } from '@/utils/core/is';
 import { BoxProps, getBoxProps } from './Box';
 import { Center } from './Flex';
 
-interface ImageProps extends BoxProps {
+export interface ImageProps extends BoxProps {
   src?: string;
   alt?: string;
   onLoad?: ReactNode;
