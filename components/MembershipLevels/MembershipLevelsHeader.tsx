@@ -101,7 +101,7 @@ export const MembershipLevelsHeaderEditable = (props: {
         </Expand>
         <Expand>
           <Row width="100%" justifyContent="end">
-            <Text>Assgined Role</Text>
+            <Text>Assigned Role</Text>
           </Row>
         </Expand>
       </Row>

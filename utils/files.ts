@@ -11,11 +11,8 @@ import { isEmpty, isNotEmpty } from './core/is';
 const cachedUploadedImages = new Map<string, string>();
 
 export enum ImageType {
-  AVATAR = 1,
-  LOGO = 2,
-  BANNER = 3,
-  ATTACHMENT = 4,
-  USER_BANNER = 5,
+  'AVATAR' = 1,
+  'NFT' = 2,
 }
 export enum OwnerType {
   USER = 1,
@@ -39,8 +36,6 @@ export const getLocalFilePath = (file: File) => {
 
 interface UploadFileOptions {
   type: ImageType;
-  ownerId: string;
-  ownerType: OwnerType;
   statusCallback?: (index: number, status: UploadStatus) => void;
   indexOffset?: number;
 }
@@ -80,8 +75,6 @@ export async function uploadImage(
         type: options.type,
         contentType: processedFile.type,
         contentLength: processedFile.size,
-        ownerId: options.ownerId,
-        ownerType: options.ownerType,
       },
     ],
   });
@@ -120,15 +113,11 @@ export async function uploadImage(
 export async function uploadFile(
   files: FileList | File[],
   type: ImageType,
-  ownerId: string,
-  ownerType: OwnerType,
   statusCallback?: (index: number, status: number) => void,
   indexOffset = 0,
 ) {
   const results = await uploadFiles(files, {
     type,
-    ownerId,
-    ownerType,
     statusCallback,
     indexOffset,
   });
@@ -204,8 +193,6 @@ export async function uploadFiles(
         type: options.type,
         contentType: file.type,
         contentLength: file.size,
-        ownerId: options.ownerId,
-        ownerType: options.ownerType,
       });
       // callback start upload
 

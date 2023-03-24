@@ -42,11 +42,12 @@ export const MenuButton = (props: { children: ReactNode; menuId: string }) => {
   const { show } = useContextMenu({
     id: props.menuId,
   });
+  const menuDefaultWidth = 220;
 
   return (
     <Box
       onClick={(e) => {
-        const { x, y, height } = e.currentTarget.getBoundingClientRect();
+        const { x, y, height, width } = e.currentTarget.getBoundingClientRect();
 
         show({
           event: e,
@@ -55,7 +56,7 @@ export const MenuButton = (props: { children: ReactNode; menuId: string }) => {
           },
           position: {
             y: y + height + 5,
-            x,
+            x: x - menuDefaultWidth + width,
           },
         });
       }}

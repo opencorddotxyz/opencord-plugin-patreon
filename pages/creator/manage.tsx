@@ -20,12 +20,15 @@ import {
 import { SelectImage } from '@/components/select-image';
 import { useEditCreatorInfo } from '@/hooks/useEditCreatorInfo';
 import { usePatreonInfo } from '@/hooks/usePatreonInfo';
+import { mockPatreonDataSets } from '@/net/http/mock';
 import { Role } from '@/net/http/patreonComponents';
 import { isNotEqual } from '@/utils/core/diff';
-import { ImageType, OwnerType, uploadFiles } from '@/utils/files';
+import { ImageType, uploadFiles } from '@/utils/files';
 
 const CreatorManagerPage = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data, loading } = usePatreonInfo();
+
   const {
     saveLevelInfo,
     linkRoles,
@@ -41,7 +44,7 @@ const CreatorManagerPage = () => {
     setName,
     description,
     setDescription,
-  } = useEditCreatorInfo(data);
+  } = useEditCreatorInfo(mockPatreonDataSets);
 
   const levels = patreonInfo?.levels ?? [];
   const levelsOutdated = patreonInfo?.outdatedLevels ?? [];
@@ -102,9 +105,7 @@ const CreatorManagerPage = () => {
               try {
                 setUploadImageLoading(true);
                 const result = await uploadFiles(files, {
-                  type: ImageType.USER_BANNER,
-                  ownerId: 'userId',
-                  ownerType: OwnerType.USER,
+                  type: ImageType.AVATAR,
                 });
 
                 if (!isEmpty(result)) {

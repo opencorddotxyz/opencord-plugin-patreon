@@ -52,3 +52,15 @@ a {
     transform: rotate(360deg);
   }
 }
+
+.contexify_theme-oc-menu {
+  --contexify-menu-bgColor: #333333;
+  --contexify-separator-color: #585858;
+  --contexify-item-color: #ffffff;
+  --contexify-activeItem-color: #ffffff;
+  --contexify-activeItem-bgColor: #444444;
+  --contexify-rightSlot-color: #6f6e77;
+  --contexify-activeRightSlot-color: #ffffff;
+  --contexify-arrow-color: #6f6e77;
+  --contexify-activeArrow-color: #fff;
+}
