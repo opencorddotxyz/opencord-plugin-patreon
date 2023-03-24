@@ -11,7 +11,7 @@ import { memo, useEffect } from 'react';
 import { Toast } from '@/components/Dialogs/Toast';
 import { StateType } from '@/constants/store';
 import useAsyncEffect from '@/hooks/core/useAsyncEffect';
-import { setAccessToken } from '@/net/http/interceptors/token';
+import { setAuthTokens } from '@/net/http/interceptors/token';
 import { login } from '@/net/http/patreon';
 import ocClient from '@/utils/opencord-client';
 import { store, useProvider, useStore } from '@/utils/store/useStore';
@@ -29,6 +29,7 @@ export default function App({ Component, pageProps, router }: AppProps) {
 
   useAsyncEffect(async () => {
     const response = await ocClient.getCode();
+
     console.info('!!! plugin debug: ocClient response = ', response);
 
     if (response.code === -32002) {
@@ -61,7 +62,7 @@ export default function App({ Component, pageProps, router }: AppProps) {
         store.set(StateType.PATREON_CONNECTED, connected);
 
         // set token step by state change
-        setAccessToken(token);
+        setAuthTokens({ accessToken: token });
       } catch (error) {
         //
       }
