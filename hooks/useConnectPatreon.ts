@@ -6,6 +6,7 @@ import { getPatreonAuthUrl } from '@/utils/patreon';
 import { store } from '@/utils/store/useStore';
 
 export const useConnectPatreon = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [connecting, setConnecting] = useState(false);
 
   const connectPatreon = async () => {

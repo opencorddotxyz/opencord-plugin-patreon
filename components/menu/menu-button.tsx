@@ -1,7 +1,5 @@
-import 'react-contexify/ReactContexify.css';
-
 import { ReactNode } from 'react';
-import { Item, Menu, useContextMenu } from 'react-contexify';
+import { useContextMenu } from 'react-contexify';
 
 import { Box } from '@/components/core/Box';
 
@@ -39,36 +37,6 @@ export declare type BasePlacement =
   | typeof bottom
   | typeof right
   | typeof left;
-
-const Demo = () => {
-  return (
-    <Box padding="100px">
-      <MenuButton menuId="MENU_ID1">1</MenuButton>
-      <Box height={'100px'} />
-
-      <MenuButton menuId="MENU_ID2">2</MenuButton>
-      <Box height={'100px'} />
-      <MenuButton menuId="MENU_ID3">3</MenuButton>
-
-      <Menu id={'MENU_ID1'}>
-        <Item id="copy">Copy</Item>
-        <Item id="cut">Cut</Item>
-      </Menu>
-
-      <Menu id={'MENU_ID2'}>
-        <Item id="copy">Copy</Item>
-        <Item id="cut">Cut</Item>
-      </Menu>
-
-      <Menu id={'MENU_ID3'}>
-        <Item id="copy">Copy</Item>
-        <Item id="cut">Cut</Item>
-      </Menu>
-    </Box>
-  );
-};
-
-export default Demo;
 
 export const MenuButton = (props: { children: ReactNode; menuId: string }) => {
   const { show } = useContextMenu({

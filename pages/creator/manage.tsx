@@ -24,8 +24,6 @@ import { Role } from '@/net/http/patreonComponents';
 import { isNotEqual } from '@/utils/core/diff';
 import { ImageType, OwnerType, uploadFiles } from '@/utils/files';
 
-import MenuTest from './rc-menu';
-
 const CreatorManagerPage = () => {
   const { data, loading } = usePatreonInfo();
   const {
@@ -47,8 +45,6 @@ const CreatorManagerPage = () => {
 
   const levels = patreonInfo?.levels ?? [];
   const levelsOutdated = patreonInfo?.outdatedLevels ?? [];
-
-  return <MenuTest />;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [uploadImageLoading, setUploadImageLoading] = useState(false);

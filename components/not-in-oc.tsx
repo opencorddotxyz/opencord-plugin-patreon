@@ -1,12 +1,10 @@
-import { NextPage } from 'next';
-
 import { Center, Column } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
 import { Text } from '@/components/core/Text';
 import { images, placeholders } from '@/utils/assets';
 import { openNewTab } from '@/utils/location';
 
-const NotInOCPage: NextPage = () => {
+const NotInOCPage = () => {
   return (
     <Center
       width="100%"
@@ -53,7 +51,7 @@ const NotInOCPage: NextPage = () => {
             lineHeight="20px"
             fontWeight={'400'}
           >
-            <Text display="inline">
+            <Text display="inline" alignContent="center">
               In order to ensure the best performance and experience, please use
               this plugin within{' '}
             </Text>

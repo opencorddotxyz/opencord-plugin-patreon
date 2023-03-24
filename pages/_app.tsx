@@ -1,6 +1,7 @@
 import '../styles/reset.css';
 import '../styles/fonts.css';
 import '../styles/global.css';
+import 'react-contexify/ReactContexify.css';
 
 import { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -12,11 +13,14 @@ import { StateType } from '@/constants/store';
 import useAsyncEffect from '@/hooks/core/useAsyncEffect';
 import { setAccessToken } from '@/net/http/interceptors/token';
 import { login } from '@/net/http/patreon';
+import ocClient from '@/utils/opencord-client';
 import { store, useProvider, useStore } from '@/utils/store/useStore';
 
+import NotInOCPage from '../components/not-in-oc';
+
 export default function App({ Component, pageProps, router }: AppProps) {
-  useProvider(StateType.IN_OPENCORD, true);
-  const [inOC] = useStore(StateType.IN_OPENCORD);
+  useProvider(StateType.IN_OPENCORD, false);
+  const [inOC ] = useStore(StateType.IN_OPENCORD);
   const currentPath = useRouter().asPath;
 
   useEffect(() => {
@@ -24,37 +28,44 @@ export default function App({ Component, pageProps, router }: AppProps) {
   }, []);
 
   useAsyncEffect(async () => {
-    // const response = await ocClient.getCode();
-    // console.info('!!! plugin debug: ocClient response = ', response);
+    const response = await ocClient.getCode();
+    console.info('!!! plugin debug: ocClient response = ', response);
 
-    // if (response.code === -32002) {
-    //   return store.set(StateType.IN_OPENCORD, false);
-    // }
-
-    // if (response.data?.code) {
-    try {
-      const loginResponse = await login({ code: 'response.data.code' });
-      console.info('!!! plugin debug: login response = ', loginResponse);
-      const { data } = loginResponse;
-      const { token, manageable, setup, connected } = data;
-      console.log('!!! login get ', token, manageable, setup, connected);
-
-      store.set(StateType.MANAGEABLE, manageable);
-      store.set(StateType.BEEN_SET, setup);
-      store.set(StateType.PATREON_CONNECTED, connected);
-
-      // set token step by state change
-      setAccessToken(token);
-
-      // if (errorCode === 5002) {
-      //   setMessage(message);
-
-      //   return;
-      // }
-    } catch (error) {
-      //
+    if (response.code === -32002) {
+      return store.set(StateType.IN_OPENCORD, false);
+    } else {
+      store.set(StateType.IN_OPENCORD, true);
     }
-    // }
+
+    if (response.data?.code) {
+      try {
+        const loginResponse = await login({ code: response.data.code });
+        console.info('!!! plugin debug: login response = ', loginResponse);
+        const { data } = loginResponse;
+        const {
+          token,
+          manageable,
+          setup,
+          connected,
+          // eligible,
+          // minted,
+          // spaceProfile,
+          // membershipLevels,
+          // corrMembershipLevel,
+          // outdatedMembershipLevels,
+        } = data;
+        console.log('!!! login get', token, manageable, setup, connected);
+
+        store.set(StateType.MANAGEABLE, manageable);
+        store.set(StateType.BEEN_SET, setup);
+        store.set(StateType.PATREON_CONNECTED, connected);
+
+        // set token step by state change
+        setAccessToken(token);
+      } catch (error) {
+        //
+      }
+    }
   }, []);
 
   return (
@@ -62,8 +73,7 @@ export default function App({ Component, pageProps, router }: AppProps) {
       <Header />
       <Toast />
       {!inOC && currentPath !== '/oauth' ? (
-        // <NotInOC />
-        <div />
+        <NotInOCPage />
       ) : (
         <Component {...pageProps} key={router.route} />
       )}
