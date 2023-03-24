@@ -56,6 +56,7 @@ export const MembershipLevelItem = (props: MembershipLevel) => {
                   key={val.id}
                   id={val.id}
                   onClick={(e) => {
+                    // todo
                     console.log('!!!', e);
                   }}
                 >
@@ -67,7 +68,6 @@ export const MembershipLevelItem = (props: MembershipLevel) => {
 
           {roles.length > 0 ? (
             <MenuButton menuId={id}>
-              123
               <>
                 <Box
                   size="12px"
