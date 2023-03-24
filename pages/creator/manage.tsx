@@ -16,7 +16,7 @@ import {
   MembershipLevelsHeaderEditable,
   MembershipLevelsOutdatedHeader,
 } from '@/components/MembershipLevels/MembershipLevelsHeader';
-import { SelectImage } from '@/components/select-image';
+import { SelectImage } from '@/components/SelectImage';
 import { useEditCreatorInfo } from '@/hooks/useEditCreatorInfo';
 import { usePatreonInfo } from '@/hooks/usePatreonInfo';
 import { mockPatreonDataSets } from '@/net/http/mock';
