@@ -23,9 +23,19 @@ export default function App({
   const router = useRouterSafe();
 
   const { homeStates, isInOpencord, isInitFailed, isInited } = useAPP();
-  const { setup, manageable, connected, eligible, minted } = homeStates ?? {};
+  const {
+    setup,
+    manageable,
+    connected,
+    // connected: _,
+    eligible,
+    minted,
+  } = homeStates ?? {};
+
+  // const connected = true;
 
   useEffect(() => {
+    // return;
     if (
       isInited &&
       !isInOpencord &&

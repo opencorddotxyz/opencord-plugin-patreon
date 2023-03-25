@@ -115,7 +115,7 @@ export const EditLevelDialog = () => {
             setDataSets({
               ...dataSets,
               level: {
-                ...dataSets.level!,
+                ...dataSets!.level!,
                 name: s,
               },
             });
@@ -131,7 +131,7 @@ export const EditLevelDialog = () => {
             setDataSets({
               ...dataSets,
               level: {
-                ...dataSets.level!,
+                ...dataSets!.level!,
                 intro: s,
               },
             });
