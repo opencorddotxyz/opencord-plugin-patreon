@@ -23,6 +23,7 @@ const OAuthPage: NextPage = () => {
 
       return;
     }
+    setError(false);
     setLoading(true);
     try {
       setOAuthToken(token);

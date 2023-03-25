@@ -13,6 +13,31 @@ interface ImagePickerProps extends BoxProps {
 
 const kAcceptImageTypes = ['png', 'jpg', 'jpeg'];
 
+export const loadImageFromFiles = async (
+  files: File[],
+  props?: {
+    timeout?: number;
+  },
+): Promise<string | undefined> => {
+  const { timeout = 1000 } = props ?? {};
+
+  return new Promise((resolve) => {
+    const file = files[0];
+    if (!file) {
+      resolve(undefined);
+    }
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      const imageDataUrl = reader.result;
+      resolve(imageDataUrl as any);
+    };
+    setTimeout(() => {
+      resolve(undefined);
+    }, timeout);
+  });
+};
+
 export const ImagePicker = (props: ImagePickerProps) => {
   const { accept, multiple = false, onSelect, children, ...boxProps } = props;
 
