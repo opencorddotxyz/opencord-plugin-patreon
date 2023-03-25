@@ -25,17 +25,12 @@ const OAuthPage: NextPage = () => {
     }
     setError(false);
     setLoading(true);
-    try {
-      setOAuthToken(token);
-      const result = await validateOAuth2Token({ code });
-      setOAuthToken(undefined);
-      if (!is2XX(result)) {
-        setError(true);
-      }
-    } catch (error) {
+    setOAuthToken(token);
+    const result = await validateOAuth2Token({ code }).catch(() => undefined);
+    setLoading(false);
+    setOAuthToken(undefined);
+    if (!is2XX(result)) {
       setError(true);
-    } finally {
-      setLoading(false);
     }
   }, [query]);
 

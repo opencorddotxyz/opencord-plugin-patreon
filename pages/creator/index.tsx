@@ -1,8 +1,6 @@
-import { useState } from 'react';
-
 import { Box } from '@/components/core/Box';
 import { Center, Column } from '@/components/core/Flex';
-import { Image } from '@/components/core/Image';
+import { Image, loadLocalImageWithHash } from '@/components/core/Image';
 import { TextInput } from '@/components/core/Input/TextInput';
 import { Spinner } from '@/components/core/Spinner';
 import { Text } from '@/components/core/Text';
@@ -10,7 +8,7 @@ import {
   EditLevelDialog,
   openEditLevelDialog,
 } from '@/components/Dialogs/EditLevelDialog';
-import { ImagePicker, loadImageFromFiles } from '@/components/ImagePicker';
+import { ImagePicker } from '@/components/ImagePicker';
 import { MembershipLevelItemEditable } from '@/components/MembershipLevels/MembershipLevelItem';
 import {
   MembershipLevelsHeaderEditable,
@@ -21,17 +19,15 @@ import { useTempHomeStates } from '@/hooks/useTempHomeStates';
 import { isNotEqual } from '@/utils/core/diff';
 
 const CreatorManagerPage = () => {
-  const {
-    homeStates: currentHomeStates,
-    refreshHomeStates,
-    refreshing,
-  } = useHomeStates();
+  const { homeStates: currentHomeStates, refreshHomeStates } = useHomeStates();
 
   const {
-    saveLevelInfo,
-    deleteOutdatedLevel,
     saving,
     saveCreatorInfo,
+    syncing,
+    syncPatreonLevels,
+    saveLevelInfo,
+    deleteOutdatedLevel,
     homeStates,
     avatar,
     setAvatar,
@@ -43,9 +39,6 @@ const CreatorManagerPage = () => {
 
   const levels = homeStates?.membershipLevels ?? [];
   const levelsOutdated = homeStates?.outdatedMembershipLevels ?? [];
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [uploadImageLoading, setUploadImageLoading] = useState(false);
 
   const _body = (
     <>
@@ -93,9 +86,9 @@ const CreatorManagerPage = () => {
             onSelect={async (files) => {
               const file = files[0];
               if (file) {
-                const url = await loadImageFromFiles(files);
-                if (url) {
-                  setAvatar({ file, url });
+                const result = await loadLocalImageWithHash(file);
+                if (result) {
+                  setAvatar({ file, ...result });
                 }
               }
             }}
@@ -121,6 +114,7 @@ const CreatorManagerPage = () => {
             onChange={(s) => {
               setName(s);
             }}
+            hint="Please enter..."
             marginBottom="10px"
           />
           <Text
@@ -137,6 +131,7 @@ const CreatorManagerPage = () => {
             onChange={(s) => {
               setDescription(s);
             }}
+            hint="Please enter..."
             marginBottom="20px"
           />
           <Center
@@ -169,8 +164,8 @@ const CreatorManagerPage = () => {
       marginBottom="30px"
     >
       <MembershipLevelsHeaderEditable
-        refresh={refreshHomeStates}
-        refreshing={refreshing}
+        refresh={syncPatreonLevels}
+        refreshing={syncing}
       />
       {levels.length < 1 ? (
         <Center

@@ -11,6 +11,7 @@ import { NotConnected } from '@/components/pages/patron/home/NotConnected';
 import { NotEligible } from '@/components/pages/patron/home/NotEligible';
 import { useHomeStates } from '@/hooks/useAPP';
 import { MembershipLevel } from '@/net/http/patreonComponents';
+import { withDefault } from '@/utils/core/base';
 
 const PatronNotConnectPage = () => {
   const { homeStates } = useHomeStates();
@@ -18,7 +19,7 @@ const PatronNotConnectPage = () => {
   const needMint = connected && eligible && !minted;
   const mintSuccess = minted;
 
-  const name = homeStates?.spaceProfile?.name ?? 'Unknown';
+  const name = withDefault(homeStates?.spaceProfile?.name, '-');
   const avatar = homeStates?.spaceProfile?.avatar ?? '';
   const levels = homeStates?.membershipLevels ?? ([] as MembershipLevel[]);
 
@@ -42,7 +43,7 @@ const PatronNotConnectPage = () => {
 
   const _header = (
     <>
-      <Image src={avatar} size="72px" />
+      <Image src={avatar} size="72px" borderRadius="50%" />
       <Text
         fontSize={'24px'}
         lineHeight="30px"

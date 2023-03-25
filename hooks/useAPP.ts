@@ -26,6 +26,7 @@ export const setHomeStates = (
 export const useHomeStates = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [homeStates] = useStore<GetHomepageResponse>(kHomeStatesKey);
+
   const refreshHomeStates = async () => {
     if (appLogging) {
       return;
@@ -34,13 +35,13 @@ export const useHomeStates = () => {
       // get home states
       appLogging = true;
       setRefreshing(true);
-      const homeResponse = await getHomepage();
+      const homeResponse = await getHomepage().catch(() => undefined);
       setRefreshing(false);
       appLogging = false;
       if (!is2XX(homeResponse)) {
         return;
       }
-      const states = homeResponse.data;
+      const states = homeResponse!.data;
       setHomeStates(() => states);
 
       return states;
@@ -65,12 +66,12 @@ export const useAPP = () => {
     const code = currentUser?.code;
     // auto login
     appLogging = true;
-    const loginResponse = await login({ code });
+    const loginResponse = await login({ code }).catch(() => undefined);
     appLogging = false;
     if (!is2XX(loginResponse)) {
       return;
     }
-    const { data } = loginResponse;
+    const { data } = loginResponse!;
     const { token, ...homeData } = data;
     setHomeStates(() => homeData);
     setLogin({

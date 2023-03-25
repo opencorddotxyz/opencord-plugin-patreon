@@ -5,6 +5,7 @@ import { Text } from '@/components/core/Text';
 import { MembershipLevel, Role } from '@/net/http/patreonComponents';
 import { CssOpacity, GlobalBgColor, TextDP } from '@/styles/constant';
 import { icons } from '@/utils/assets';
+import { withDefault } from '@/utils/core/base';
 import { hexWithOpacity } from '@/utils/core/format';
 
 import {
@@ -16,7 +17,7 @@ import { MenuButton } from '../MenuButton';
 import styles from './style.module.css';
 
 export const MembershipLevelItem = (props: MembershipLevel) => {
-  const { image, name, intro = '-', roles = [] } = props;
+  const { image, name, intro, roles = [] } = props;
   const role = roles[0];
   const { name: roleName, color: roleColor = 'transparent' } = role ?? {};
 
@@ -35,12 +36,17 @@ export const MembershipLevelItem = (props: MembershipLevel) => {
         </Row>
         <Expand>
           <Text width="100%" fontWeight="600" maxLines={1} marginRight="20px">
-            {name}
+            {withDefault(name, '-')}
           </Text>
         </Expand>
         <Expand flex={2}>
-          <Text width="100%" maxLines={2} marginRight="20px">
-            {intro}
+          <Text
+            width="100%"
+            maxLines={2}
+            marginRight="20px"
+            color="rgba(255, 255, 255, 0.6)"
+          >
+            {withDefault(intro, '-')}
           </Text>
         </Expand>
         <Expand
@@ -96,7 +102,7 @@ export const MembershipLevelItemEditable = (props: {
 }) => {
   const { level, isDelete = false, onDeleteLevel, onEditLevel } = props;
 
-  const { image, name, intro = '-', roles = [], id } = level;
+  const { image, name, intro, roles = [], id } = level;
   const selectedRole = roles.find((e) => e.selected);
   const { name: roleName, color: roleColor = 'transparent' } =
     selectedRole ?? {};
@@ -144,7 +150,7 @@ export const MembershipLevelItemEditable = (props: {
           maxLines={1}
           marginRight="20px"
         >
-          {name}
+          {withDefault(name, '-')}
         </Text>
       </Expand>
       <Expand flex={2}>
@@ -159,7 +165,7 @@ export const MembershipLevelItemEditable = (props: {
           maxLines={2}
           marginRight="20px"
         >
-          {intro}
+          {withDefault(intro, '-')}
         </Text>
       </Expand>
       <Expand
@@ -175,6 +181,9 @@ export const MembershipLevelItemEditable = (props: {
           id={id}
           disable={isDelete}
           height="100%"
+          justifyContent="end"
+          alignItems="center"
+          display="flex"
           menuWidth={240}
           menuItems={[noRoles, ...roles]}
           menuItemBuilder={(role: Role) => {
