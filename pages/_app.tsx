@@ -5,11 +5,11 @@ import 'react-contexify/ReactContexify.css';
 
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import { memo, useEffect } from 'react';
 
 import { Toast } from '@/components/Dialogs/Toast';
 import { useAPP } from '@/hooks/useAPP';
+import { useRouterSafe } from '@/hooks/useRouterSafe';
 
 export default function App({
   Component,
@@ -20,7 +20,7 @@ export default function App({
     document.body.classList.add('hide-scrollbar');
   }, []);
 
-  const router = useRouter();
+  const router = useRouterSafe();
 
   const { homeStates, isInOpencord, isInitFailed, isInited } = useAPP();
   const { setup, manageable, connected, eligible, minted } = homeStates ?? {};
@@ -29,7 +29,7 @@ export default function App({
     if (
       isInited &&
       !isInOpencord &&
-      !['/oauth', '/404', '/not-in-oc'].includes(router.pathname)
+      !['/oauth', '/404'].includes(router.originRouter.pathname)
     ) {
       router.replace('/not-in-oc');
 
