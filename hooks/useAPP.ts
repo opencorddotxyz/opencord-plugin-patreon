@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { getHomepage, GetHomepageResponse, login } from '@/net/http/patreon';
 import { is2XX } from '@/net/http/utils';
 import { isLoggedIn, login as setLogin } from '@/utils/auth';
@@ -21,18 +23,39 @@ export const setHomeStates = (
   });
 };
 
-export const useHomeStates = (): GetHomepageResponse | undefined => {
-  const [_homeStates] = useStore<GetHomepageResponse>(kHomeStatesKey);
-  const homeStates = getHomeStates();
+export const useHomeStates = () => {
+  const [refreshing, setRefreshing] = useState(false);
+  const [homeStates] = useStore<GetHomepageResponse>(kHomeStatesKey);
+  const refreshHomeStates = async (props?: { force: boolean }) => {
+    const { force = false } = props ?? {};
+    if (appLogging || (!force && homeStates)) {
+      return;
+    }
+    if (isLoggedIn()) {
+      // get home states
+      appLogging = true;
+      setRefreshing(true);
+      const homeResponse = await getHomepage();
+      setRefreshing(false);
+      appLogging = false;
+      if (!is2XX(homeResponse)) {
+        return;
+      }
+      const states = homeResponse.data;
+      setHomeStates(() => states);
 
-  return homeStates;
+      return states;
+    }
+  };
+
+  return { homeStates, refreshHomeStates, refreshing };
 };
 
 let appLogging = false;
 export const useAPP = () => {
   const { isInited, isInOpencord, isInitFailed, currentUser } = useOpencord();
 
-  const homeStates = useHomeStates();
+  const { homeStates, refreshHomeStates, refreshing } = useHomeStates();
 
   const _isLoggedIn = isLoggedIn();
 
@@ -58,30 +81,12 @@ export const useAPP = () => {
     });
   }, [isInited, currentUser, _isLoggedIn]);
 
-  const refreshHomeStates = async () => {
-    if (homeStates || appLogging) {
-      return;
-    }
-    if (isLoggedIn()) {
-      // get home states
-      appLogging = true;
-      const homeResponse = await getHomepage();
-      appLogging = false;
-      if (!is2XX(homeResponse)) {
-        return;
-      }
-      const states = homeResponse.data;
-      setHomeStates(() => states);
-
-      return states;
-    }
-  };
-
   return {
     isInited,
     isInitFailed,
     isInOpencord,
     homeStates,
     refreshHomeStates,
+    refreshing,
   };
 };

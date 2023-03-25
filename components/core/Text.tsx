@@ -15,6 +15,7 @@ export const Text = forwardRef((props: TextProps, ref: any) => {
         WebkitLineClamp: maxLines ?? 'none',
         textOverflow: 'ellipsis',
         overflow: 'hidden',
+        wordBreak: 'break-all',
       }
     : {
         display: 'inline-block',

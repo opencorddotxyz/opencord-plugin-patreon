@@ -1,4 +1,4 @@
-import { useSwitchIcon } from '@/public/assets/images/icons/switch-icon';
+import { useSwitchIcon } from '@/public/assets/images/icons/switch';
 import { CssOpacity } from '@/styles/constant';
 
 import { Image, ImageProps } from './Image';

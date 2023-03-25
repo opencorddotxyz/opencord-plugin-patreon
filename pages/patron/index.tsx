@@ -9,68 +9,22 @@ import { MintSuccess } from '@/components/pages/patron/home/MintSuccess';
 import { NeedMint } from '@/components/pages/patron/home/NeedMint';
 import { NotConnected } from '@/components/pages/patron/home/NotConnected';
 import { NotEligible } from '@/components/pages/patron/home/NotEligible';
-import { useAsync } from '@/hooks/core/useAsync';
 import { useHomeStates } from '@/hooks/useAPP';
-import { usePatreonInfo } from '@/hooks/usePatreonInfo';
 import { MembershipLevel } from '@/net/http/patreonComponents';
 
-const useCurrentStep = () => {
-  const { connected, eligible, minted } = useHomeStates() ?? {};
-
-  const {
-    loading,
-    data: _userInfo,
-    run: fetchUserInfo,
-  } = useAsync<{
-    roles: { name: string; color: string }[];
-    nft: { image: string };
-  }>(
-    async () => {
-      // todo fetch user's current NFT and roles
-      return undefined;
-    },
-    { immediately: true },
-  );
-
-  return {
-    connected,
-    eligible,
-    needMint: connected && eligible && !minted,
-    mintSuccess: minted,
-    fetchUserInfo,
-    userInfo: {
-      link: 'https://patreon.com',
-      nft: {
-        image:
-          'https://c10.patreonusercontent.com/4/patreon-media/p/reward/5971375/e896ec5e508746e4962cbc4afbed93f8/eyJ3Ijo0MDB9/1.png?token-time=2145916800&token-hash=3jWLUC5cNN1a8TuUSlKSGdZGzLAAE6fUCnwfKOBM2vk%3D',
-      },
-      roles: [
-        {
-          name: 'adminwedewdededededewd',
-          color: '#ff0000',
-        },
-        {
-          name: 'cordewddededewdewwedewdewdewdewdewdewdewdewe',
-          color: '#0000ff',
-        },
-      ],
-    },
-    loading,
-  };
-};
-
 const PatronNotConnectPage = () => {
-  const { data: patreonInfo, loading } = usePatreonInfo();
-  const name = patreonInfo?.creator?.name ?? 'Unknown';
-  const levels = patreonInfo?.levels ?? ([] as MembershipLevel[]);
+  const { homeStates } = useHomeStates();
+  const { connected, eligible, minted } = homeStates ?? {};
+  const needMint = connected && eligible && !minted;
+  const mintSuccess = minted;
 
-  const {
-    connected,
-    eligible,
-    needMint,
-    mintSuccess,
-    userInfo: { roles, nft, link },
-  } = useCurrentStep();
+  const name = homeStates?.spaceProfile?.name ?? 'Unknown';
+  const avatar = homeStates?.spaceProfile?.avatar ?? '';
+  const levels = homeStates?.membershipLevels ?? ([] as MembershipLevel[]);
+
+  const roles = homeStates?.corrMembershipLevel?.roles ?? [];
+  const link = homeStates?.spaceProfile?.patreonURL ?? 'https://patreon.com';
+  const nft = { image: homeStates?.corrMembershipLevel?.image ?? '' };
 
   const _body = !connected ? (
     <NotConnected />
@@ -88,7 +42,7 @@ const PatronNotConnectPage = () => {
 
   const _header = (
     <>
-      <Image src={patreonInfo?.creator.avatar} size="72px" />
+      <Image src={avatar} size="72px" />
       <Text
         fontSize={'24px'}
         lineHeight="30px"
@@ -151,7 +105,7 @@ const PatronNotConnectPage = () => {
     </Column>
   );
 
-  return loading ? (
+  return !homeStates ? (
     <Center width="100%" height="100vh">
       <Spinner theme="dark" />
     </Center>

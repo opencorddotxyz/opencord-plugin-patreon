@@ -1,16 +1,17 @@
-import { useMemo } from 'react';
-import { Item, Menu } from 'react-contexify';
-
 import { Box } from '@/components/core/Box';
 import { Center, Expand, Row } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
 import { Text } from '@/components/core/Text';
-import { MembershipLevel } from '@/net/http/patreonComponents';
+import { MembershipLevel, Role } from '@/net/http/patreonComponents';
 import { CssOpacity, GlobalBgColor, TextDP } from '@/styles/constant';
 import { icons } from '@/utils/assets';
 import { hexWithOpacity } from '@/utils/core/format';
 
-import { Radio } from '../core/Checks';
+import {
+  noRoles,
+  SelectRolesItem,
+  setSeletedRole,
+} from '../Dialogs/SelectRoles';
 import { MenuButton } from '../MenuButton';
 import styles from './style.module.css';
 
@@ -24,7 +25,6 @@ export const MembershipLevelItem = (props: MembershipLevel) => {
       <Row
         width="100%"
         padding={'10px 30px 10px 0'}
-        wordBreak="break-all"
         fontWeight="400"
         fontSize="14px"
         lineHeight="17px"
@@ -91,30 +91,21 @@ export const MembershipLevelItem = (props: MembershipLevel) => {
 export const MembershipLevelItemEditable = (props: {
   isDelete?: boolean;
   onDeleteLevel?: () => void;
-  onLinkRole?: () => void;
   onEditLevel?: () => void;
   level: MembershipLevel;
 }) => {
-  const {
-    level,
-    isDelete = false,
-    onDeleteLevel,
-    onLinkRole,
-    onEditLevel,
-  } = props;
-  const { image, name, intro = '-', roles = [], id } = level;
-  const role = useMemo(() => {
-    return roles.find((e) => e.selected) ?? roles[0];
-  }, [roles]);
+  const { level, isDelete = false, onDeleteLevel, onEditLevel } = props;
 
-  const { name: roleName, color: roleColor = 'transparent' } = role ?? {};
+  const { image, name, intro = '-', roles = [], id } = level;
+  const selectedRole = roles.find((e) => e.selected);
+  const { name: roleName, color: roleColor = 'transparent' } =
+    selectedRole ?? {};
 
   return (
     <Row
       width="100%"
       padding={'10px 30px 10px 0'}
       borderBottom="1px solid #373737"
-      wordBreak="break-all"
       className={styles['hover-to-highlight']}
       cursor={!isDelete ? 'pointer' : 'auto'}
       onClick={() => {
@@ -178,10 +169,23 @@ export const MembershipLevelItemEditable = (props: {
         fontSize={'14px'}
         lineHeight="18px"
         fontWeight={'600'}
+        height="72px"
       >
-        {role ? (
-          isDelete ? (
-            <Row>
+        <MenuButton
+          id={id}
+          disable={isDelete}
+          height="100%"
+          menuWidth={240}
+          menuItems={[noRoles, ...roles]}
+          menuItemBuilder={(role: Role) => {
+            return <SelectRolesItem role={role} level={level} />;
+          }}
+          onShow={() => {
+            setSeletedRole(selectedRole);
+          }}
+        >
+          {selectedRole ? (
+            <Row height="100%">
               <Box
                 size="12px"
                 minWidth="12px"
@@ -198,69 +202,19 @@ export const MembershipLevelItemEditable = (props: {
               >
                 @{roleName}
               </Text>
+              <Image
+                src={icons('right-arrow.svg')}
+                size="18px"
+                marginLeft="10px"
+                opacity={CssOpacity.Icon}
+              />
             </Row>
           ) : (
-            <MenuButton menuId={id}>
-              <Menu id={id} theme="oc-menu">
-                {roles.map((val) => {
-                  return (
-                    <Item
-                      key={val.id}
-                      id={val.id}
-                      data={undefined}
-                      onClick={({ data, id }) => {
-                        data;
-                        id;
-                      }}
-                    >
-                      <Row width="100%">
-                        {val.name}
-                        <Expand />
-                        <Radio isChecked={!!val.selected} />
-                      </Row>
-                    </Item>
-                  );
-                })}
-              </Menu>
-              <Row>
-                <Box
-                  size="12px"
-                  minWidth="12px"
-                  borderRadius="50%"
-                  background={roleColor}
-                  marginRight="4px"
-                />
-                <Text
-                  maxLines={1}
-                  textAlign="end"
-                  color={
-                    isDelete
-                      ? 'rgba(255,255,255,0.5)'
-                      : 'rgba(255, 255, 255, 1)'
-                  }
-                >
-                  @{roleName}
-                </Text>
-                <Image
-                  src={icons('right-arrow.svg')}
-                  size="18px"
-                  marginLeft="10px"
-                  opacity={CssOpacity.Icon}
-                />
-              </Row>
-            </MenuButton>
-          )
-        ) : (
-          <Text
-            userSelect="none"
-            textDecorationLine="underline"
-            onClick={() => {
-              onLinkRole?.();
-            }}
-          >
-            Add Role
-          </Text>
-        )}
+            <Text userSelect="none" textDecorationLine="underline">
+              Add Role
+            </Text>
+          )}
+        </MenuButton>
       </Expand>
     </Row>
   );

@@ -5,7 +5,7 @@ function addPrefix(prefix: string) {
     return `${prefix}${sourceName}`;
   };
 }
-const switchIconPrefix = addPrefix('/switch-icon/');
+const switchIconPrefix = addPrefix('/switch/');
 
 export const useSwitchIcon = () => {
   return {

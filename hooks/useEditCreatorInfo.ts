@@ -31,6 +31,7 @@ export const useEditCreatorInfo = (dataSets?: PatreonInfo) => {
 
   const [saving, setSaving] = useState(false);
   const saveCreatorInfo = async () => {
+    if (!info) return;
     if (saving) return;
     info.creator.name = info.creator.name.trim();
     info.creator.intro = info.creator.intro.trim();
@@ -49,6 +50,7 @@ export const useEditCreatorInfo = (dataSets?: PatreonInfo) => {
     if (refreshing) return;
     setRefreshing(true);
     // todo refresh Patreon info
+
     setRefreshing(false);
   };
 
@@ -140,7 +142,7 @@ export const useEditCreatorInfo = (dataSets?: PatreonInfo) => {
     refreshing,
     saving,
     saveCreatorInfo,
-    dataSets: info,
+    homeStates: info,
     avatar: info?.creator?.avatar,
     setAvatar: (avatar: string) => {
       setCreatorInfo((dataSets) => {
