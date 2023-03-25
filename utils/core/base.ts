@@ -1,3 +1,5 @@
+import { isEmpty } from './is';
+
 export const timestamp = () => new Date().getTime();
 
 export const delay = async (time: number) =>
@@ -92,4 +94,8 @@ export function jsonDecode(json: string | undefined) {
   } catch (error) {
     return undefined;
   }
+}
+
+export function withDefault<T = any>(e: any, defaultValue: T): T {
+  return isEmpty(e) ? defaultValue : e;
 }

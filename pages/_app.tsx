@@ -73,11 +73,6 @@ export default function App({
 
         return;
       }
-      if (!connected) {
-        router.replace('/patron/not-connect');
-
-        return;
-      }
       router.replace('/patron');
 
       return;

@@ -27,7 +27,7 @@ export const Toast = () => {
   return show ? (
     <Center
       width="100vw"
-      top="50px"
+      top="30px"
       left="0"
       position="fixed"
       zIndex={10}
