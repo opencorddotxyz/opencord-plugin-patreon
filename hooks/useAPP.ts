@@ -26,9 +26,8 @@ export const setHomeStates = (
 export const useHomeStates = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [homeStates] = useStore<GetHomepageResponse>(kHomeStatesKey);
-  const refreshHomeStates = async (props?: { force: boolean }) => {
-    const { force = false } = props ?? {};
-    if (appLogging || (!force && homeStates)) {
+  const refreshHomeStates = async () => {
+    if (appLogging) {
       return;
     }
     if (isLoggedIn()) {

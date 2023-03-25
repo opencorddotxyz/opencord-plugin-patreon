@@ -10,25 +10,26 @@ import {
   EditLevelDialog,
   openEditLevelDialog,
 } from '@/components/Dialogs/EditLevelDialog';
-import { showToast } from '@/components/Dialogs/Toast';
-import { ImagePicker } from '@/components/ImagePicker';
+import { ImagePicker, loadImageFromFiles } from '@/components/ImagePicker';
 import { MembershipLevelItemEditable } from '@/components/MembershipLevels/MembershipLevelItem';
 import {
   MembershipLevelsHeaderEditable,
   MembershipLevelsOutdatedHeader,
 } from '@/components/MembershipLevels/MembershipLevelsHeader';
-import { useEditCreatorInfo } from '@/hooks/useEditCreatorInfo';
-import { mockPatreonDataSets } from '@/net/http/mock';
+import { useHomeStates } from '@/hooks/useAPP';
+import { useTempHomeStates } from '@/hooks/useTempHomeStates';
 import { isNotEqual } from '@/utils/core/diff';
-import { isEmpty } from '@/utils/core/is';
-import { ImageType, uploadFiles } from '@/utils/files';
 
 const CreatorManagerPage = () => {
   const {
+    homeStates: currentHomeStates,
+    refreshHomeStates,
+    refreshing,
+  } = useHomeStates();
+
+  const {
     saveLevelInfo,
     deleteOutdatedLevel,
-    refresh,
-    refreshing,
     saving,
     saveCreatorInfo,
     homeStates,
@@ -38,10 +39,10 @@ const CreatorManagerPage = () => {
     setName,
     description,
     setDescription,
-  } = useEditCreatorInfo(mockPatreonDataSets);
+  } = useTempHomeStates(refreshHomeStates, currentHomeStates);
 
-  const levels = homeStates?.levels ?? [];
-  const levelsOutdated = homeStates?.outdatedLevels ?? [];
+  const levels = homeStates?.membershipLevels ?? [];
+  const levelsOutdated = homeStates?.outdatedMembershipLevels ?? [];
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [uploadImageLoading, setUploadImageLoading] = useState(false);
@@ -90,35 +91,12 @@ const CreatorManagerPage = () => {
           </Text>
           <ImagePicker
             onSelect={async (files) => {
-              if (files.length < 1) {
-                return;
-              }
-              try {
-                setUploadImageLoading(true);
-                const result = await uploadFiles(files, {
-                  type: ImageType.AVATAR,
-                });
-
-                if (!isEmpty(result)) {
-                  const imageInfo = result?.[0];
-                  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                  const { localPath = '', uploadedUrl = '' } = imageInfo ?? {};
-                  setAvatar(uploadedUrl);
-
-                  const updateUserResult: {
-                    code: number;
-                    message: string;
-                  } = (await saveCreatorInfo()) as any;
-                  if (updateUserResult.code) {
-                    if (updateUserResult.code === 2000) {
-                      showToast(updateUserResult.message);
-                    }
-
-                    return;
-                  }
+              const file = files[0];
+              if (file) {
+                const url = await loadImageFromFiles(files);
+                if (url) {
+                  setAvatar({ file, url });
                 }
-              } finally {
-                setUploadImageLoading(false);
               }
             }}
           >
@@ -191,7 +169,7 @@ const CreatorManagerPage = () => {
       marginBottom="30px"
     >
       <MembershipLevelsHeaderEditable
-        refresh={refresh}
+        refresh={refreshHomeStates}
         refreshing={refreshing}
       />
       {levels.length < 1 ? (
