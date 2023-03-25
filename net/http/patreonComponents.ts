@@ -49,6 +49,8 @@ export interface ValidateOAuth2TokenRequest {
 }
 
 export interface GetHomepageResponse {
+  userId: string;
+  channelId: string;
   setup: boolean;
   manageable: boolean;
   spaceProfile?: SpaceProfile;

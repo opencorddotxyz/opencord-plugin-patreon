@@ -5,20 +5,91 @@ import 'react-contexify/ReactContexify.css';
 
 import { AppProps } from 'next/app';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { memo, useEffect } from 'react';
 
 import { Toast } from '@/components/Dialogs/Toast';
+import { useAPP } from '@/hooks/useAPP';
 
-export default function App({ Component, pageProps, router }: AppProps) {
+export default function App({
+  Component,
+  pageProps,
+  router: _router,
+}: AppProps) {
   useEffect(() => {
     document.body.classList.add('hide-scrollbar');
   }, []);
+
+  const router = useRouter();
+
+  const { homeStates, isInOpencord, isInitFailed, isInited } = useAPP();
+  const { setup, manageable, connected, eligible, minted } = homeStates ?? {};
+
+  useEffect(() => {
+    if (
+      isInited &&
+      !isInOpencord &&
+      !['/oauth', '/404', '/not-in-oc'].includes(router.pathname)
+    ) {
+      router.replace('/not-in-oc');
+
+      return;
+    }
+
+    if (isInOpencord && isInitFailed) {
+      // init failed
+      router.replace('/404');
+
+      return;
+    }
+
+    if (!homeStates) {
+      // not inited yet
+      return;
+    }
+
+    if (manageable) {
+      if (!connected) {
+        router.replace('/creator/not-connect');
+
+        return;
+      }
+      router.replace('/creator');
+
+      return;
+    } else {
+      if (!setup) {
+        router.replace('/patron/not-setup');
+
+        return;
+      }
+      if (!connected) {
+        router.replace('/patron/not-connect');
+
+        return;
+      }
+      router.replace('/patron');
+
+      return;
+    }
+  }, [
+    isInited,
+    isInOpencord,
+    isInitFailed,
+    homeStates,
+    setup,
+    manageable,
+    connected,
+    eligible,
+    minted,
+    router,
+  ]);
 
   return (
     <>
       <Header />
       <Toast />
-      <Component {...pageProps} key={router.route} />
+      <Component {...pageProps} key={_router.route} />
     </>
   );
 }

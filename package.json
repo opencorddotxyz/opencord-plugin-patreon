@@ -19,9 +19,7 @@
     "next": "^13.2.4",
     "react": "^18.2.0",
     "react-contexify": "^6.0.0",
-    "react-dom": "^18.2.0",
-    "store2": "^2.14.2",
-    "uuid": "^9.0.0"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^13.2.4",

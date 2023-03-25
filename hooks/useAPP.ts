@@ -1,6 +1,6 @@
-import { isLoggedIn, setAuthToken } from '@/net/http/interceptors/token';
 import { getHomepage, GetHomepageResponse, login } from '@/net/http/patreon';
 import { is2XX } from '@/net/http/utils';
+import { isLoggedIn, login as setLogin } from '@/utils/auth';
 import { store, useInit, useStore } from '@/utils/store/useStore';
 
 import { useOpencord } from './useOpencord';
@@ -40,7 +40,29 @@ export const useAPP = () => {
     if (!currentUser || homeStates || appLogging) {
       return;
     }
-    if (_isLoggedIn) {
+    const code = currentUser?.code;
+    // auto login
+    appLogging = true;
+    const loginResponse = await login({ code });
+    appLogging = false;
+    if (!is2XX(loginResponse)) {
+      return;
+    }
+    const { data } = loginResponse;
+    const { token, ...homeData } = data;
+    setHomeStates(() => homeData);
+    setLogin({
+      token,
+      userId: homeData.userId,
+      channelId: homeData.channelId,
+    });
+  }, [isInited, currentUser, _isLoggedIn]);
+
+  const refreshHomeStates = async () => {
+    if (homeStates || appLogging) {
+      return;
+    }
+    if (isLoggedIn()) {
       // get home states
       appLogging = true;
       const homeResponse = await getHomepage();
@@ -48,27 +70,18 @@ export const useAPP = () => {
       if (!is2XX(homeResponse)) {
         return;
       }
-      setHomeStates(() => homeResponse.data);
+      const states = homeResponse.data;
+      setHomeStates(() => states);
 
-      return;
+      return states;
     }
-    // auto login
-    appLogging = true;
-    const loginResponse = await login({ code: currentUser.code });
-    appLogging = false;
-    if (!is2XX(loginResponse)) {
-      return;
-    }
-    const { data } = loginResponse;
-    const { token, ...homeData } = data;
-    setAuthToken(token);
-    setHomeStates(() => homeData);
-  }, [currentUser, _isLoggedIn]);
+  };
 
   return {
     isInited,
     isInitFailed,
     isInOpencord,
     homeStates,
+    refreshHomeStates,
   };
 };

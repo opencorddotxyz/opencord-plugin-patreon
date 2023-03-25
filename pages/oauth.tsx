@@ -1,44 +1,34 @@
 import { NextPage } from 'next';
-import { useEffect, useMemo, useState } from 'react';
+import { useState } from 'react';
 
 import { Text } from '@/components/core/Text';
-import { InfoFrame } from '@/components/not-in-oc';
+import { InfoFrame } from '@/components/InfoFrame';
 import { useRouterQuery } from '@/hooks/useRouterQuery';
-import { setAuthToken } from '@/net/http/interceptors/token';
 import { validateOAuth2Token } from '@/net/http/patreon';
+import { is2XX } from '@/net/http/utils';
 import { placeholders } from '@/utils/assets';
+import { setOAuthToken } from '@/utils/auth';
+import { useInit } from '@/utils/store/useStore';
 
 const OAuthPage: NextPage = () => {
+  const query = useRouterQuery(['code', 'state']);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  const { title, content, bannerImg } = useMemo(() => {
-    const _title = error ? 'error' : loading ? 'Validating...' : 'Connected';
-    const _content = error
-      ? 'Something went wrong '
-      : loading
-      ? 'We are validating your request, please wait a moment get result.'
-      : 'You can now close this window and return to Opencord to continue.';
-    const _bannerImg = error
-      ? placeholders('error.svg')
-      : loading
-      ? placeholders('error.svg')
-      : placeholders('ok.svg');
+  useInit(async () => {
+    const { code, state: token } = query;
+    if (!code || !token) {
+      setError(true);
 
-    return { title: _title, content: _content, bannerImg: _bannerImg };
-  }, [error, loading]);
-
-  const query = useRouterQuery(['code', 'state']);
-
-  useEffect(() => {
-    const { code, state } = query;
+      return;
+    }
     setLoading(true);
     try {
-      if (code && state) {
-        setAuthToken(state);
-
-        validateOAuth2Token({ code });
-      } else {
+      setOAuthToken(token);
+      const result = await validateOAuth2Token({ code });
+      setOAuthToken(undefined);
+      if (!is2XX(result)) {
         setError(true);
       }
     } catch (error) {
@@ -47,6 +37,18 @@ const OAuthPage: NextPage = () => {
       setLoading(false);
     }
   }, [query]);
+
+  const title = error ? 'Oops!' : loading ? 'Connecting...' : 'Connected';
+  const content = error
+    ? 'Something went wrong, please try again later.'
+    : loading
+    ? 'Please wait a moment while we establish a connection.'
+    : 'You can now close this window and return to Opencord to continue.';
+  const bannerImg = error
+    ? placeholders('error.svg')
+    : loading
+    ? placeholders('error.svg')
+    : placeholders('ok.svg');
 
   return (
     <InfoFrame title={title} bannerImg={bannerImg}>

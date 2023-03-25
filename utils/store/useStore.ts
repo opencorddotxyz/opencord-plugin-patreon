@@ -57,6 +57,7 @@ export const useInit = <T>(fn: () => T, deps?: any[]): T => {
     ref.current.result = fn();
     ref.current.deps = deps;
   }
+
   return ref.current.result;
 };
 
@@ -68,6 +69,7 @@ export const useDispose = (fn: () => void) => {
 
 export const useRebuild = () => {
   const [flag, setFlag] = useState(false);
+
   return useCallback(() => {
     setFlag(!flag);
   }, [flag]);
@@ -162,6 +164,7 @@ export const useMemoFilter = <Q = any, F = Q>(props: {
   if (immediately) {
     ref.current.onChange();
   }
+
   return ref;
 };
 
