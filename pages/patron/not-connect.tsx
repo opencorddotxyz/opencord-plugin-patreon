@@ -2,18 +2,19 @@ import { Center, Column } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
 import { Spinner } from '@/components/core/Spinner';
 import { Text } from '@/components/core/Text';
+import { useHomeStates } from '@/hooks/useAPP';
 import { useConnectPatreon } from '@/hooks/useConnectPatreon';
-import { usePatreonInfo } from '@/hooks/usePatreonInfo';
 
 const PatronNotConnectPage = () => {
-  const { data: patreonInfo, loading } = usePatreonInfo();
+  const { homeStates } = useHomeStates();
   const { connecting, connectPatreon } = useConnectPatreon();
 
-  const name = patreonInfo?.creator?.name ?? 'Unknown';
+  const name = homeStates?.spaceProfile?.name ?? 'Unknown';
+  const avatar = homeStates?.spaceProfile?.avatar ?? '';
 
   const _header = (
     <>
-      <Image src={patreonInfo?.creator.avatar} size="72px" />
+      <Image src={avatar} size="72px" />
       <Text
         fontSize={'24px'}
         lineHeight="30px"
@@ -82,7 +83,7 @@ const PatronNotConnectPage = () => {
     </>
   );
 
-  return loading ? (
+  return !homeStates ? (
     <Center width="100%" height="100vh">
       <Spinner theme="dark" />
     </Center>

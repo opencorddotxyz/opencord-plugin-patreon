@@ -11,12 +11,12 @@ import {
   openEditLevelDialog,
 } from '@/components/Dialogs/EditLevelDialog';
 import { showToast } from '@/components/Dialogs/Toast';
+import { ImagePicker } from '@/components/ImagePicker';
 import { MembershipLevelItemEditable } from '@/components/MembershipLevels/MembershipLevelItem';
 import {
   MembershipLevelsHeaderEditable,
   MembershipLevelsOutdatedHeader,
 } from '@/components/MembershipLevels/MembershipLevelsHeader';
-import { SelectImage } from '@/components/SelectImage';
 import { useEditCreatorInfo } from '@/hooks/useEditCreatorInfo';
 import { mockPatreonDataSets } from '@/net/http/mock';
 import { isNotEqual } from '@/utils/core/diff';
@@ -88,12 +88,9 @@ const CreatorManagerPage = () => {
           >
             Avatar
           </Text>
-          <SelectImage
-            selectChange={async (files) => {
-              if (files === null || files === undefined) {
-                return;
-              }
-              if (!homeStates) {
+          <ImagePicker
+            onSelect={async (files) => {
+              if (files.length < 1) {
                 return;
               }
               try {
@@ -131,7 +128,7 @@ const CreatorManagerPage = () => {
               borderRadius={'50%'}
               marginBottom="10px"
             />
-          </SelectImage>
+          </ImagePicker>
           <Text
             color="rgba(255, 255, 255,1)"
             fontSize={'14px'}
