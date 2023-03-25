@@ -1,15 +1,24 @@
 import { useState } from 'react';
 
+import { isLocalImage } from '@/components/core/Image';
 import { showToast } from '@/components/Dialogs/Toast';
+import {
+  modifySpaceProfile,
+  refreshMembershipLevels,
+} from '@/net/http/patreon';
 import {
   GetHomepageResponse,
   MembershipLevel,
   Role,
 } from '@/net/http/patreonComponents';
-import { isNotEqual } from '@/utils/core/diff';
+import { is2XX } from '@/net/http/utils';
+import { isEqual, isNotEqual } from '@/utils/core/diff';
 import { isEmpty } from '@/utils/core/is';
-// import { ImageType, uploadImage } from '@/utils/files';
+import { ImageType, uploadImage } from '@/utils/files';
+import { md5 } from '@/utils/md5';
 import { store, useInit, useStore } from '@/utils/store/useStore';
+
+import { setHomeStates } from './useAPP';
 
 const kTempHomeStates = 'kTempHomeStates';
 
@@ -24,6 +33,9 @@ const setTempHomeStates = (
     ...callback(current),
   });
 };
+
+type Hash = string;
+const localImageCaches: Record<Hash, File> = {};
 
 export const useTempHomeStates = (
   refreshHomeStates: () => void,
@@ -41,8 +53,14 @@ export const useTempHomeStates = (
 
   const [saving, setSaving] = useState(false);
   const saveCreatorInfo = async () => {
-    if (!tempHomeStates?.spaceProfile) return;
-    if (saving) return;
+    if (
+      saving ||
+      !tempHomeStates?.spaceProfile ||
+      isEqual(tempHomeStates?.spaceProfile, currentHomeStates?.spaceProfile)
+    ) {
+      // newtest
+      return;
+    }
     tempHomeStates.spaceProfile.name = tempHomeStates.spaceProfile.name.trim();
     tempHomeStates.spaceProfile.intro =
       tempHomeStates.spaceProfile.intro.trim();
@@ -51,35 +69,76 @@ export const useTempHomeStates = (
 
       return;
     }
+    const avatar = tempHomeStates.spaceProfile.avatar;
     setSaving(true);
-    // todo saveCreatorInfo
-    if (!tempHomeStates.spaceProfile.avatar.startsWith('http')) {
-      try {
-        //   const result = await uploadImage(, {
-        //     type: ImageType.AVATAR,
-        //   });
-        //   if (!isEmpty(result)) {
-        //     const imagetempHomeStates = result?.[0];
-        //     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        //     const { localPath = '', uploadedUrl = '' } =
-        //       imagetempHomeStates ?? {};
-        //     const updateUserResult: {
-        //       code: number;
-        //       message: string;
-        //     } = (await saveCreatorInfo()) as any;
-        //     if (updateUserResult.code) {
-        //       if (updateUserResult.code === 2000) {
-        //         showToast(updateUserResult.message);
-        //       }
-        //       return;
-        //     }
-        //   }
-      } catch (_) {
-        //
+    let imagePath = isLocalImage(avatar) ? undefined : avatar;
+    if (isLocalImage(avatar)) {
+      const file = localImageCaches[md5(avatar)];
+      if (file) {
+        try {
+          imagePath = await uploadImage(file, {
+            type: ImageType.AVATAR,
+          });
+        } catch (_) {
+          // upload image failed
+        }
       }
     }
+    if (!imagePath) {
+      // upload image failed
+      showToast('Upload image failed, please try again later.');
+      setSaving(false);
+
+      return false;
+    }
+
+    // get modified values
+    const data = {};
+    tempHomeStates.spaceProfile.avatar = imagePath;
+
+    for (const key of ['avatar', 'name', 'intro']) {
+      const value = tempHomeStates.spaceProfile[key];
+      if (value !== currentHomeStates!.spaceProfile![key]) {
+        data[key] = value;
+      }
+    }
+    const result = await modifySpaceProfile(data).catch(() => undefined);
     setSaving(false);
+    if (!is2XX(result)) {
+      // update failed
+      showToast(
+        result?.message ?? 'Something went wrong, please try again later.',
+      );
+
+      return false;
+    }
     refreshHomeStates();
+
+    return true;
+  };
+
+  const [syncing, setSyncing] = useState(false);
+  const syncPatreonLevels = async () => {
+    if (syncing) {
+      return;
+    }
+    setSyncing(true);
+    const result = await refreshMembershipLevels().catch(() => undefined);
+    setSyncing(false);
+    if (!is2XX(result)) {
+      // update failed
+      showToast(
+        result?.message ?? 'Something went wrong, please try again later.',
+      );
+
+      return false;
+    }
+    setHomeStates((current) => {
+      return {
+        ...current,
+        ...result?.data,
+      };
+    });
 
     return true;
   };
@@ -171,17 +230,19 @@ export const useTempHomeStates = (
   };
 
   return {
+    saving,
+    saveCreatorInfo,
+    syncing,
+    syncPatreonLevels,
     saveLevelInfo,
     saveLevelRoles,
     deleteOutdatedLevel,
-    saving,
-    saveCreatorInfo,
     homeStates: tempHomeStates,
     avatar: tempHomeStates?.spaceProfile?.avatar,
-    setAvatar: (props: { file: File; url: string }) => {
-      // todo save temp file to upload
-      const { file: _, url } = props;
-      // hash to query
+    setAvatar: (props: { file: File; url: string; hash: string }) => {
+      const { file, url, hash } = props;
+      // cache for upload image file later
+      localImageCaches[hash] = file;
       setTempHomeStates((current) => {
         if (!current?.spaceProfile) return {};
 

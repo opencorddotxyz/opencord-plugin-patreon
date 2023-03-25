@@ -175,6 +175,9 @@ export const MembershipLevelItemEditable = (props: {
           id={id}
           disable={isDelete}
           height="100%"
+          justifyContent="end"
+          alignItems="center"
+          display="flex"
           menuWidth={240}
           menuItems={[noRoles, ...roles]}
           menuItemBuilder={(role: Role) => {

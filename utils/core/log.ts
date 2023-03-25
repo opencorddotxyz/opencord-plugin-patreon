@@ -25,9 +25,12 @@ export const error = (scope: string, ...content: any[]) => {
 export const alertInfo = (data: any) => {
   if (typeof alert !== 'undefined') {
     alert(
-      jsonEncode({
-        content: data,
-      }),
+      jsonEncode(
+        {
+          content: data,
+        },
+        true,
+      ),
     );
   }
 };
