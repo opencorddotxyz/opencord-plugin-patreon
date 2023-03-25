@@ -88,7 +88,7 @@ const CreatorManagerPage = () => {
               if (file) {
                 const result = await loadLocalImageWithHash(file);
                 if (result) {
-                  setAvatar({ file, ...result });
+                  setAvatar(result.url);
                 }
               }
             }}

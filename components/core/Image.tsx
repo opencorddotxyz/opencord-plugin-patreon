@@ -127,6 +127,17 @@ export const loadLocalImage = async (
   });
 };
 
+type Hash = string;
+const localImageCaches: Record<Hash, File> = {};
+
+export const getLocalImageFromHash = (hash: string) => {
+  return localImageCaches[hash];
+};
+
+export const setLocalImageCaches = (hash: string, file: File) => {
+  localImageCaches[hash] = file;
+};
+
 export const loadLocalImageWithHash = async (
   file: File,
   props?: {
@@ -135,9 +146,9 @@ export const loadLocalImageWithHash = async (
 ) => {
   const url = await loadLocalImage(file, props);
   if (url) {
-    return {
-      url,
-      hash: md5(url),
-    };
+    const hash = md5(url);
+    setLocalImageCaches(hash, file);
+
+    return { url, hash };
   }
 };
