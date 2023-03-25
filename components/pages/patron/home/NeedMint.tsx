@@ -74,7 +74,6 @@ export const NeedMint = (props: {
                       fontWeight="600"
                       maxWidth="100px"
                       maxLines={1}
-                      wordBreak="break-all"
                     >
                       {e.name}
                     </Text>

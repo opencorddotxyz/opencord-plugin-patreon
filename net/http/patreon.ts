@@ -1,13 +1,12 @@
-import client from './client';
-import * as components from './patreonComponents';
-
-export * from './patreonComponents';
+import client from "./client"
+import * as components from "./patreonComponents"
+export * from "./patreonComponents"
 
 /**
  * @description "Load balancer health check endpoint"
  */
 export function index() {
-  return client.get<null>('/');
+	return client.get<null>("/")
 }
 
 /**
@@ -15,24 +14,22 @@ export function index() {
  * @param req
  */
 export function login(req: components.LoginRequest) {
-  return client.post<components.LoginResponse>('/v1/login', req);
+	return client.post<components.LoginResponse>("/v1/login", req)
 }
 
 /**
  * @description "Validating Receipt of the OAuth Token"
  * @param req
  */
-export function validateOAuth2Token(
-  req: components.ValidateOAuth2TokenRequest,
-) {
-  return client.post<null>('/v1/oauth2/token', req);
+export function validateOAuth2Token(req: components.ValidateOAuth2TokenRequest) {
+	return client.post<null>("/v1/oauth/token", req)
 }
 
 /**
  * @description "Get homepage content"
  */
 export function getHomepage() {
-  return client.get<components.GetHomepageResponse>('/v1/home');
+	return client.get<components.GetHomepageResponse>("/v1/home")
 }
 
 /**
@@ -40,26 +37,22 @@ export function getHomepage() {
  * @param req
  */
 export function modifySpaceProfile(req: components.ModifySpaceProfileRequest) {
-  return client.patch<null>('/v1/spaces/profile', req);
+	return client.patch<null>("/v1/spaces/profile", req)
 }
 
 /**
  * @description "Refresh membership levels"
  */
 export function refreshMembershipLevels() {
-  return client.get<components.RefreshMembershipLevelsResponse>(
-    '/v1/memberships/levels',
-  );
+	return client.get<components.RefreshMembershipLevelsResponse>("/v1/memberships/levels")
 }
 
 /**
  * @description "Remove outdated level-role connections"
  * @param params
  */
-export function removeOutdatedMembershipLevels(
-  params: components.RemoveOutdatedMembershipLevelsRequestParams,
-) {
-  return client.delete<null>('/v1/memberships/levels/:levelId', params);
+export function removeOutdatedMembershipLevels(params: components.RemoveOutdatedMembershipLevelsRequestParams) {
+	return client.delete<null>("/v1/memberships/levels/:levelId", params)
 }
 
 /**
@@ -67,11 +60,8 @@ export function removeOutdatedMembershipLevels(
  * @param params
  * @param req
  */
-export function modifyMembershipLevel(
-  params: components.ModifyMembershipLevelRequestParams,
-  req: components.ModifyMembershipLevelRequest,
-) {
-  return client.patch<null>('/v1/memberships/levels/:levelId', params, req);
+export function modifyMembershipLevel(params: components.ModifyMembershipLevelRequestParams, req: components.ModifyMembershipLevelRequest) {
+	return client.patch<null>("/v1/memberships/levels/:levelId", params, req)
 }
 
 /**
@@ -79,28 +69,16 @@ export function modifyMembershipLevel(
  * @param params
  * @param req
  */
-export function assignedRolesForMembershipLevel(
-  params: components.AssignedRolesForMembershipLevelRequestParams,
-  req: components.AssignedRolesForMembershipLevelRequest,
-) {
-  return client.post<null>(
-    '/v1/memberships/levels/:levelId/roles',
-    params,
-    req,
-  );
+export function assignedRolesForMembershipLevel(params: components.AssignedRolesForMembershipLevelRequestParams, req: components.AssignedRolesForMembershipLevelRequest) {
+	return client.post<null>("/v1/memberships/levels/:levelId/roles", params, req)
 }
 
 /**
  * @description "Get available roles for membership level"
  * @param params
  */
-export function getAvailableRolesForMembershipLevel(
-  params: components.GetAvailableRolesForMembershipLevelRequestParams,
-) {
-  return client.get<components.GetAvailableRolesForMembershipLevelResponse>(
-    '/v1/memberships/levels/:levelId/roles',
-    params,
-  );
+export function getAvailableRolesForMembershipLevel(params: components.GetAvailableRolesForMembershipLevelRequestParams) {
+	return client.get<components.GetAvailableRolesForMembershipLevelResponse>("/v1/memberships/levels/:levelId/roles", params)
 }
 
 /**
@@ -108,5 +86,5 @@ export function getAvailableRolesForMembershipLevel(
  * @param req
  */
 export function createObjectUploads(req: components.CreateUploadsRequest) {
-  return client.post<components.CreateUploadsResponse>('/v1/uploads', req);
+	return client.post<components.CreateUploadsResponse>("/v1/uploads", req)
 }

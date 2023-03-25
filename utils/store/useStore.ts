@@ -79,7 +79,7 @@ export const useStore = <T = any>(
   key: string,
   data?: any,
   filter?: (state: T | undefined) => any,
-): [T, (newData: T | undefined) => void, () => T | undefined] => {
+): [T | undefined, (newData: T | undefined) => void, () => T | undefined] => {
   const ref = useRef({
     id: newId(),
     rebuild: undefined as any,
