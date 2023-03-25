@@ -1,8 +1,9 @@
 import { useState } from 'react';
 
-import { isLocalImage } from '@/components/core/Image';
+import { getLocalImageFromHash, isLocalImage } from '@/components/core/Image';
 import { showToast } from '@/components/Dialogs/Toast';
 import {
+  modifyMembershipLevel,
   modifySpaceProfile,
   refreshMembershipLevels,
 } from '@/net/http/patreon';
@@ -33,9 +34,6 @@ const setTempHomeStates = (
     ...callback(current),
   });
 };
-
-type Hash = string;
-const localImageCaches: Record<Hash, File> = {};
 
 export const useTempHomeStates = (
   refreshHomeStates: () => void,
@@ -73,7 +71,7 @@ export const useTempHomeStates = (
     setSaving(true);
     let imagePath = isLocalImage(avatar) ? undefined : avatar;
     if (isLocalImage(avatar)) {
-      const file = localImageCaches[md5(avatar)];
+      const file = getLocalImageFromHash(md5(avatar));
       if (file) {
         try {
           imagePath = await uploadImage(file, {
@@ -162,16 +160,42 @@ export const useTempHomeStates = (
   };
 
   const saveLevelInfo = async (level: MembershipLevel): Promise<boolean> => {
-    // todo save level info
+    const avatar = level.image;
+    let imagePath = isLocalImage(avatar) ? undefined : avatar;
+    if (isLocalImage(avatar)) {
+      const file = getLocalImageFromHash(md5(avatar));
+      if (file) {
+        try {
+          imagePath = await uploadImage(file, {
+            type: ImageType.AVATAR,
+          });
+        } catch (_) {
+          // upload image failed
+        }
+      }
+    }
+    if (!imagePath) {
+      // upload image failed
+      showToast('Upload image failed, please try again later.');
 
-    const success = true;
-    if (success) {
-      setLevelInfo(level);
+      return false;
     }
 
+    const result = await modifyMembershipLevel(
+      { levelId: level.id },
+      {
+        name: level.name,
+        intro: level.intro,
+        avatar: imagePath,
+      },
+    ).catch(() => undefined);
+    if (!is2XX(result)) {
+      return false;
+    }
+    setLevelInfo(level);
     refreshHomeStates();
 
-    return success;
+    return true;
   };
 
   const setLevelRoles = (level: MembershipLevel, roles: Role[]) => {
@@ -239,10 +263,7 @@ export const useTempHomeStates = (
     deleteOutdatedLevel,
     homeStates: tempHomeStates,
     avatar: tempHomeStates?.spaceProfile?.avatar,
-    setAvatar: (props: { file: File; url: string; hash: string }) => {
-      const { file, url, hash } = props;
-      // cache for upload image file later
-      localImageCaches[hash] = file;
+    setAvatar: (url: string) => {
       setTempHomeStates((current) => {
         if (!current?.spaceProfile) return {};
 

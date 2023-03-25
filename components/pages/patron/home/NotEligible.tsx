@@ -63,7 +63,17 @@ export const NotEligible = (props: { name: string; link: string }) => {
             }}
             cursor="pointer"
           >
-            &nbsp;{name}.
+            &nbsp;{name}
+          </Text>
+          <Text
+            display="inline"
+            color="rgba(255, 255, 255, 1)"
+            fontSize={'14px'}
+            lineHeight="18px"
+            fontWeight={'400'}
+            marginBottom="10px"
+          >
+            .
           </Text>
         </Text>
       </Column>

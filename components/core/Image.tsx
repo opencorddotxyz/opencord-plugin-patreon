@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import NextImage from 'next/image';
 import { forwardRef, ReactNode, useState } from 'react';
 
 import { placeholders } from '@/utils/assets';
@@ -10,9 +11,12 @@ import { Center } from './Flex';
 
 export interface ImageProps extends BoxProps {
   src?: string;
+  alt?: string;
   onLoad?: ReactNode;
   onError?: ReactNode;
 }
+
+const imgLoader = (p: { src: string }) => p.src;
 
 export const Image = forwardRef((props: ImageProps, ref: any) => {
   const [_isLoaded, setIsLoaded] = useState(false);
@@ -40,6 +44,7 @@ export const Image = forwardRef((props: ImageProps, ref: any) => {
   });
 
   const {
+    alt = '',
     onLoad = (
       <Center
         {...boxProps}
@@ -63,10 +68,16 @@ export const Image = forwardRef((props: ImageProps, ref: any) => {
     (onError as any)
   ) : (
     <>
-      <img
+      <NextImage
         ref={ref}
         {...boxProps}
         src={src!}
+        alt={alt}
+        width={0}
+        height={0}
+        unoptimized
+        loading="eager"
+        loader={imgLoader}
         onLoad={() => {
           setIsLoaded(true);
           setIsError(false);
@@ -116,6 +127,17 @@ export const loadLocalImage = async (
   });
 };
 
+type Hash = string;
+const localImageCaches: Record<Hash, File> = {};
+
+export const getLocalImageFromHash = (hash: string) => {
+  return localImageCaches[hash];
+};
+
+export const setLocalImageCaches = (hash: string, file: File) => {
+  localImageCaches[hash] = file;
+};
+
 export const loadLocalImageWithHash = async (
   file: File,
   props?: {
@@ -124,9 +146,9 @@ export const loadLocalImageWithHash = async (
 ) => {
   const url = await loadLocalImage(file, props);
   if (url) {
-    return {
-      url,
-      hash: md5(url),
-    };
+    const hash = md5(url);
+    setLocalImageCaches(hash, file);
+
+    return { url, hash };
   }
 };
