@@ -3,9 +3,11 @@ import { useState } from 'react';
 import { getLocalImageFromHash, isLocalImage } from '@/components/core/Image';
 import { showToast } from '@/components/Dialogs/Toast';
 import {
+  assignedRolesForMembershipLevel,
   modifyMembershipLevel,
   modifySpaceProfile,
   refreshMembershipLevels,
+  removeOutdatedMembershipLevels,
 } from '@/net/http/patreon';
 import {
   GetHomepageResponse,
@@ -90,17 +92,10 @@ export const useTempHomeStates = (
       return false;
     }
 
-    // get modified values
-    const data = {};
     tempHomeStates.spaceProfile.avatar = imagePath;
-
-    for (const key of ['avatar', 'name', 'intro']) {
-      const value = tempHomeStates.spaceProfile[key];
-      if (value !== currentHomeStates!.spaceProfile![key]) {
-        data[key] = value;
-      }
-    }
-    const result = await modifySpaceProfile(data).catch(() => undefined);
+    const result = await modifySpaceProfile(tempHomeStates.spaceProfile).catch(
+      () => undefined,
+    );
     setSaving(false);
     if (!is2XX(result)) {
       // update failed
@@ -190,6 +185,10 @@ export const useTempHomeStates = (
       },
     ).catch(() => undefined);
     if (!is2XX(result)) {
+      showToast(
+        result?.message ?? 'Something went wrong, please try again later.',
+      );
+
       return false;
     }
     setLevelInfo(level);
@@ -213,16 +212,25 @@ export const useTempHomeStates = (
     });
   };
 
-  const saveLevelRoles = (level: MembershipLevel, roles: Role[]) => {
-    // todo save level roles
+  const saveLevelRoles = async (level: MembershipLevel, roles: Role[]) => {
+    const result = await assignedRolesForMembershipLevel(
+      { levelId: level.id },
+      {
+        roleIds: roles.map((e) => e.id),
+      },
+    ).catch(() => undefined);
+    if (!is2XX(result)) {
+      showToast(
+        result?.message ?? 'Something went wrong, please try again later.',
+      );
 
-    const success = true;
-    if (success) {
-      setLevelRoles(level, roles);
+      return false;
     }
+
+    setLevelRoles(level, roles);
     refreshHomeStates();
 
-    return success;
+    return true;
   };
 
   const setDeletedOutdatedLevel = (level: MembershipLevel) => {
@@ -243,14 +251,20 @@ export const useTempHomeStates = (
   const deleteOutdatedLevel = async (
     level: MembershipLevel,
   ): Promise<boolean> => {
-    // todo delete outdated level
-    const success = true;
-    if (success) {
-      setDeletedOutdatedLevel(level);
+    const result = await removeOutdatedMembershipLevels({
+      levelId: level.id,
+    }).catch(() => undefined);
+    if (!is2XX(result)) {
+      showToast(
+        result?.message ?? 'Something went wrong, please try again later.',
+      );
+
+      return false;
     }
+    setDeletedOutdatedLevel(level);
     refreshHomeStates();
 
-    return success;
+    return true;
   };
 
   return {
