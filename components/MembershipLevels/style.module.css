@@ -1,0 +1,19 @@
+.hover-to-show {
+  visibility: hidden;
+}
+
+.hover-to-show:hover {
+  visibility: visible;
+}
+
+.hover-to-highlight {
+  background: transparent;
+}
+
+.hover-to-highlight:hover {
+  background: #333;
+}
+
+.hover-to-highlight:hover .hover-to-show {
+  visibility: visible !important;
+}

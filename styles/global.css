@@ -1,0 +1,66 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+html,
+body,
+:root {
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  text-rendering: optimizelegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgb(0 0 0 / 0%);
+  font-family: Outfit, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica,
+    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  background: #282828;
+  color: #fff;
+}
+
+/* remove mobile focus color */
+a:focus,
+input:focus,
+p:focus,
+div:focus {
+  -webkit-tap-highlight-color: rgb(0 0 0 / 0%);
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+a {
+  color: #16b8f3;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.contexify_theme-oc-menu {
+  --contexify-menu-bgColor: #333333;
+  --contexify-separator-color: #585858;
+  --contexify-item-color: #ffffff;
+  --contexify-activeItem-color: #ffffff;
+  --contexify-activeItem-bgColor: #444444;
+  --contexify-rightSlot-color: #6f6e77;
+  --contexify-activeRightSlot-color: #ffffff;
+  --contexify-arrow-color: #6f6e77;
+  --contexify-activeArrow-color: #fff;
+}

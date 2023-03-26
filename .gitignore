@@ -3,13 +3,16 @@
 # dependencies
 /.pnp
 .pnp.js
+.yarn
 
 # testing
 /coverage
+/net/http/_mock.ts
 
 # next.js
 /.next/
 /out/
+bin
 
 # production
 /build
@@ -23,13 +26,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
-
-# local env files
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-/.idea/
 
 # vercel
 .vercel
@@ -46,10 +42,13 @@ node_modules
 /.vscode/settings.json
 
 # do not commit .env files or any files that end with `.env`
-*.env
+.env.development
+.env.production
+.env
 
 # exclude IntelliJ/WebStorm stuff
 .idea
+.vscode
 
 # ignore content collection generated files
 packages/**/test/**/fixtures/**/.astro/
