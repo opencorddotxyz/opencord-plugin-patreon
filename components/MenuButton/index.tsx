@@ -5,8 +5,9 @@ import { Box, BoxProps, getBoxProps } from '@/components/core/Box';
 
 interface MenuButtonProps extends BoxProps {
   id: string;
-  menuItems: any[];
-  menuItemBuilder: (data: any, idx: number) => ReactNode;
+  menu?: ReactNode;
+  menuItems?: any[];
+  menuItemBuilder?: (data: any, idx: number) => ReactNode;
   disable?: boolean;
   menuWidth?: number;
   onShow?: () => void;
@@ -15,6 +16,7 @@ interface MenuButtonProps extends BoxProps {
 export const MenuButton = (props: MenuButtonProps) => {
   const {
     id,
+    menu,
     menuItems,
     menuItemBuilder,
     menuWidth = 220,
@@ -30,17 +32,38 @@ export const MenuButton = (props: MenuButtonProps) => {
     id,
   });
 
+  const _menu = menu ?? (
+    <Menu id={id} theme="oc-menu">
+      {menuItems?.map((data, idx) => {
+        return (
+          <Item
+            // eslint-disable-next-line react/no-array-index-key
+            key={id + idx}
+            id={id + idx}
+            data={undefined}
+          >
+            {menuItemBuilder?.(data, idx)}
+          </Item>
+        );
+      })}
+    </Menu>
+  );
+
   return (
     <Box
       {...boxProps}
-      onClick={(e) => {
+      onClick={async (e) => {
         e.stopPropagation();
         e.preventDefault();
         if (disable) {
           return;
         }
-        onShow?.();
-        const { x, y, height, width } = e.currentTarget.getBoundingClientRect();
+        const { x, y, width, height } = e.currentTarget.getBoundingClientRect();
+        const shouldShow = await onShow?.();
+        if (!shouldShow) {
+          return;
+        }
+
         show({
           event: e,
           props: {
@@ -53,20 +76,7 @@ export const MenuButton = (props: MenuButtonProps) => {
         });
       }}
     >
-      <Menu id={id} theme="oc-menu">
-        {menuItems.map((data, idx) => {
-          return (
-            <Item
-              // eslint-disable-next-line react/no-array-index-key
-              key={id + idx}
-              id={id + idx}
-              data={undefined}
-            >
-              {menuItemBuilder(data, idx)}
-            </Item>
-          );
-        })}
-      </Menu>
+      {_menu}
       {children}
     </Box>
   );

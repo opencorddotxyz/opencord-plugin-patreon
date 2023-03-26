@@ -2,16 +2,16 @@ import { Box } from '@/components/core/Box';
 import { Center, Expand, Row } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
 import { Text } from '@/components/core/Text';
-import { MembershipLevel, Role } from '@/net/http/patreonComponents';
+import { MembershipLevel } from '@/net/http/patreonComponents';
 import { CssOpacity, GlobalBgColor, TextDP } from '@/styles/constant';
 import { icons } from '@/utils/assets';
 import { withDefault } from '@/utils/core/base';
 import { hexWithOpacity } from '@/utils/core/format';
 
 import {
-  noRoles,
-  SelectRolesItem,
-  setSeletedRole,
+  SaveLevelRolesCallback,
+  SelectRolesMenu,
+  showSelectRolesMenu,
 } from '../Dialogs/SelectRoles';
 import { MenuButton } from '../MenuButton';
 import styles from './style.module.css';
@@ -99,11 +99,18 @@ export const MembershipLevelItemEditable = (props: {
   onDeleteLevel?: () => void;
   onEditLevel?: () => void;
   level: MembershipLevel;
+  saveLevelRoles: SaveLevelRolesCallback;
 }) => {
-  const { level, isDelete = false, onDeleteLevel, onEditLevel } = props;
+  const {
+    level,
+    isDelete = false,
+    onDeleteLevel,
+    onEditLevel,
+    saveLevelRoles,
+  } = props;
 
   const { image, name, intro, roles = [], id } = level;
-  const selectedRole = roles.find((e) => e.selected);
+  const selectedRole = roles.find((e) => e);
   const { name: roleName, color: roleColor = 'transparent' } =
     selectedRole ?? {};
 
@@ -185,23 +192,24 @@ export const MembershipLevelItemEditable = (props: {
           alignItems="center"
           display="flex"
           menuWidth={240}
-          menuItems={[noRoles, ...roles]}
-          menuItemBuilder={(role: Role) => {
-            return <SelectRolesItem role={role} level={level} />;
-          }}
-          onShow={() => {
-            setSeletedRole(selectedRole);
+          menu={<SelectRolesMenu id={id} level={level} />}
+          onShow={async () => {
+            return await showSelectRolesMenu(
+              level,
+              selectedRole ? [selectedRole] : [],
+              saveLevelRoles,
+            );
           }}
         >
-          {selectedRole ? (
-            <Row height="100%">
-              <Box
-                size="12px"
-                minWidth="12px"
-                borderRadius="50%"
-                background={roleColor}
-                marginRight="4px"
-              />
+          <Row height="100%">
+            <Box
+              size="12px"
+              minWidth="12px"
+              borderRadius="50%"
+              background={roleColor}
+              marginRight="4px"
+            />
+            {selectedRole ? (
               <Text
                 maxLines={1}
                 textAlign="end"
@@ -211,18 +219,18 @@ export const MembershipLevelItemEditable = (props: {
               >
                 @{roleName}
               </Text>
-              <Image
-                src={icons('right-arrow.svg')}
-                size="18px"
-                marginLeft="10px"
-                opacity={CssOpacity.Icon}
-              />
-            </Row>
-          ) : (
-            <Text userSelect="none" textDecorationLine="underline">
-              Add Role
-            </Text>
-          )}
+            ) : (
+              <Text userSelect="none" textDecorationLine="underline">
+                Add Role
+              </Text>
+            )}
+            <Image
+              src={icons('right-arrow.svg')}
+              size="18px"
+              marginLeft="10px"
+              opacity={CssOpacity.Icon}
+            />
+          </Row>
         </MenuButton>
       </Expand>
     </Row>

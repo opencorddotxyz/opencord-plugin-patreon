@@ -27,6 +27,7 @@ const CreatorManagerPage = () => {
     syncing,
     syncPatreonLevels,
     saveLevelInfo,
+    saveLevelRoles,
     deleteOutdatedLevel,
     homeStates,
     avatar,
@@ -185,6 +186,7 @@ const CreatorManagerPage = () => {
             <MembershipLevelItemEditable
               key={level.id}
               level={level}
+              saveLevelRoles={saveLevelRoles}
               onEditLevel={() => {
                 openEditLevelDialog({
                   level: level,
@@ -221,6 +223,7 @@ const CreatorManagerPage = () => {
               isDelete
               key={level.id}
               level={level}
+              saveLevelRoles={saveLevelRoles}
               onDeleteLevel={() => {
                 deleteOutdatedLevel(level);
               }}
