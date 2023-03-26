@@ -1,7 +1,8 @@
 /* eslint-disable react/no-array-index-key */
 import { Box } from '@/components/core/Box';
-import { Column, Row } from '@/components/core/Flex';
+import { Center, Column, Row } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
+import { Spinner } from '@/components/core/Spinner';
 import { Text } from '@/components/core/Text';
 import { images } from '@/utils/assets';
 
@@ -9,8 +10,10 @@ export const NeedMint = (props: {
   roles: { name: string; color: string }[];
   nft: { image: string };
   creator: string;
+  minting: boolean;
+  onMint: () => void;
 }) => {
-  const { roles, nft, creator } = props;
+  const { roles, nft, creator, minting, onMint } = props;
 
   return (
     <>
@@ -91,7 +94,29 @@ export const NeedMint = (props: {
           >
             Your Membership NFT Pass (preview)
           </Text>
-          <Image src={nft.image} size="120px" borderRadius="8px" />
+          <Image
+            src={nft.image}
+            size="120px"
+            borderRadius="8px"
+            marginBottom="10px"
+          />
+          <Center
+            color="#000"
+            width="100px"
+            height="30px"
+            borderRadius="4px"
+            background="#fff"
+            fontWeight={600}
+            cursor={'pointer'}
+            userSelect="none"
+            onClick={onMint}
+          >
+            {minting ? (
+              <Spinner size="16px" thickness="2px" theme="light" />
+            ) : (
+              'Mint'
+            )}
+          </Center>
         </Column>
       </Column>
     </>

@@ -47,7 +47,7 @@ const OAuthPage: NextPage = () => {
     : placeholders('ok.svg');
 
   return (
-    <InfoFrame title={title} bannerImg={bannerImg}>
+    <InfoFrame title={title} bannerImg={bannerImg} loading={loading}>
       <Text
         fontSize={'16px'}
         lineHeight="20px"

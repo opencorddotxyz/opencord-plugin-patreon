@@ -5,12 +5,15 @@ import { Image } from '@/components/core/Image';
 import { Text } from '@/components/core/Text';
 import { images } from '@/utils/assets';
 
+import { Spinner } from './core/Spinner';
+
 export const InfoFrame = (props: {
   title: string;
   bannerImg: string;
+  loading?: boolean;
   children: ReactNode;
 }) => {
-  const { title, bannerImg } = props;
+  const { title, bannerImg, loading = false } = props;
 
   return (
     <Center
@@ -38,12 +41,18 @@ export const InfoFrame = (props: {
           boxShadow="0px 0px 8px rgba(0, 0, 0, 0.15)"
           padding="30px 40px 60px 40px"
         >
-          <Image
-            src={bannerImg}
-            width="260px"
-            height="160px"
-            marginBottom="10px"
-          />
+          {loading ? (
+            <Center width="260px" height="160px">
+              <Spinner size="60px" thickness="6px" />
+            </Center>
+          ) : (
+            <Image
+              src={bannerImg}
+              width="260px"
+              height="160px"
+              marginBottom="10px"
+            />
+          )}
           <Text
             fontSize={'32px'}
             lineHeight="40px"

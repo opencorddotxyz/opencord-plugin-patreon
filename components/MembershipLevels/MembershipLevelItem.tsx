@@ -3,10 +3,9 @@ import { Center, Expand, Row } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
 import { Text } from '@/components/core/Text';
 import { MembershipLevel } from '@/net/http/patreonComponents';
-import { CssOpacity, GlobalBgColor, TextDP } from '@/styles/constant';
+import { CssOpacity, GlobalBgColor } from '@/styles/constant';
 import { icons } from '@/utils/assets';
 import { withDefault } from '@/utils/core/base';
-import { hexWithOpacity } from '@/utils/core/format';
 
 import {
   SaveLevelRolesCallback,
@@ -64,20 +63,9 @@ export const MembershipLevelItem = (props: MembershipLevel) => {
                 background={roleColor}
                 marginRight="4px"
               />
-              <Text
-                textDecorationLine="underline"
-                color={hexWithOpacity('#ffffff', TextDP.DP3)}
-                maxLines={1}
-                textAlign="end"
-              >
+              <Text color={'#fff'} maxLines={1} textAlign="end">
                 @{roleName}
               </Text>
-              <Image
-                opacity={CssOpacity.Icon}
-                src={icons('rightArrow.svg')}
-                size="18px"
-                marginLeft="10px"
-              />
             </>
           ) : (
             <Text>-</Text>

@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { Center, Column } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
 import { Spinner } from '@/components/core/Spinner';
@@ -13,11 +15,23 @@ import { useHomeStates } from '@/hooks/useAPP';
 import { MembershipLevel } from '@/net/http/patreonComponents';
 import { withDefault } from '@/utils/core/base';
 
-const PatronNotConnectPage = () => {
+const PatronHomePage = () => {
+  const [mintSuccess, setMintSuccess] = useState(false);
+  const [minting, setMinting] = useState(false);
+  const onMint = async () => {
+    if (minting) {
+      return;
+    }
+    setMinting(true);
+    // todo mint
+    setMintSuccess(true);
+    setMinting(false);
+  };
+
   const { homeStates } = useHomeStates();
   const { connected, eligible, minted } = homeStates ?? {};
+
   const needMint = connected && eligible && !minted;
-  const mintSuccess = minted;
 
   const name = withDefault(homeStates?.spaceProfile?.name, '-');
   const avatar = homeStates?.spaceProfile?.avatar ?? '';
@@ -35,7 +49,13 @@ const PatronNotConnectPage = () => {
     mintSuccess ? (
       <MintSuccess roles={roles} nft={nft} creator={name} />
     ) : (
-      <NeedMint roles={roles} nft={nft} creator={name} />
+      <NeedMint
+        roles={roles}
+        nft={nft}
+        creator={name}
+        minting={minting}
+        onMint={onMint}
+      />
     )
   ) : (
     <CurrentRoles roles={roles} nft={nft} />
@@ -119,4 +139,4 @@ const PatronNotConnectPage = () => {
   );
 };
 
-export default PatronNotConnectPage;
+export default PatronHomePage;
