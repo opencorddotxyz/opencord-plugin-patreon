@@ -17,9 +17,9 @@ import {
 import { is2XX } from '@/net/http/utils';
 import { isEqual, isNotEqual } from '@/utils/core/diff';
 import { isEmpty } from '@/utils/core/is';
-import { ImageType, uploadImage } from '@/utils/files';
 import { md5 } from '@/utils/md5';
 import { store, useInit, useStore } from '@/utils/store/useStore';
+import { ImageType, uploadImage } from '@/utils/upload';
 
 import { setHomeStates } from './useAPP';
 
