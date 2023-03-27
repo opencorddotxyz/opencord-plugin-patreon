@@ -134,3 +134,35 @@ export interface UploadSignedHeader {
 	value: string
 }
 
+export interface GetNFTMetadataRequest {
+}
+
+export interface GetNFTMetadataRequestParams {
+	tokenId: string
+}
+
+export interface GetNFTMetadataResponse {
+	name: string
+	description: string
+	image: string
+	attributes: Array<Attribute>
+	patreon: Patreon
+}
+
+export interface Attribute {
+	trait_type: string
+	value: string
+}
+
+export interface Patreon {
+	creator: PatreonCreator
+	levels: { [key: string]: any }
+}
+
+export interface PatreonCreator {
+	name: string
+	description: string
+	image: string
+	id: string
+}
+

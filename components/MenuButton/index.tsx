@@ -1,5 +1,7 @@
-import { ReactNode } from 'react';
-import { Item, Menu, useContextMenu } from 'react-contexify';
+import '@szhsin/react-menu/dist/index.css';
+
+import { ControlledMenu, MenuItem, useClick } from '@szhsin/react-menu';
+import { ReactNode, useRef, useState } from 'react';
 
 import { Box, BoxProps, getBoxProps } from '@/components/core/Box';
 
@@ -10,6 +12,7 @@ interface MenuButtonProps extends BoxProps {
   menuItemBuilder?: (data: any, idx: number) => ReactNode;
   disable?: boolean;
   menuWidth?: number;
+  menuHeight?: number;
   onShow?: () => void;
 }
 
@@ -20,6 +23,7 @@ export const MenuButton = (props: MenuButtonProps) => {
     menuItems,
     menuItemBuilder,
     menuWidth = 220,
+    menuHeight = 175,
     children,
     disable,
     onShow,
@@ -28,56 +32,57 @@ export const MenuButton = (props: MenuButtonProps) => {
 
   const boxProps = getBoxProps({ ...basicProps, userSelect: 'none' });
 
-  const { show } = useContextMenu({
-    id,
+  const ref = useRef(null);
+  const [isOpen, setOpen] = useState(false);
+  const anchorProps = useClick(isOpen, async (isOpen, e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    if (disable) {
+      return;
+    }
+    const shouldShow = await onShow?.();
+    if (!shouldShow) {
+      return;
+    }
+    setOpen(true);
   });
 
-  const _menu = menu ?? (
-    <Menu id={id} theme="oc-menu">
-      {menuItems?.map((data, idx) => {
-        return (
-          <Item
-            // eslint-disable-next-line react/no-array-index-key
-            key={id + idx}
-            id={id + idx}
-            data={undefined}
-          >
-            {menuItemBuilder?.(data, idx)}
-          </Item>
-        );
-      })}
-    </Menu>
-  );
-
   return (
-    <Box
-      {...boxProps}
-      onClick={async (e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        if (disable) {
-          return;
-        }
-        const { x, y, width, height } = e.currentTarget.getBoundingClientRect();
-        const shouldShow = await onShow?.();
-        if (!shouldShow) {
-          return;
-        }
-
-        show({
-          event: e,
-          props: {
-            key: 'value',
-          },
-          position: {
-            y: y + height + 5,
-            x: x - menuWidth + width,
-          },
-        });
-      }}
-    >
-      {_menu}
-      {children}
-    </Box>
+    <>
+      <Box {...boxProps} ref={ref} {...anchorProps}>
+        {children}
+      </Box>
+      <ControlledMenu
+        state={isOpen ? 'open' : 'closed'}
+        anchorRef={ref}
+        onClose={() => {
+          setOpen(false);
+        }}
+        offsetX={-140}
+      >
+        <Box
+          width={menuWidth}
+          maxHeight={menuHeight}
+          overflowY="scroll"
+          className="hide-scrollbar"
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+          }}
+        >
+          {menu ??
+            menuItems?.map((data, idx) => {
+              return (
+                <MenuItem
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={id + idx}
+                >
+                  {menuItemBuilder?.(data, idx)}
+                </MenuItem>
+              );
+            })}
+        </Box>
+      </ControlledMenu>
+    </>
   );
 };

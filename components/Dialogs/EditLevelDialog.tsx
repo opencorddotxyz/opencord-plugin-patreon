@@ -117,7 +117,7 @@ export const EditLevelDialog = () => {
         >
           <Stack marginBottom="20px" cursor="pointer">
             <Image src={image} size="80px" borderRadius="4px" />
-            <Position align="bottomRight">
+            <Position align="bottomRight" pointerEvents="none">
               <Image src={icons('add-image.svg')} size="16px" margin="4px" />
             </Position>
           </Stack>

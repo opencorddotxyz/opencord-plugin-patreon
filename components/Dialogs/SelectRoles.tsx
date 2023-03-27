@@ -1,4 +1,4 @@
-import { Item, Menu } from 'react-contexify';
+import { MenuItem } from '@szhsin/react-menu';
 
 import { getAvailableRolesForMembershipLevel } from '@/net/http/patreon';
 import { MembershipLevel, Role } from '@/net/http/patreonComponents';
@@ -65,8 +65,8 @@ export const SelectRolesItem = (props: {
 
   return (
     <Row
-      width="240px"
-      padding="4px 8px"
+      width="100%"
+      padding="10px 20px"
       onClick={() => {
         if (role.id === noRoles.id) {
           // unselect role
@@ -122,19 +122,17 @@ export const SelectRolesMenu = (props: SelectRolesMenuProps) => {
   const roles = useSelectedLevelRoles(level);
 
   return (
-    <Menu id={id} theme="oc-menu">
-      {roles.map((role, idx) => {
+    <>
+      {roles?.map((role, idx) => {
         return (
-          <Item
+          <MenuItem
             // eslint-disable-next-line react/no-array-index-key
             key={id + idx}
-            id={id + idx}
-            data={undefined}
           >
             <SelectRolesItem role={role} level={level} />
-          </Item>
+          </MenuItem>
         );
       })}
-    </Menu>
+    </>
   );
 };

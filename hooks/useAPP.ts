@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { getHomepage, GetHomepageResponse, login } from '@/net/http/patreon';
 import { is2XX } from '@/net/http/utils';
 import { isLoggedIn, login as setLogin } from '@/utils/auth';
+import { deepClone } from '@/utils/core/clone';
 import { store, useInit, useStore } from '@/utils/store/useStore';
 
 import { useOpencord } from './useOpencord';
@@ -10,7 +11,7 @@ import { useOpencord } from './useOpencord';
 const kHomeStatesKey = 'kHomeStatesKey';
 
 export const getHomeStates = () => {
-  return store.get<GetHomepageResponse>(kHomeStatesKey);
+  return deepClone(store.get<GetHomepageResponse>(kHomeStatesKey));
 };
 
 export const setHomeStates = (

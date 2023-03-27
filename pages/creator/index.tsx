@@ -19,7 +19,7 @@ import { useTempHomeStates } from '@/hooks/useTempHomeStates';
 import { isNotEqual } from '@/utils/core/diff';
 
 const CreatorManagerPage = () => {
-  const { homeStates: currentHomeStates, refreshHomeStates } = useHomeStates();
+  const { homeStates: currentHomeStates } = useHomeStates();
 
   const {
     saving,
@@ -36,7 +36,7 @@ const CreatorManagerPage = () => {
     setName,
     description,
     setDescription,
-  } = useTempHomeStates(refreshHomeStates, currentHomeStates);
+  } = useTempHomeStates(currentHomeStates);
 
   const levels = homeStates?.membershipLevels ?? [];
   const levelsOutdated = homeStates?.outdatedMembershipLevels ?? [];
