@@ -18,6 +18,14 @@ export function login(req: components.LoginRequest) {
 }
 
 /**
+ * @description "Get NFT metadata"
+ * @param params
+ */
+export function getNFTMetadata(params: components.GetNFTMetadataRequestParams) {
+	return client.get<components.GetNFTMetadataResponse>("/tokens/:tokenId", params)
+}
+
+/**
  * @description "Validating Receipt of the OAuth Token"
  * @param req
  */
@@ -87,4 +95,11 @@ export function getAvailableRolesForMembershipLevel(params: components.GetAvaila
  */
 export function createObjectUploads(req: components.CreateUploadsRequest) {
 	return client.post<components.CreateUploadsResponse>("/v1/uploads", req)
+}
+
+/**
+ * @description "Mint Membership NFT Pass"
+ */
+export function mintNFT() {
+	return client.post<null>("/v1/nft/mint")
 }

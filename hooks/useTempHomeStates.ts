@@ -37,10 +37,7 @@ const setTempHomeStates = (
   });
 };
 
-export const useTempHomeStates = (
-  refreshHomeStates: () => void,
-  currentHomeStates?: GetHomepageResponse,
-) => {
+export const useTempHomeStates = (currentHomeStates?: GetHomepageResponse) => {
   // listen to data sets changes
   const [tempHomeStates] = useStore<GetHomepageResponse>(kTempHomeStates);
 
@@ -105,7 +102,6 @@ export const useTempHomeStates = (
 
       return false;
     }
-    refreshHomeStates();
 
     return true;
   };
@@ -137,7 +133,7 @@ export const useTempHomeStates = (
   };
 
   const setLevelInfo = (level: MembershipLevel) => {
-    setTempHomeStates((current) => {
+    setHomeStates((current) => {
       const currentLevels = current?.membershipLevels ?? [];
       const currentLevel = currentLevels.find((e) => e.id === level.id);
       if (!currentLevel) {
@@ -192,13 +188,12 @@ export const useTempHomeStates = (
       return false;
     }
     setLevelInfo(level);
-    refreshHomeStates();
 
     return true;
   };
 
   const setLevelRoles = (level: MembershipLevel, roles: Role[]) => {
-    setTempHomeStates((current) => {
+    setHomeStates((current) => {
       const currentLevels = current?.membershipLevels ?? [];
       const currentLevel = currentLevels.find((e) => e.id === level.id);
       if (!currentLevel) {
@@ -228,13 +223,12 @@ export const useTempHomeStates = (
     }
 
     setLevelRoles(level, roles);
-    refreshHomeStates();
 
     return true;
   };
 
   const setDeletedOutdatedLevel = (level: MembershipLevel) => {
-    setTempHomeStates((current) => {
+    setHomeStates((current) => {
       const currentLevels = current?.outdatedMembershipLevels ?? [];
       if (currentLevels.length < 1) {
         return {};
@@ -262,7 +256,6 @@ export const useTempHomeStates = (
       return false;
     }
     setDeletedOutdatedLevel(level);
-    refreshHomeStates();
 
     return true;
   };
