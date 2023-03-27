@@ -4,6 +4,7 @@ import { Center, Column } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
 import { Spinner } from '@/components/core/Spinner';
 import { Text } from '@/components/core/Text';
+import { showToast } from '@/components/Dialogs/Toast';
 import { MembershipLevelItem } from '@/components/MembershipLevels/MembershipLevelItem';
 import { MembershipLevelsHeader } from '@/components/MembershipLevels/MembershipLevelsHeader';
 import { CurrentRoles } from '@/components/pages/patron/home/CurrentRoles';
@@ -12,7 +13,9 @@ import { NeedMint } from '@/components/pages/patron/home/NeedMint';
 import { NotConnected } from '@/components/pages/patron/home/NotConnected';
 import { NotEligible } from '@/components/pages/patron/home/NotEligible';
 import { useHomeStates } from '@/hooks/useAPP';
+import { mintNFT } from '@/net/http/patreon';
 import { MembershipLevel } from '@/net/http/patreonComponents';
+import { is2XX } from '@/net/http/utils';
 import { withDefault } from '@/utils/core/base';
 
 const PatronHomePage = () => {
@@ -23,9 +26,15 @@ const PatronHomePage = () => {
       return;
     }
     setMinting(true);
-    // todo mint
-    setMintSuccess(true);
+    const result = await mintNFT().catch(() => undefined);
     setMinting(false);
+    if (!is2XX(result)) {
+      // mint failed
+      showToast(
+        result?.message ?? 'Something went wrong, please try again later.',
+      );
+    }
+    setMintSuccess(true);
   };
 
   const { homeStates } = useHomeStates();

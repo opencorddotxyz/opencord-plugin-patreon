@@ -27,15 +27,11 @@ export default function App({
     setup,
     manageable,
     connected,
-    // connected: _,
     eligible,
     minted,
   } = homeStates ?? {};
 
-  // const connected = true;
-
   useEffect(() => {
-    // return;
     if (
       isInited &&
       !isInOpencord &&
