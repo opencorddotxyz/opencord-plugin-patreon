@@ -103,3 +103,11 @@ export function createObjectUploads(req: components.CreateUploadsRequest) {
 export function mintNFT() {
 	return client.post<null>("/v1/nft/mint")
 }
+
+/**
+ * @description "Refresh user tiers"
+ * @param params
+ */
+export function refreshUserTiers(params: components.RefreshUserTiersRequestParams) {
+	return client.post<components.RefreshUserTiersResponse>("/v1/users/:userId/tiers/refresh", params)
+}
