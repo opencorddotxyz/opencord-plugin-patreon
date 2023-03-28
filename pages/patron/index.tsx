@@ -12,13 +12,26 @@ import { MintSuccess } from '@/components/pages/patron/home/MintSuccess';
 import { NeedMint } from '@/components/pages/patron/home/NeedMint';
 import { NotConnected } from '@/components/pages/patron/home/NotConnected';
 import { NotEligible } from '@/components/pages/patron/home/NotEligible';
-import { useHomeStates } from '@/hooks/useAPP';
-import { mintNFT } from '@/net/http/patreon';
+import { setHomeStates, useHomeStates } from '@/hooks/useAPP';
+import { mintNFT, refreshUserTiers } from '@/net/http/patreon';
 import { MembershipLevel } from '@/net/http/patreonComponents';
 import { is2XX } from '@/net/http/utils';
 import { withDefault } from '@/utils/core/base';
 
 const PatronHomePage = () => {
+  const { homeStates } = useHomeStates();
+  const { connected, eligible, minted } = homeStates ?? {};
+
+  const needMint = connected && eligible && !minted;
+
+  const name = withDefault(homeStates?.spaceProfile?.name, '-');
+  const avatar = homeStates?.spaceProfile?.avatar ?? '';
+  const levels = homeStates?.membershipLevels ?? ([] as MembershipLevel[]);
+
+  const roles = homeStates?.corrMembershipLevel?.roles ?? [];
+  const link = homeStates?.spaceProfile?.patreonURL ?? 'https://patreon.com';
+  const nft = { image: homeStates?.corrMembershipLevel?.image ?? '' };
+
   const [mintSuccess, setMintSuccess] = useState(false);
   const [minting, setMinting] = useState(false);
   const onMint = async () => {
@@ -37,23 +50,38 @@ const PatronHomePage = () => {
     setMintSuccess(true);
   };
 
-  const { homeStates } = useHomeStates();
-  const { connected, eligible, minted } = homeStates ?? {};
-
-  const needMint = connected && eligible && !minted;
-
-  const name = withDefault(homeStates?.spaceProfile?.name, '-');
-  const avatar = homeStates?.spaceProfile?.avatar ?? '';
-  const levels = homeStates?.membershipLevels ?? ([] as MembershipLevel[]);
-
-  const roles = homeStates?.corrMembershipLevel?.roles ?? [];
-  const link = homeStates?.spaceProfile?.patreonURL ?? 'https://patreon.com';
-  const nft = { image: homeStates?.corrMembershipLevel?.image ?? '' };
+  const [refreshing, setRefreshing] = useState(false);
+  const onRefresh = async () => {
+    if (refreshing || !homeStates) {
+      return;
+    }
+    setRefreshing(true);
+    const result = await refreshUserTiers({
+      userId: homeStates.userId,
+    }).catch(() => undefined);
+    setRefreshing(false);
+    if (!is2XX(result)) {
+      // mint failed
+      showToast(
+        result?.message ?? 'Something went wrong, please try again later.',
+      );
+    }
+    setHomeStates(() => {
+      return {
+        ...result?.data,
+      };
+    });
+  };
 
   const _body = !connected ? (
     <NotConnected />
   ) : !eligible ? (
-    <NotEligible name={name} link={link} />
+    <NotEligible
+      name={name}
+      link={link}
+      onRefresh={onRefresh}
+      refreshing={refreshing}
+    />
   ) : needMint ? (
     mintSuccess ? (
       <MintSuccess roles={roles} nft={nft} creator={name} />

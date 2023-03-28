@@ -166,3 +166,24 @@ export interface PatreonCreator {
 	id: string
 }
 
+export interface RefreshUserTiersRequest {
+}
+
+export interface RefreshUserTiersRequestParams {
+	userId: string // @me
+}
+
+export interface RefreshUserTiersResponse {
+	userId: string
+	channelId: string
+	setup: boolean
+	manageable: boolean
+	spaceProfile?: SpaceProfile
+	connected: boolean
+	membershipLevels?: Array<MembershipLevel>
+	outdatedMembershipLevels?: Array<MembershipLevel>
+	eligible: boolean
+	minted: boolean
+	corrMembershipLevel?: MembershipLevel
+}
+
