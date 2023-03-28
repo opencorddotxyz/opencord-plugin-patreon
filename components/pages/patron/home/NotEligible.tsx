@@ -52,7 +52,7 @@ export const NotEligible = (props: { name: string; link: string }) => {
             marginBottom="10px"
           >
             We&apos;re sorry, but this perk is only available to {name} patrons.
-            If you would like to become a patron and gain acce-ss to this perk,
+            If you would like to become a patron and gain access to this perk,
             please visit the home page of
           </Text>
           <Text
