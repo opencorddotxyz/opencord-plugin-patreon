@@ -1,11 +1,17 @@
-import { Column, Row } from '@/components/core/Flex';
+import { Box } from '@/components/core/Box';
+import { Column, Expand, Row } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
 import { Text } from '@/components/core/Text';
 import { icons, images } from '@/utils/assets';
 import { openNewTab } from '@/utils/location';
 
-export const NotEligible = (props: { name: string; link: string }) => {
-  const { name, link } = props;
+export const NotEligible = (props: {
+  name: string;
+  link: string;
+  onRefresh: VoidFunction;
+  refreshing: boolean;
+}) => {
+  const { name, link, onRefresh, refreshing } = props;
 
   return (
     <>
@@ -15,7 +21,7 @@ export const NotEligible = (props: { name: string; link: string }) => {
         alignItems="start"
         padding="0 30px 30px 30px"
       >
-        <Row marginBottom="10px">
+        <Row marginBottom="10px" width="100%">
           <Image
             size="20px"
             src={images('not-eligible.svg')}
@@ -29,6 +35,24 @@ export const NotEligible = (props: { name: string; link: string }) => {
           >
             You’re not eligible
           </Text>
+          <Expand />
+          <Row
+            fontSize={'14px'}
+            lineHeight="18px"
+            fontWeight={'500'}
+            userSelect="none"
+            textDecorationLine="underline"
+            cursor="pointer"
+            onClick={onRefresh}
+          >
+            <Image
+              src={icons('refresh.svg')}
+              size="18px"
+              animation={refreshing ? 'spin 1s linear infinite' : 'none'}
+            />
+            <Box width="6px" />
+            Refresh
+          </Row>
         </Row>
         <Text
           alignItems="start"
