@@ -55,7 +55,7 @@ export const useTempHomeStates = (currentHomeStates?: GetHomepageResponse) => {
       !tempHomeStates?.spaceProfile ||
       isEqual(tempHomeStates?.spaceProfile, currentHomeStates?.spaceProfile)
     ) {
-      // newtest
+      // newest
       return;
     }
     tempHomeStates.spaceProfile.name = tempHomeStates.spaceProfile.name.trim();
@@ -102,6 +102,11 @@ export const useTempHomeStates = (currentHomeStates?: GetHomepageResponse) => {
 
       return false;
     }
+    setHomeStates(() => {
+      return {
+        spaceProfile: tempHomeStates.spaceProfile,
+      };
+    });
 
     return true;
   };
@@ -122,9 +127,8 @@ export const useTempHomeStates = (currentHomeStates?: GetHomepageResponse) => {
 
       return false;
     }
-    setHomeStates((current) => {
+    setHomeStates(() => {
       return {
-        ...current,
         ...result?.data,
       };
     });

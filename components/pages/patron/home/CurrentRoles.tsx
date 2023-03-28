@@ -3,6 +3,7 @@ import { Box } from '@/components/core/Box';
 import { Column, Row } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
 import { Text } from '@/components/core/Text';
+import { withDefault } from '@/utils/core/base';
 
 export const CurrentRoles = (props: {
   roles: { name: string; color: string }[];
@@ -66,7 +67,7 @@ export const CurrentRoles = (props: {
                     <Box
                       size="12px"
                       borderRadius="50%"
-                      background={e.color}
+                      background={withDefault(e.color, '#666')}
                       marginRight="6px"
                     />
                     <Text
