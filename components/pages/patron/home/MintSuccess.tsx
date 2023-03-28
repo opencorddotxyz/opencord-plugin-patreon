@@ -4,6 +4,7 @@ import { Column, Row } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
 import { Text } from '@/components/core/Text';
 import { images } from '@/utils/assets';
+import { withDefault } from '@/utils/core/base';
 
 export const MintSuccess = (props: {
   roles: { name: string; color: string }[];
@@ -84,7 +85,7 @@ export const MintSuccess = (props: {
                     <Box
                       size="12px"
                       borderRadius="50%"
-                      background={e.color}
+                      background={withDefault(e.color, '#666')}
                       marginRight="6px"
                     />
                     <Text
