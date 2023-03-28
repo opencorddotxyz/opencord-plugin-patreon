@@ -102,6 +102,11 @@ export const useTempHomeStates = (currentHomeStates?: GetHomepageResponse) => {
 
       return false;
     }
+    setHomeStates(() => {
+      return {
+        spaceProfile: tempHomeStates.spaceProfile,
+      };
+    });
 
     return true;
   };
@@ -122,9 +127,8 @@ export const useTempHomeStates = (currentHomeStates?: GetHomepageResponse) => {
 
       return false;
     }
-    setHomeStates((current) => {
+    setHomeStates(() => {
       return {
-        ...current,
         ...result?.data,
       };
     });
