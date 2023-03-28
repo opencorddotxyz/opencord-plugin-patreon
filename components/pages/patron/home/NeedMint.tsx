@@ -5,6 +5,7 @@ import { Image } from '@/components/core/Image';
 import { Spinner } from '@/components/core/Spinner';
 import { Text } from '@/components/core/Text';
 import { images } from '@/utils/assets';
+import { withDefault } from '@/utils/core/base';
 
 export const NeedMint = (props: {
   roles: { name: string; color: string }[];
@@ -68,7 +69,7 @@ export const NeedMint = (props: {
                     <Box
                       size="12px"
                       borderRadius="50%"
-                      background={e.color}
+                      background={withDefault(e.color, '#666')}
                       marginRight="6px"
                     />
                     <Text
