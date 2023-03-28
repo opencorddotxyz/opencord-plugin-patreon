@@ -1,7 +1,6 @@
 import '../styles/reset.css';
 import '../styles/fonts.css';
 import '../styles/global.css';
-import 'react-contexify/ReactContexify.css';
 
 import { AppProps } from 'next/app';
 import Head from 'next/head';
