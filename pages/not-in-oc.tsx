@@ -1,9 +1,11 @@
+import { NextPage } from 'next';
+
 import { Text } from '@/components/core/Text';
 import { InfoFrame } from '@/components/InfoFrame';
 import { placeholders } from '@/utils/assets';
 import { openNewTab } from '@/utils/location';
 
-const NotInOCPage = () => {
+const NotInOCPage: NextPage = () => {
   return (
     <InfoFrame title={'Runtime Error'} bannerImg={placeholders('error.svg')}>
       <Text

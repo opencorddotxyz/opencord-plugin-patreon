@@ -22,19 +22,13 @@ export default function App({
   const router = useRouterSafe();
 
   const { homeStates, isInOpencord, isInitFailed, isInited } = useAPP();
-  const {
-    setup,
-    manageable,
-    connected,
-    eligible,
-    minted,
-  } = homeStates ?? {};
+  const { setup, manageable, connected, eligible, minted } = homeStates ?? {};
 
   useEffect(() => {
     if (
       isInited &&
       !isInOpencord &&
-      !['/oauth', '/404'].includes(router.originRouter.pathname)
+      !['/oauth', '/404','/wallet-required','/stark-required'].includes(router.originRouter.pathname)
     ) {
       router.replace('/not-in-oc');
 
