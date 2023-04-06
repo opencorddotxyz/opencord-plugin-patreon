@@ -1,8 +1,7 @@
 import { NextPage } from 'next';
 
 import { Text } from '@/components/core/Text';
-
-import { ErrorPageFrame } from './wallet-required';
+import { ErrorPageFrame } from '@/components/errorPageFrame';
 
 const StarkRequired: NextPage = () => {
   return (
