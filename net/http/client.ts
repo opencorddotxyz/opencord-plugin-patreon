@@ -132,15 +132,7 @@ async function withTransformData<T = any>(
   } catch (err) {
     const errResponse = (err as AxiosError).response;
 
-    if (errResponse?.status === 401) {
-      if (!url.includes('/login')) {
-        // clear user info and redirect
-        //todo
-        if (location.pathname !== '/') {
-          location.replace('/');
-        }
-      }
-    } else if (errResponse?.data) {
+    if (errResponse?.data) {
       // deal with logic that with a none 2XX http status but with code
       const { code, message } = errResponse.data as BusinessInfo;
       response.code = code;
