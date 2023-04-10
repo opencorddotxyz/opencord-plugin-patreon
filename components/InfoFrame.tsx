@@ -3,6 +3,7 @@ import { ReactNode } from 'react';
 import { Center, Column, Row } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
 import { Text } from '@/components/core/Text';
+import { useBreakpoint } from '@/hooks/core/useBreakpoint';
 import { images } from '@/utils/assets';
 
 import { Spinner } from './core/Spinner';
@@ -13,6 +14,7 @@ export const InfoFrame = (props: {
   loading?: boolean;
   children: ReactNode;
 }) => {
+  const { isMobile } = useBreakpoint();
   const { title, bannerImg, loading = false } = props;
 
   return (
@@ -21,7 +23,7 @@ export const InfoFrame = (props: {
       height="100vh"
       transform="rotate(180deg)"
       backgroundRepeat="no-repeat"
-      backgroundImage={`url("${images('bg-logo.svg')}")`}
+      backgroundImage={isMobile ? '' : `url("${images('bg-logo.svg')}")`}
       backgroundPosition="100% 100%"
       backgroundSize="625px 528px"
     >
@@ -32,10 +34,10 @@ export const InfoFrame = (props: {
         backgroundRepeat="no-repeat"
         backgroundImage={`url("${images('bg-logo.svg')}")`}
         backgroundPosition="100% 100%"
-        backgroundSize="625px 528px"
+        backgroundSize={isMobile ? '100% ' : '625px 528px'}
       >
         <Column
-          width="560px"
+          width={isMobile ? '88%' : '560px'}
           borderRadius="12px"
           background="#333333"
           boxShadow="0px 0px 8px rgba(0, 0, 0, 0.15)"
