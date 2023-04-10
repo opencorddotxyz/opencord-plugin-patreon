@@ -68,7 +68,6 @@ export const useAPP = () => {
     // auto login
     appLogging = true;
     const loginResponse = await login({ code }).catch(() => undefined);
-    console.log('!!!', loginResponse);
     appLogging = false;
     if (!is2XX(loginResponse)) {
       return;
