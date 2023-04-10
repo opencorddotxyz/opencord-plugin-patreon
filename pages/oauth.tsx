@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 import { useState } from 'react';
 
 import { Text } from '@/components/core/Text';
-import { InfoFrame } from '@/components/InfoFrame';
+import { InfoFrame } from '@/components/PageLayout/InfoFrame';
 import { useRouterQuery } from '@/hooks/useRouterQuery';
 import { validateOAuth2Token } from '@/net/http/patreon';
 import { is2XX } from '@/net/http/utils';
