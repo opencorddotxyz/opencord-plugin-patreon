@@ -2,11 +2,10 @@ import { ReactNode } from 'react';
 
 import { Center, Column, Row } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
+import { Spinner } from '@/components/core/Spinner';
 import { Text } from '@/components/core/Text';
 import { useBreakpoint } from '@/hooks/core/useBreakpoint';
 import { images } from '@/utils/assets';
-
-import { Spinner } from './core/Spinner';
 
 export const InfoFrame = (props: {
   title: string;
