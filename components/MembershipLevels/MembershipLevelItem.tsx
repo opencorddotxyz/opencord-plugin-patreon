@@ -18,7 +18,7 @@ import styles from './style.module.css';
 export const MembershipLevelItem = (props: MembershipLevel) => {
   const { image, name, intro, roles = [] } = props;
   const role = roles[0];
-  const { name: roleName, color: roleColor = 'transparent' } = role ?? {};
+  const { name: roleName, color: roleColor } = role ?? {};
 
   return (
     <>
@@ -60,7 +60,7 @@ export const MembershipLevelItem = (props: MembershipLevel) => {
                 size="12px"
                 minWidth="12px"
                 borderRadius="50%"
-                background={roleColor}
+                background={withDefault(roleColor, '#666')}
                 marginRight="4px"
               />
               <Text color={'#fff'} maxLines={1} textAlign="end">
@@ -99,8 +99,7 @@ export const MembershipLevelItemEditable = (props: {
 
   const { image, name, intro, roles = [], id } = level;
   const selectedRole = roles.find((e) => e);
-  const { name: roleName, color: roleColor = 'transparent' } =
-    selectedRole ?? {};
+  const { name: roleName, color: roleColor } = selectedRole ?? {};
 
   return (
     <Row
@@ -194,7 +193,7 @@ export const MembershipLevelItemEditable = (props: {
               size="12px"
               minWidth="12px"
               borderRadius="50%"
-              background={roleColor}
+              background={withDefault(roleColor, '#666')}
               marginRight="4px"
             />
             {selectedRole ? (
