@@ -36,6 +36,9 @@ const authTokenRequestInterceptor = ({
 const authTokenResponseInterceptor = () => {
   return async (response: AxiosResponse): Promise<AxiosResponse> => {
     if (response.status === 401) {
+      if (location.pathname !== '/') {
+        location.replace('/');
+      }
       logout();
     }
     const refreshedToken = response.headers['authorization'];
