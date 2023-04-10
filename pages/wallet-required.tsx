@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 
 import { Text } from '@/components/core/Text';
-import { ErrorPageFrame } from '@/components/errorPageFrame';
+import { ErrorPageFrame } from '@/components/ErrorPageFrame';
 
 const WalletRequired: NextPage = () => {
   return (
