@@ -2,6 +2,7 @@ import { Box } from '@/components/core/Box';
 import { Column, Expand, Row } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
 import { Text } from '@/components/core/Text';
+import { useBreakpoint } from '@/hooks/core/useBreakpoint';
 import { icons, images } from '@/utils/assets';
 import { openNewTab } from '@/utils/location';
 
@@ -12,6 +13,7 @@ export const NotEligible = (props: {
   refreshing: boolean;
 }) => {
   const { name, link, onRefresh, refreshing } = props;
+  const { isMobile } = useBreakpoint();
 
   return (
     <>
@@ -19,7 +21,7 @@ export const NotEligible = (props: {
         width="100%"
         maxWidth="840px"
         alignItems="start"
-        padding="0 30px 30px 30px"
+        padding={isMobile ? '0 0 15px 0' : '0 30px 30px 30px'}
       >
         <Row marginBottom="10px" width="100%">
           <Image

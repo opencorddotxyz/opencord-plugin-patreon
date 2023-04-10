@@ -4,6 +4,7 @@ import { Center, Column, Row } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
 import { Spinner } from '@/components/core/Spinner';
 import { Text } from '@/components/core/Text';
+import { useBreakpoint } from '@/hooks/core/useBreakpoint';
 import { images } from '@/utils/assets';
 import { withDefault } from '@/utils/core/base';
 
@@ -15,6 +16,7 @@ export const NeedMint = (props: {
   onMint: () => void;
 }) => {
   const { roles, nft, creator, minting, onMint } = props;
+  const { isMobile } = useBreakpoint();
 
   return (
     <>
@@ -22,7 +24,7 @@ export const NeedMint = (props: {
         width="100%"
         maxWidth="840px"
         alignItems="start"
-        padding="0 30px 30px 30px"
+        padding={isMobile ? '0 0 15px 0' : '0 30px 30px 30px'}
       >
         <Row marginBottom="10px">
           <Image size="20px" src={images('need-mint.svg')} marginRight="4px" />
@@ -103,7 +105,7 @@ export const NeedMint = (props: {
           />
           <Center
             color="#000"
-            width="100px"
+            width={isMobile ? '100%' : '100px'}
             height="30px"
             borderRadius="4px"
             background="#fff"

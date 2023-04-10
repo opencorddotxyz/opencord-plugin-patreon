@@ -3,6 +3,7 @@ import { Box } from '@/components/core/Box';
 import { Column, Row } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
 import { Text } from '@/components/core/Text';
+import { useBreakpoint } from '@/hooks/core/useBreakpoint';
 import { images } from '@/utils/assets';
 import { withDefault } from '@/utils/core/base';
 
@@ -12,6 +13,7 @@ export const MintSuccess = (props: {
   creator: string;
 }) => {
   const { roles, nft, creator } = props;
+  const { isMobile } = useBreakpoint();
 
   return (
     <>
@@ -19,7 +21,7 @@ export const MintSuccess = (props: {
         width="100%"
         maxWidth="840px"
         alignItems="start"
-        padding="0 30px 30px 30px"
+        padding={isMobile ? '0 0 15px 0' : '0 30px 30px 30px'}
       >
         <Row marginBottom="10px">
           <Image
