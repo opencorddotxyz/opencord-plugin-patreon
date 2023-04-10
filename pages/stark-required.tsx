@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 
 import { Text } from '@/components/core/Text';
-import { ErrorPageFrame } from '@/components/ErrorPageFrame';
+import { ErrorPageFrame } from '@/components/PageLayout/ErrorPageFrame';
 
 const StarkRequired: NextPage = () => {
   return (
@@ -11,6 +11,7 @@ const StarkRequired: NextPage = () => {
         fontSize="16px"
         fontWeight="400"
         lineHeight="20px"
+        textAlign="center"
       >
         Please setup your Stark Key before using the plugin.{' '}
         <a style={{ textDecoration: 'none' }} href="" target="_blank">

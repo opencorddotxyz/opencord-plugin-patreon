@@ -2,17 +2,19 @@ import { Center, Column, Expand } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
 import { Spinner } from '@/components/core/Spinner';
 import { Text } from '@/components/core/Text';
+import { useBreakpoint } from '@/hooks/core/useBreakpoint';
 import { useConnectPatreon } from '@/hooks/useConnectPatreon';
 import { icons } from '@/utils/assets';
 
 const CreatorNotConnectPage = () => {
   const { connecting, connectPatreon } = useConnectPatreon();
+  const { isMobile } = useBreakpoint();
 
   return (
     <Center width="100%" height="100vh">
-      <Column height="100%">
-        <Expand />
-        <Image src={icons('patreon.svg')} size="64px" />
+      <Column height="100%" paddingTop={isMobile ? '30%' : ''}>
+        {!isMobile && <Expand />}
+        <Image src={icons('patreon.svg')} size={isMobile ? '80px' : '64px'} />
         <Text
           fontSize={'32px'}
           lineHeight="40px"
@@ -34,7 +36,7 @@ const CreatorNotConnectPage = () => {
           based on their tier.
         </Text>
         <Center
-          width="140px"
+          width={isMobile ? '94%' : '140px'}
           height="30px"
           borderRadius="4px"
           background="#fff"

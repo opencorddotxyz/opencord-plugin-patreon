@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 
 import { Text } from '@/components/core/Text';
-import { InfoFrame } from '@/components/InfoFrame';
+import { InfoFrame } from '@/components/PageLayout/InfoFrame';
 import { placeholders } from '@/utils/assets';
 import { openNewTab } from '@/utils/location';
 
@@ -13,6 +13,7 @@ const NotInOCPage: NextPage = () => {
         fontSize={'16px'}
         lineHeight="20px"
         fontWeight={'400'}
+        textAlign="center"
       >
         <Text display="inline" alignContent="center">
           In order to ensure the best performance and experience, please use
