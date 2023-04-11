@@ -20,6 +20,16 @@ body,
     Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   background: #282828;
   color: #fff;
+  /* mask color */
+  --rsbs-backdrop-bg: rgba(0, 0, 0, 0.6);
+  /* button sheet background color */
+  --rsbs-bg: rgb(45, 45, 45);
+  /* button sheet handle bar color */
+  --rsbs-handle-bg: rgb(70, 70, 70);
+  --rsbs-max-w: auto;
+  --rsbs-ml: env(safe-area-inset-left);
+  --rsbs-mr: env(safe-area-inset-right);
+  --rsbs-overlay-rounded: 30px;
 }
 
 /* remove mobile focus color */
