@@ -9,11 +9,12 @@ import { images } from '@/utils/assets';
 
 export const ErrorPageFrame = (props: {
   title: string;
-  loading?: boolean;    
+  loading?: boolean;
+  bannerImg?: string;
   children: ReactNode;
 }) => {
   const { isMobile } = useBreakpoint();
-  const { title, loading = false } = props;
+  const { title, loading = false, bannerImg = 'not-setup.svg' } = props;
 
   return (
     <Center
@@ -30,7 +31,7 @@ export const ErrorPageFrame = (props: {
           </Center>
         ) : (
           <Image
-            src={images('not-setup.svg')}
+            src={images(bannerImg)}
             width="260px"
             height="160px"
             marginBottom="10px"
