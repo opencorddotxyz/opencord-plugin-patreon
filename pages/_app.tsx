@@ -23,12 +23,12 @@ export default function App({
 
   const router = useRouterSafe();
 
-  const { homeStates, isInOpencord, isInitFailed, isInited } = useAPP();
+  const { homeStates, isInOpencord, isInitFailed, isInitialized } = useAPP();
   const { setup, manageable, connected, eligible, minted } = homeStates ?? {};
 
   useEffect(() => {
     if (
-      isInited &&
+      isInitialized &&
       !isInOpencord &&
       !['/oauth', '/404', '/wallet-required', '/stark-required'].includes(
         router.originRouter.pathname,
@@ -47,7 +47,7 @@ export default function App({
     }
 
     if (!homeStates) {
-      // not inited yet
+      // not initialized yet
       return;
     }
 
@@ -71,7 +71,7 @@ export default function App({
       return;
     }
   }, [
-    isInited,
+    isInitialized,
     isInOpencord,
     isInitFailed,
     homeStates,
