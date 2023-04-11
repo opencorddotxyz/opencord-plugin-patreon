@@ -1,11 +1,13 @@
 import '../styles/reset.css';
 import '../styles/fonts.css';
 import '../styles/global.css';
+import 'react-spring-bottom-sheet/dist/style.css';
 
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { memo, useEffect } from 'react';
 
+import { ButtonSheet } from '@/components/Dialogs/ButtonSheet';
 import { Toast } from '@/components/Dialogs/Toast';
 import { useAPP } from '@/hooks/useAPP';
 import { useRouterSafe } from '@/hooks/useRouterSafe';
@@ -85,6 +87,7 @@ export default function App({
     <>
       <Header />
       <Toast />
+      <ButtonSheet />
       <Component {...pageProps} key={_router.route} />
     </>
   );
