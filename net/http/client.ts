@@ -85,6 +85,12 @@ function dealWithBusinessErrorInfo(errorCode: number, errorMessage: string) {
       }
       break;
     }
+    case 6003: {
+      if (location.pathname !== '/connect-failed') {
+        location.replace('/connect-failed');
+      }
+      break;
+    }
 
     default:
       break;
