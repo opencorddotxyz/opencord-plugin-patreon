@@ -73,13 +73,13 @@ function dealWithBusinessErrorInfo(errorCode: number, errorMessage: string) {
   }
 
   switch (errorCode) {
-    case 6002: {
+    case 6001: {
       if (location.pathname !== '/wallet-required') {
         location.replace('/wallet-required');
       }
       break;
     }
-    case 6003: {
+    case 6002: {
       if (location.pathname !== '/stark-required') {
         location.replace('/stark-required');
       }
