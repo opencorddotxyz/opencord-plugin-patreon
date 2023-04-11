@@ -3,7 +3,6 @@ import { NextPage } from 'next';
 import { Text } from '@/components/core/Text';
 import { InfoFrame } from '@/components/InfoFrame';
 import { placeholders } from '@/utils/assets';
-import { openNewTab } from '@/utils/location';
 
 const NotInOCPage: NextPage = () => {
   return (
@@ -14,22 +13,16 @@ const NotInOCPage: NextPage = () => {
         lineHeight="20px"
         fontWeight={'400'}
       >
-        <Text display="inline" alignContent="center">
+        <Text textAlign="center">
           In order to ensure the best performance and experience, please use
           this plugin within{' '}
+          <a href="https://www.opencord.xyz" target="_blank">
+            Opencord
+          </a>
+          .
         </Text>
-        <Text
-          display="inline"
-          color={'#16B8F3'}
-          textDecorationLine="underline"
-          onClick={() => {
-            openNewTab('https://www.opencord.xyz');
-          }}
-          cursor="pointer"
-        >
-          Opencord
-        </Text>
-        <Text>.</Text>
+
+        <Text />
       </Text>
     </InfoFrame>
   );
