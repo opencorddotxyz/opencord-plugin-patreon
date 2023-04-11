@@ -1,5 +1,6 @@
 import { MenuItem } from '@szhsin/react-menu';
 
+import { useBreakpoint } from '@/hooks/core/useBreakpoint';
 import { getAvailableRolesForMembershipLevel } from '@/net/http/patreon';
 import { MembershipLevel, Role } from '@/net/http/patreonComponents';
 import { is2XX } from '@/net/http/utils';
@@ -8,6 +9,7 @@ import { store, useConsumer, useStore } from '@/utils/store/useStore';
 import { Radio } from '../core/Checks';
 import { Expand, Row } from '../core/Flex';
 import { Text } from '../core/Text';
+import { dismissButtonSheet } from './ButtonSheet';
 import { showToast } from './Toast';
 
 export type SaveLevelRolesCallback = (
@@ -37,7 +39,7 @@ export const showSelectRolesMenu = async (
     setSelectedLevelRoles(level, result?.data?.roles ?? []);
   }
 
-  setSeletedRoles(selectedRoles);
+  setSelectedRoles(selectedRoles);
 
   saveLevelRolesCallback = saveLevelRoles;
 
@@ -46,12 +48,13 @@ export const showSelectRolesMenu = async (
 
 const kSelectedRolesKey = 'kSelectedRolesKey';
 const noRoles: Role = { name: 'None', id: 'none' } as any;
-export const setSeletedRoles = (roles: Role[]) => {
+export const setSelectedRoles = (roles: Role[]) => {
   const _roles = roles.length < 1 ? [noRoles] : roles;
   store.set(kSelectedRolesKey, _roles);
 };
 
 export const onSelectRoles = (level: MembershipLevel, roles: Role[]) => {
+  dismissButtonSheet();
   saveLevelRolesCallback?.(level, roles);
 };
 
@@ -59,6 +62,7 @@ export const SelectRolesItem = (props: {
   level: MembershipLevel;
   role: Role;
 }) => {
+  const { isMobile } = useBreakpoint();
   const { role, level } = props;
 
   const selectedRole = useStore<Role[]>(kSelectedRolesKey)[0]?.[0];
@@ -66,7 +70,7 @@ export const SelectRolesItem = (props: {
   return (
     <Row
       width="100%"
-      padding="10px 20px"
+      padding={isMobile ? '7px 15px' : '10px 20px'}
       onClick={() => {
         if (role.id === noRoles.id) {
           // unselect role
@@ -77,13 +81,34 @@ export const SelectRolesItem = (props: {
         }
       }}
     >
-      <Expand marginRight="10px" width="200px">
-        <Text maxLines={1}>
-          {role.id === noRoles.id ? '' : '@'}
-          {role.name}
-        </Text>
-      </Expand>
-      <Radio isChecked={role.id === selectedRole?.id} />
+      {isMobile ? (
+        <Expand
+          background={role.id === selectedRole?.id ? '' : 'rgb(62,62,62)'}
+          alignItems="center"
+          height="48px"
+          padding="15px"
+          borderRadius="10px"
+        >
+          <Text
+            maxLines={1}
+            textAlign="center"
+            fontSize="13px"
+            fontWeight="500"
+          >
+            {role.id === noRoles.id ? '' : '@'}
+            {role.name}
+          </Text>
+        </Expand>
+      ) : (
+        <Expand marginRight="10px" width="200px">
+          <Text maxLines={1}>
+            {role.id === noRoles.id ? '' : '@'}
+            {role.name}
+          </Text>
+        </Expand>
+      )}
+
+      {!isMobile && <Radio isChecked={role.id === selectedRole?.id} />}
     </Row>
   );
 };
@@ -131,6 +156,29 @@ export const SelectRolesMenu = (props: SelectRolesMenuProps) => {
           >
             <SelectRolesItem role={role} level={level} />
           </MenuItem>
+        );
+      })}
+    </>
+  );
+};
+export const MobileSelectRolesMenu = (props: SelectRolesMenuProps) => {
+  const { id, level } = props;
+
+  const roles = useSelectedLevelRoles(level);
+
+  return (
+    <>
+      <Text fontSize="23px" fontWeight="700" margin={'10px 0 0 20px'}>
+        Add Role
+      </Text>
+      {roles?.map((role, idx) => {
+        return (
+          <div
+            // eslint-disable-next-line react/no-array-index-key
+            key={id + idx}
+          >
+            <SelectRolesItem role={role} level={level} />
+          </div>
         );
       })}
     </>

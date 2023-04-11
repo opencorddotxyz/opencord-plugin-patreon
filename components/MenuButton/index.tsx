@@ -4,6 +4,9 @@ import { ControlledMenu, MenuItem, useClick } from '@szhsin/react-menu';
 import { ReactNode, useRef, useState } from 'react';
 
 import { Box, BoxProps, getBoxProps } from '@/components/core/Box';
+import { useBreakpoint } from '@/hooks/core/useBreakpoint';
+
+import { openButtonSheet } from '../Dialogs/ButtonSheet';
 
 interface MenuButtonProps extends BoxProps {
   id: string;
@@ -29,20 +32,25 @@ export const MenuButton = (props: MenuButtonProps) => {
     onShow,
     ...basicProps
   } = props;
+  const { isMobile } = useBreakpoint();
 
   const boxProps = getBoxProps({ ...basicProps, userSelect: 'none' });
 
   const ref = useRef(null);
   const [isOpen, setOpen] = useState(false);
   const anchorProps = useClick(isOpen, async (isOpen, e) => {
-    e.stopPropagation();
-    e.preventDefault();
     if (disable) {
       return;
     }
+    e.stopPropagation();
+    e.preventDefault();
+
     const shouldShow = await onShow?.();
     if (!shouldShow) {
       return;
+    }
+    if (isMobile) {
+      return openButtonSheet(menu);
     }
     setOpen(true);
   });
