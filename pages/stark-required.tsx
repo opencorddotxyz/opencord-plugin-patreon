@@ -5,7 +5,10 @@ import { ErrorPageFrame } from '@/components/PageLayout/ErrorPageFrame';
 
 const StarkRequired: NextPage = () => {
   return (
-    <ErrorPageFrame title={'Stark Key Required'}>
+    <ErrorPageFrame
+      title={'Stark Key Required'}
+      bannerImg="wallet-required.svg"
+    >
       <Text
         color="rgba(255, 255, 255, 0.6)"
         fontSize="16px"

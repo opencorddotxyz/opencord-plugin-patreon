@@ -5,7 +5,10 @@ import { ErrorPageFrame } from '@/components/PageLayout/ErrorPageFrame';
 
 const WalletRequired: NextPage = () => {
   return (
-    <ErrorPageFrame title={'Channel Setup In Progress'}>
+    <ErrorPageFrame
+      title={'Channel Setup In Progress'}
+      bannerImg="wallet-required.svg"
+    >
       <Text
         color="rgba(255, 255, 255, 0.6)"
         fontSize="16px"
