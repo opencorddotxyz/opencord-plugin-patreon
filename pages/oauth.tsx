@@ -13,7 +13,7 @@ import { useInit } from '@/utils/store/useStore';
 const OAuthPage: NextPage = () => {
   const query = useRouterQuery(['code', 'state']);
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
   useInit(async () => {
@@ -49,6 +49,7 @@ const OAuthPage: NextPage = () => {
   return (
     <InfoFrame title={title} bannerImg={bannerImg} loading={loading}>
       <Text
+        textAlign="center"
         fontSize={'16px'}
         lineHeight="20px"
         fontWeight={'400'}

@@ -1,12 +1,12 @@
 import { NextPage } from 'next';
 
 import { Text } from '@/components/core/Text';
-import { InfoFrame } from '@/components/PageLayout/InfoFrame';
+import { InfoFrame } from '@/components/InfoFrame';
 import { placeholders } from '@/utils/assets';
 
 const NotInOCPage: NextPage = () => {
   return (
-    <InfoFrame title={'Runtime Error'} bannerImg={placeholders('error.svg')}>
+    <InfoFrame title={'Connect Failed'} bannerImg={placeholders('error.svg')}>
       <Text
         color="rgba(255, 255, 255, 0.6)"
         fontSize={'16px'}
@@ -14,15 +14,8 @@ const NotInOCPage: NextPage = () => {
         fontWeight={'400'}
         textAlign="center"
       >
-        <Text textAlign="center">
-          In order to ensure the best performance and experience, please use
-          this plugin within{' '}
-          <a href="https://www.opencord.xyz" target="_blank">
-            Opencord
-          </a>
-          .
-        </Text>
-
+        This Patreon account has already been linked to another Opencord
+        account.
         <Text />
       </Text>
     </InfoFrame>
