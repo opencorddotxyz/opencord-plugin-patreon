@@ -21,19 +21,24 @@ export async function uploadImage(
   let processedFile = file;
   const { type, compress = true } = props;
   if (compress) {
-    processedFile = await new Promise((resolve, reject) => {
-      new Compressor(file, {
-        quality: 0.6,
-        maxWidth: Infinity,
-        maxHeight: Infinity,
-        success: (result: File) => {
-          resolve(result);
-        },
-        error: (err) => {
-          reject(err);
-        },
+    try {
+      processedFile = await new Promise((resolve, reject) => {
+        new Compressor(file, {
+          quality: 0.6,
+          maxWidth: Infinity,
+          maxHeight: Infinity,
+          success: (result: File) => {
+            resolve(result);
+          },
+          error: (err) => {
+            reject(err);
+          },
+        });
       });
-    });
+    } catch (error) {
+      console.error(error);
+      throw new Error('compress image fail');
+    }
   }
 
   const result = await createObjectUploads({
