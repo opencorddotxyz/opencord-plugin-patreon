@@ -83,7 +83,7 @@ export const SelectRolesItem = (props: {
     >
       {isMobile ? (
         <Expand
-          background={role.id === selectedRole?.id ? '' : 'rgb(62,62,62)'}
+          background="rgb(62,62,62)"
           alignItems="center"
           height="48px"
           padding="15px"

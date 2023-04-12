@@ -244,9 +244,7 @@ export const EditLevelDialog = () => {
                     @{roleName}
                   </Text>
                 ) : (
-                  <Text userSelect="none" textDecorationLine="underline">
-                    None
-                  </Text>
+                  <Text userSelect="none">None</Text>
                 )}
 
                 <Expand />

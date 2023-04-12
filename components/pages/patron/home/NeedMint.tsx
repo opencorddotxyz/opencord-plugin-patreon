@@ -27,17 +27,28 @@ export const NeedMint = (props: {
         padding={isMobile ? '0 0 15px 0' : '0 30px 30px 30px'}
       >
         <Row marginBottom="10px">
-          <Image size="20px" src={images('need-mint.svg')} marginRight="4px" />
-          <Text fontSize={'16px'} lineHeight="20px" fontWeight={'700'}>
+          {!isMobile && (
+            <Image
+              size="20px"
+              src={images('need-mint.svg')}
+              marginRight="4px"
+            />
+          )}
+          <Text
+            fontSize="16px"
+            lineHeight="20px"
+            fontWeight={isMobile ? '400' : '700'}
+            color={isMobile ? '#d25252' : ''}
+          >
             Please mint your {creator} Membership NFT Pass first.
           </Text>
         </Row>
         <Column
           alignItems="start"
           width="100%"
-          padding="16px"
+          padding={isMobile ? '' : '16px'}
           borderRadius="4px"
-          border="1px solid #373737"
+          border={isMobile ? '' : '1px solid #373737'}
         >
           <Text
             color="rgba(255, 255, 255, 0.3)"
@@ -46,7 +57,9 @@ export const NeedMint = (props: {
             fontWeight={'400'}
             marginBottom="10px"
           >
-            To receive your roles as
+            {isMobile
+              ? 'In order to obtain the following roles:'
+              : 'To receive your roles as'}
           </Text>
           <Row
             flexWrap="wrap"
@@ -95,11 +108,13 @@ export const NeedMint = (props: {
             fontWeight={'400'}
             marginBottom="10px"
           >
-            Your Membership NFT Pass (preview)
+            {isMobile
+              ? 'Your Membership NFT Pass'
+              : 'Your Membership NFT Pass (preview)'}
           </Text>
           <Image
             src={nft.image}
-            size="120px"
+            size={isMobile ? '60px' : '120px'}
             borderRadius="8px"
             marginBottom="10px"
           />
@@ -116,6 +131,8 @@ export const NeedMint = (props: {
           >
             {minting ? (
               <Spinner size="16px" thickness="2px" theme="light" />
+            ) : isMobile ? (
+              ' Mint Now'
             ) : (
               'Mint'
             )}
