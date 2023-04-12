@@ -41,7 +41,7 @@ export const NotEligible = (props: {
         width="100%"
         maxWidth="840px"
         alignItems="start"
-        padding={isMobile ? '15px' : '0 30px 30px 30px'}
+        padding={isMobile ? '15px' : '0 30px 30px 30px'} 
         borderRadius="4px"
         border={isMobile ? '1px dashed #373737' : ''}
       >
