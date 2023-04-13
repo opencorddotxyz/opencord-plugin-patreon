@@ -1,3 +1,4 @@
+
 import { store, useConsumer } from '@/utils/store/useStore';
 
 const _getBreakpoint = () => {
@@ -58,5 +59,5 @@ export const useBreakpoint = (): DeviceSize => {
 
   const [breakpoint] = useConsumer(kScreenReSizeListenerKey);
 
-  return breakpoint ?? _getBreakpoint();
+  return breakpoint ?? {};
 };
