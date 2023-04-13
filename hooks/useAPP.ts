@@ -54,7 +54,8 @@ export const useHomeStates = () => {
 
 let appLogging = false;
 export const useAPP = () => {
-  const { isInited, isInOpencord, isInitFailed, currentUser } = useOpencord();
+  const { isInitialized, isInOpencord, isInitFailed, currentUser } =
+    useOpencord();
 
   const { homeStates, refreshHomeStates, refreshing } = useHomeStates();
 
@@ -80,10 +81,10 @@ export const useAPP = () => {
       userId: homeData.userId,
       channelId: homeData.channelId,
     });
-  }, [isInited, currentUser, _isLoggedIn]);
+  }, [isInitialized, currentUser, _isLoggedIn]);
 
   return {
-    isInited,
+    isInitialized,
     isInitFailed,
     isInOpencord,
     homeStates,

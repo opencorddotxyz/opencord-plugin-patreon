@@ -2,23 +2,25 @@ import { Center, Column, Expand } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
 import { Spinner } from '@/components/core/Spinner';
 import { Text } from '@/components/core/Text';
+import { useBreakpoint } from '@/hooks/core/useBreakpoint';
 import { useConnectPatreon } from '@/hooks/useConnectPatreon';
 import { icons } from '@/utils/assets';
 
 const CreatorNotConnectPage = () => {
   const { connecting, connectPatreon } = useConnectPatreon();
+  const { isMobile } = useBreakpoint();
 
   return (
-    <Center width="100%" height="100vh">
-      <Column height="100%">
-        <Expand />
-        <Image src={icons('patreon.svg')} size="64px" />
+    <Center width="100%" height="100vh" paddingInline={isMobile ? '15px' : ''}>
+      <Column height="100%" paddingTop={isMobile ? '30%' : ''}>
+        {!isMobile && <Expand />}
+        <Image src={icons('patreon.svg')} size={isMobile ? '80px' : '64px'} />
         <Text
-          fontSize={'32px'}
-          lineHeight="40px"
+          fontSize={isMobile ? '18px' : '32px'}
+          lineHeight={isMobile ? '23px' : '40px'}
           fontWeight={'700'}
           textAlign="center"
-          margin={'20px 0 10px 0'}
+          margin={isMobile ? '15px 0 10px 0' : '20px 0 10px 0'}
         >
           Welcome your Patrons to Opencord
         </Text>
@@ -28,18 +30,18 @@ const CreatorNotConnectPage = () => {
           fontWeight={'400'}
           textAlign="center"
           color={'rgba(255, 255, 255, 0.4)'}
-          marginBottom="20px"
+          marginBottom={isMobile ? '36px' : '20px'}
         >
           Automatically assign roles and reward them with a Membership NFT Pass
           based on their tier.
         </Text>
         <Center
-          width="140px"
-          height="30px"
-          borderRadius="4px"
+          width={isMobile ? '100%' : '140px'}
+          height={isMobile ? '36px' : '30px'}
+          borderRadius={isMobile ? '5px' : '4px'}
           background="#fff"
           color="#282828"
-          fontWeight={500}
+          fontWeight={isMobile ? 600 : 500}
           cursor={'pointer'}
           userSelect="none"
           onClick={connectPatreon}
