@@ -55,8 +55,7 @@ export const MenuButton = (props: MenuButtonProps) => {
       }
       setOpen(true);
     } catch (error) {
-      return;
-      //
+      console.error(error);
     }
   });
 

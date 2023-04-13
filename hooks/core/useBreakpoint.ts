@@ -1,8 +1,4 @@
-import { useState } from 'react';
-
 import { store, useConsumer } from '@/utils/store/useStore';
-
-import useMount from './useMount';
 
 const _getBreakpoint = () => {
   if (typeof document === 'undefined') {
@@ -60,13 +56,7 @@ const initScreenReSizeListener = () => {
 export const useBreakpoint = (): DeviceSize => {
   initScreenReSizeListener();
 
-  const [initState, setInitState] = useState<any>({});
-
-  useMount(() => {
-    setInitState(_getBreakpoint());
-  });
-
   const [breakpoint] = useConsumer(kScreenReSizeListenerKey);
 
-  return breakpoint ?? initState;
+  return breakpoint ?? _getBreakpoint();
 };
