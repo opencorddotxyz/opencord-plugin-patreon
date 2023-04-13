@@ -14,7 +14,7 @@ export const dismissButtonSheet = () => {
   store.set(kShowButtonSheet, undefined);
 };
 
-const _ButtonSheet = () => {
+const _BottomSheet = () => {
   const [sheetContent] = useStore(kShowButtonSheet);
 
   const isOpen = useMemo(() => {
@@ -28,4 +28,4 @@ const _ButtonSheet = () => {
   );
 };
 
-export const ButtonSheet = memo(_ButtonSheet);
+export const ButtonSheet = memo(_BottomSheet);

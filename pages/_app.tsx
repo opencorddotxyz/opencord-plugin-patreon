@@ -7,7 +7,7 @@ import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { memo, useEffect } from 'react';
 
-import { ButtonSheet } from '@/components/Dialogs/ButtonSheet';
+import { ButtonSheet } from '@/components/Dialogs/BottomSheet';
 import { Toast } from '@/components/Dialogs/Toast';
 import { useAPP } from '@/hooks/useAPP';
 import { useRouterSafe } from '@/hooks/useRouterSafe';

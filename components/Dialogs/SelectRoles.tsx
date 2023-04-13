@@ -9,7 +9,7 @@ import { store, useConsumer, useStore } from '@/utils/store/useStore';
 import { Radio } from '../core/Checks';
 import { Expand, Row } from '../core/Flex';
 import { Text } from '../core/Text';
-import { dismissButtonSheet } from './ButtonSheet';
+import { dismissButtonSheet } from './BottomSheet';
 import { showToast } from './Toast';
 
 export type SaveLevelRolesCallback = (

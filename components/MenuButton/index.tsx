@@ -6,7 +6,7 @@ import { ReactNode, useRef, useState } from 'react';
 import { Box, BoxProps, getBoxProps } from '@/components/core/Box';
 import { useBreakpoint } from '@/hooks/core/useBreakpoint';
 
-import { openButtonSheet } from '../Dialogs/ButtonSheet';
+import { openButtonSheet } from '../Dialogs/BottomSheet';
 
 interface MenuButtonProps extends BoxProps {
   id: string;
