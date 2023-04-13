@@ -22,9 +22,9 @@ body,
   color: #fff;
   /* mask color */
   --rsbs-backdrop-bg: rgba(0, 0, 0, 0.6);
-  /* button sheet background color */
+  /* bottom sheet background color */
   --rsbs-bg: rgb(45, 45, 45);
-  /* button sheet handle bar color */
+  /* bottom sheet handle bar color */
   --rsbs-handle-bg: rgb(70, 70, 70);
   --rsbs-max-w: auto;
   --rsbs-ml: env(safe-area-inset-left);

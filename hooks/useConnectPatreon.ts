@@ -16,7 +16,10 @@ export const useConnectPatreon = () => {
     if (connecting) {
       return;
     }
-    isMobile && openNewTab(oauthURL);
+
+    if (isMobile) {
+      openNewTab(oauthURL);
+    }
 
     setConnecting(true);
     try {
@@ -26,7 +29,7 @@ export const useConnectPatreon = () => {
         openNewTab(oauthURL);
       }
     } catch (error) {
-      //
+      console.error(error);
     } finally {
       setConnecting(false);
     }
