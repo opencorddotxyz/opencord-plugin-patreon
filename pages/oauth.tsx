@@ -13,7 +13,7 @@ import { useInit } from '@/utils/store/useStore';
 const OAuthPage: NextPage = () => {
   const query = useRouterQuery(['code', 'state']);
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
   useInit(async () => {
