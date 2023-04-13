@@ -4,23 +4,23 @@ import { BottomSheet as ReactSpringBottomSheet } from 'react-spring-bottom-sheet
 import { isNotEmpty } from '@/utils/core/is';
 import { store, useStore } from '@/utils/store/useStore';
 
-const kShowButtonSheet = 'kShowButtonSheet';
+const kShowBottomSheet = 'kShowBottomSheet';
 
-export const openButtonSheet = (content: ReactNode) => {
-  store.set(kShowButtonSheet, content);
+export const openBottomSheet = (content: ReactNode) => {
+  store.set(kShowBottomSheet, content);
 };
 
-export const dismissButtonSheet = () => {
-  store.set(kShowButtonSheet, undefined);
+export const dismissBottomSheet = () => {
+  store.set(kShowBottomSheet, undefined);
 };
 
 export const BottomSheet = () => {
-  const [sheetContent] = useStore(kShowButtonSheet);
+  const [sheetContent] = useStore(kShowBottomSheet);
 
   const isOpen = isNotEmpty(sheetContent);
 
   return (
-    <ReactSpringBottomSheet open={isOpen} onDismiss={dismissButtonSheet}>
+    <ReactSpringBottomSheet open={isOpen} onDismiss={dismissBottomSheet}>
       {sheetContent}
     </ReactSpringBottomSheet>
   );

@@ -6,7 +6,7 @@ import { ReactNode, useRef, useState } from 'react';
 import { Box, BoxProps, getBoxProps } from '@/components/core/Box';
 import { useBreakpoint } from '@/hooks/core/useBreakpoint';
 
-import { openButtonSheet } from '../Dialogs/BottomSheet';
+import { openBottomSheet } from '../Dialogs/BottomSheet';
 
 interface MenuButtonProps extends BoxProps {
   id: string;
@@ -50,9 +50,9 @@ export const MenuButton = (props: MenuButtonProps) => {
       return;
     }
     if (isMobile) {
-      return openButtonSheet(menu);
+      return openBottomSheet(menu);
     }
-    
+
     setOpen(true);
   });
 
