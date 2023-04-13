@@ -7,7 +7,7 @@ import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { memo, useEffect } from 'react';
 
-import { ButtonSheet } from '@/components/Dialogs/BottomSheet';
+import { BottomSheet } from '@/components/Dialogs/BottomSheet';
 import { Toast } from '@/components/Dialogs/Toast';
 import MobileVisitTip from '@/components/MobileTip';
 import { useBreakpoint } from '@/hooks/core/useBreakpoint';
@@ -89,7 +89,7 @@ export default function App({
     <>
       <Header />
       <Toast />
-      <ButtonSheet />
+      <BottomSheet />
       {isMobile ? (
         <MobileVisitTip />
       ) : (

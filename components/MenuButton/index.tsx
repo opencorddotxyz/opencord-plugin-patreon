@@ -45,18 +45,15 @@ export const MenuButton = (props: MenuButtonProps) => {
     e.stopPropagation();
     e.preventDefault();
 
-    try {
-      const shouldShow = await onShow?.();
-      if (!shouldShow) {
-        return;
-      }
-      if (isMobile) {
-        return openButtonSheet(menu);
-      }
-      setOpen(true);
-    } catch (error) {
-      console.error(error);
+    const shouldShow = await onShow?.();
+    if (!shouldShow) {
+      return;
     }
+    if (isMobile) {
+      return openButtonSheet(menu);
+    }
+    
+    setOpen(true);
   });
 
   return (

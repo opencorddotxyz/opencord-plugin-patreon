@@ -1,5 +1,5 @@
-import { memo, ReactNode, useMemo } from 'react';
-import { BottomSheet } from 'react-spring-bottom-sheet';
+import { ReactNode } from 'react';
+import { BottomSheet as ReactSpringBottomSheet } from 'react-spring-bottom-sheet';
 
 import { isNotEmpty } from '@/utils/core/is';
 import { store, useStore } from '@/utils/store/useStore';
@@ -14,18 +14,14 @@ export const dismissButtonSheet = () => {
   store.set(kShowButtonSheet, undefined);
 };
 
-const _BottomSheet = () => {
+export const BottomSheet = () => {
   const [sheetContent] = useStore(kShowButtonSheet);
 
-  const isOpen = useMemo(() => {
-    return isNotEmpty(sheetContent);
-  }, [sheetContent]);
+  const isOpen = isNotEmpty(sheetContent);
 
   return (
-    <BottomSheet open={isOpen} onDismiss={dismissButtonSheet}>
+    <ReactSpringBottomSheet open={isOpen} onDismiss={dismissButtonSheet}>
       {sheetContent}
-    </BottomSheet>
+    </ReactSpringBottomSheet>
   );
 };
-
-export const ButtonSheet = memo(_BottomSheet);
