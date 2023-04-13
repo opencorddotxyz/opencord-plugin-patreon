@@ -31,7 +31,7 @@ export interface MembershipLevel {
 	image: string
 	name: string
 	intro: string
-	roles: Array<Role>
+	roles?: Array<Role> 
 }
 
 export interface Role {

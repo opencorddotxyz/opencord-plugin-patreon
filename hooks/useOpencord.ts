@@ -8,20 +8,20 @@ type Opencord = ReturnType<typeof getClient>;
 
 class OpencordHelper {
   client?: Opencord;
-  inited = false;
+  initialized = false;
   initFailed = false;
   inOpencord = false;
   getCoding = false;
 
   init() {
-    if (this.inited) {
+    if (this.initialized) {
       return true;
     }
     try {
       const oc = getClient({
         debug: process.env.NODE_ENV === 'development',
       });
-      this.inited = true;
+      this.initialized = true;
       this.inOpencord = oc.platform !== 'unknown';
       this.initFailed = oc.version === '';
       if (!this.initFailed) {
@@ -31,7 +31,7 @@ class OpencordHelper {
       this.initFailed = true;
     }
 
-    return this.inited;
+    return this.initialized;
   }
 }
 
@@ -66,7 +66,7 @@ export const useOpencord = () => {
   };
 
   useEffect(() => {
-    if (!opencordHelper.inited) {
+    if (!opencordHelper.initialized) {
       opencordHelper.init();
       rebuild();
     }
@@ -76,7 +76,7 @@ export const useOpencord = () => {
 
   return {
     currentUser,
-    isInited: opencordHelper.inited,
+    isInitialized: opencordHelper.initialized,
     isInitFailed: opencordHelper.initFailed,
     isInOpencord: opencordHelper.inOpencord,
   };

@@ -4,21 +4,25 @@ import { Center, Column, Row } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
 import { Spinner } from '@/components/core/Spinner';
 import { Text } from '@/components/core/Text';
+import { useBreakpoint } from '@/hooks/core/useBreakpoint';
 import { images } from '@/utils/assets';
 
 export const ErrorPageFrame = (props: {
   title: string;
   loading?: boolean;
+  bannerImg?: string;
   children: ReactNode;
 }) => {
-  const { title, loading = false } = props;
+  const { isMobile } = useBreakpoint();
+  const { title, loading = false, bannerImg = 'not-setup.svg' } = props;
 
   return (
     <Center
       width="100%"
       height="100vh"
-      backgroundRepeat="no-repeat"
+      marginTop={isMobile ? '-30%' : ''}
       backgroundSize="625px 528px"
+      backgroundRepeat="no-repeat"
     >
       <Column borderRadius="12px" padding="30px 40px 60px 40px">
         {loading ? (
@@ -27,7 +31,7 @@ export const ErrorPageFrame = (props: {
           </Center>
         ) : (
           <Image
-            src={images('not-setup.svg')}
+            src={images(bannerImg)}
             width="260px"
             height="160px"
             marginBottom="10px"

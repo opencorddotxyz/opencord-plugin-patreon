@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 import { useState } from 'react';
 
 import { Text } from '@/components/core/Text';
-import { InfoFrame } from '@/components/InfoFrame';
+import { InfoFrame } from '@/components/PageLayout/InfoFrame';
 import { useRouterQuery } from '@/hooks/useRouterQuery';
 import { validateOAuth2Token } from '@/net/http/patreon';
 import { is2XX } from '@/net/http/utils';
@@ -49,6 +49,7 @@ const OAuthPage: NextPage = () => {
   return (
     <InfoFrame title={title} bannerImg={bannerImg} loading={loading}>
       <Text
+        textAlign="center"
         fontSize={'16px'}
         lineHeight="20px"
         fontWeight={'400'}
