@@ -3,7 +3,9 @@ import { useState } from 'react';
 
 import { Text } from '@/components/core/Text';
 import { InfoFrame } from '@/components/PageLayout/InfoFrame';
+import { useOpencord } from '@/hooks/useOpencord';
 import { useRouterQuery } from '@/hooks/useRouterQuery';
+import { useRouterSafe } from '@/hooks/useRouterSafe';
 import { validateOAuth2Token } from '@/net/http/patreon';
 import { is2XX } from '@/net/http/utils';
 import { placeholders } from '@/utils/assets';
@@ -12,6 +14,8 @@ import { useInit } from '@/utils/store/useStore';
 
 const OAuthPage: NextPage = () => {
   const query = useRouterQuery(['code', 'state']);
+  const { isInOpencord } = useOpencord();
+  const router = useRouterSafe();
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -30,7 +34,10 @@ const OAuthPage: NextPage = () => {
     setLoading(false);
     setOAuthToken(undefined);
     if (!is2XX(result)) {
-      setError(true);
+      return setError(true);
+    }
+    if (isInOpencord) {
+      router.replace('/');
     }
   }, [query]);
 

@@ -12,23 +12,22 @@ export const useConnectPatreon = () => {
   const { refreshHomeStates } = useAPP();
 
   const connectPatreon = async () => {
-    const oauthURL = getPatreonAuthUrl();
     if (connecting) {
       return;
-    }
-
-    if (isMobile) {
-      openNewTab(oauthURL);
     }
 
     setConnecting(true);
     const states = await refreshHomeStates();
     setConnecting(false);
-    
+
     const isConnected = states?.connected;
     if (!isConnected) {
       const oauthURL = getPatreonAuthUrl();
-      openNewTab(oauthURL);
+      if (isMobile) {
+        window.location.href = oauthURL;
+      } else {
+        openNewTab(oauthURL);
+      }
     }
   };
 
