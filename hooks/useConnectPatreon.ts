@@ -22,16 +22,13 @@ export const useConnectPatreon = () => {
     }
 
     setConnecting(true);
-    try {
-      const states = await refreshHomeStates();
-      const isConnected = states?.connected;
-      if (!isConnected) {
-        openNewTab(oauthURL);
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setConnecting(false);
+    const states = await refreshHomeStates();
+    setConnecting(false);
+    
+    const isConnected = states?.connected;
+    if (!isConnected) {
+      const oauthURL = getPatreonAuthUrl();
+      openNewTab(oauthURL);
     }
   };
 
