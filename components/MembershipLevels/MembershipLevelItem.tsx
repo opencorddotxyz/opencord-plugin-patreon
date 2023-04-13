@@ -48,7 +48,6 @@ export const MembershipLevelItem = (props: MembershipLevel) => {
             borderRadius="8px"
           />
         </Row>
-        {/*  name */}
         {!isMobile && (
           <Expand>
             <Text width="100%" fontWeight="600" maxLines={1} marginRight="20px">
@@ -175,7 +174,6 @@ export const MembershipLevelItemEditable = (props: {
           borderRadius="8px"
         />
       </Row>
-      {/*  name */}
       {!isMobile && (
         <Expand>
           <Text
