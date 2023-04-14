@@ -59,7 +59,7 @@ const PatronHomePage = () => {
     }
     setRefreshing(true);
     const result = await refreshUserTiers({
-      userId: homeStates.userId,
+      userId: '@me',
     }).catch(() => undefined);
     setRefreshing(false);
     if (!is2XX(result)) {
