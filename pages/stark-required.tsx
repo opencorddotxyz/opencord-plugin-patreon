@@ -17,7 +17,11 @@ const StarkRequired: NextPage = () => {
         textAlign="center"
       >
         Please setup your Stark Key before using the plugin.{' '}
-        <a style={{ textDecoration: 'none' }} href="" target="_blank">
+        <a
+          style={{ textDecoration: 'none' }}
+          href="https://help.opencord.xyz/account/setup-stark-key"
+          target="_blank"
+        >
           Learn more
         </a>
       </Text>
