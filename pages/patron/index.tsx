@@ -109,7 +109,7 @@ const PatronHomePage = () => {
           : ''
       }
     >
-      {isMobile && (connected || eligible) && (
+      {isMobile && (!connected || !eligible) && (
         <Column padding="15px 15px 0 15px">
           <Row
             width="100%"
