@@ -68,7 +68,7 @@ function replacePathParams(path: string, param: Param) {
 }
 
 function dealWithBusinessErrorInfo(errorCode: number, errorMessage: string) {
-  if ([2000, 6001, 6002, 6003].includes(errorCode)) {
+  if ([6001, 6002, 6003].includes(errorCode)) {
     showToast(errorMessage);
   }
 

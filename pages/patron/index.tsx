@@ -59,7 +59,7 @@ const PatronHomePage = () => {
     }
     setRefreshing(true);
     const result = await refreshUserTiers({
-      userId: homeStates.userId,
+      userId: '@me',
     }).catch(() => undefined);
     setRefreshing(false);
     if (!is2XX(result)) {
@@ -109,7 +109,7 @@ const PatronHomePage = () => {
           : ''
       }
     >
-      {isMobile && (connected || eligible) && (
+      {isMobile && (!connected || !eligible) && (
         <Column padding="15px 15px 0 15px">
           <Row
             width="100%"

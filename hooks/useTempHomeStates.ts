@@ -126,6 +126,8 @@ export const useTempHomeStates = (currentHomeStates?: GetHomepageResponse) => {
       );
 
       return false;
+    } else {
+      showToast('Updated');
     }
     setHomeStates(() => {
       return {

@@ -5,10 +5,7 @@ import { ErrorPageFrame } from '@/components/PageLayout/ErrorPageFrame';
 
 const WalletRequired: NextPage = () => {
   return (
-    <ErrorPageFrame
-      title={'Channel Setup In Progress'}
-      bannerImg="wallet-required.svg"
-    >
+    <ErrorPageFrame title={'Wallet Required'} bannerImg="wallet-required.svg">
       <Text
         color="rgba(255, 255, 255, 0.6)"
         fontSize="16px"
@@ -16,8 +13,14 @@ const WalletRequired: NextPage = () => {
         lineHeight="20px"
         textAlign="center"
       >
-        Once the setup is complete, you will be able to claim your Membership
-        NFT Pass here.
+        Please setup your wallet address before using the plugin.{' '}
+        <a
+          style={{ textDecoration: 'none' }}
+          href="https://help.opencord.xyz/account/setup-wallet"
+          target="_blank"
+        >
+          Learn more
+        </a>
       </Text>
     </ErrorPageFrame>
   );
