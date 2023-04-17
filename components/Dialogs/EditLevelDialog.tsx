@@ -62,7 +62,7 @@ export const EditLevelDialog = () => {
     const success = await onSave?.(level);
     setSaving(false);
     if (success) {
-      showToast('Saved');
+      showToast('Save Successful');
       close();
     }
   };
