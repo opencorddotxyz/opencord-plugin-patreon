@@ -44,6 +44,7 @@ node_modules
 # do not commit .env files or any files that end with `.env`
 .env.development
 .env.production
+.env.staging
 .env
 
 # exclude IntelliJ/WebStorm stuff
