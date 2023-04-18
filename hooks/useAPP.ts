@@ -61,11 +61,11 @@ export const useAPP = () => {
 
   const _isLoggedIn = isLoggedIn();
 
+  const code = currentUser?.code;
   useInit(async () => {
-    if (!currentUser || homeStates || appLogging) {
+    if (!code || homeStates || appLogging) {
       return;
     }
-    const code = currentUser?.code;
     // auto login
     appLogging = true;
     const loginResponse = await login({ code }).catch(() => undefined);
@@ -81,7 +81,7 @@ export const useAPP = () => {
       userId: homeData.userId,
       channelId: homeData.channelId,
     });
-  }, [isInitialized, currentUser, _isLoggedIn]);
+  }, [isInitialized, code, _isLoggedIn]);
 
   return {
     isInitialized,

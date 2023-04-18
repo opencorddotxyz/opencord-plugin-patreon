@@ -10,7 +10,6 @@ import { Radio } from '../core/Checks';
 import { Expand, Row } from '../core/Flex';
 import { Text } from '../core/Text';
 import { dismissBottomSheet } from './BottomSheet';
-import { showToast } from './Toast';
 
 export type SaveLevelRolesCallback = (
   level: MembershipLevel,
@@ -29,10 +28,6 @@ export const showSelectRolesMenu = async (
       levelId: level.id,
     }).catch(() => undefined);
     if (!is2XX(result)) {
-      showToast(
-        result?.message ?? 'Something went wrong, please try again later.',
-      );
-
       return false;
     }
 
