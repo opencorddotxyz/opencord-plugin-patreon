@@ -127,7 +127,7 @@ export const useTempHomeStates = (currentHomeStates?: GetHomepageResponse) => {
 
       return false;
     } else {
-      showToast('Updated');
+      showToast('Update Successful');
     }
     setHomeStates(() => {
       return {
