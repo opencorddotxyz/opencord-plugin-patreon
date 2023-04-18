@@ -8,6 +8,7 @@
     "prod": "APP_ENV=production next dev",
     "build": "next build && next export",
     "build:dev": "APP_ENV=development yarn build",
+    "build:staging": "APP_ENV=staging yarn build",
     "preview": "yarn build && next start",
     "preview:dev": "yarn build && next start"
   },
