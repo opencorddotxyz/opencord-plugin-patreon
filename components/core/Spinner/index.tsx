@@ -34,13 +34,13 @@ export const Spinner = (props?: SpinnerProps) => {
     ...{ style, className: styles.spinner },
   });
 
-  const [inited, setInited] = useState(delay ? false : true);
+  const [initialized, setInitialized] = useState(delay ? false : true);
   useEffect(() => {
     setTimeout(() => {
-      setInited(true);
+      setInitialized(true);
     }, delay);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return inited ? <div {...boxProps} /> : <div />;
+  return initialized ? <div {...boxProps} /> : <div />;
 };
