@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
+import Router from 'next/router';
 
 import { showToast } from '@/components/Dialogs/Toast';
 import { error, info } from '@/utils/core/log';
@@ -74,20 +75,20 @@ function dealWithBusinessErrorInfo(errorCode: number, errorMessage: string) {
 
   switch (errorCode) {
     case 6001: {
-      if (location.pathname !== '/wallet-required') {
-        location.replace('/wallet-required');
+      if (Router.pathname !== '/wallet-required') {
+        Router.replace('/wallet-required');
       }
       break;
     }
     case 6002: {
-      if (location.pathname !== '/stark-required') {
-        location.replace('/stark-required');
+      if (Router.pathname !== '/stark-required') {
+        Router.replace('/stark-required');
       }
       break;
     }
     case 6003: {
-      if (location.pathname !== '/account-existed') {
-        location.replace('/account-existed');
+      if (Router.pathname !== '/account-existed') {
+        Router.replace('/account-existed');
       }
       break;
     }
