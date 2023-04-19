@@ -1,7 +1,8 @@
+import { useEffect, useState } from 'react';
+
 import { isNotEmpty } from '@/utils/core/is';
 import { store, useStore } from '@/utils/store/useStore';
 
-import { Box } from '../core/Box';
 import { Center } from '../core/Flex';
 
 const kShowToast = 'kShowToast';
@@ -23,9 +24,17 @@ export const hideToast = () => {
 export const Toast = () => {
   const [text] = useStore(kShowToast);
   const show = isNotEmpty(text);
+  const [info, setInfo] = useState(text);
+  useEffect(() => {
+    if (text) {
+      setInfo(text);
+    }
+  }, [show, text]);
 
-  return show ? (
+  return (
     <Center
+      opacity={show ? 1 : 0}
+      transition="0.3s"
       width="100vw"
       top="30px"
       left="0"
@@ -35,15 +44,14 @@ export const Toast = () => {
     >
       <Center
         maxWidth="500px"
+        height="30px"
         padding="6px 20px"
         borderRadius="16px"
         background="#3B3B3B"
         boxShadow="0px 4px 6px rgba(40, 40, 40, 0.25)"
       >
-        {text}
+        {info}
       </Center>
     </Center>
-  ) : (
-    <Box />
   );
 };
