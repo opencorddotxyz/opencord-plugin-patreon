@@ -96,6 +96,8 @@ export const useTempHomeStates = (currentHomeStates?: GetHomepageResponse) => {
     setSaving(false);
     if (!is2XX(result)) {
       return false;
+    } else {
+      showToast('Save Successful');
     }
     setHomeStates(() => {
       return {

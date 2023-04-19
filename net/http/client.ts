@@ -92,7 +92,12 @@ function dealWithBusinessErrorInfo(errorCode: number, errorMessage: string) {
       }
       break;
     }
-
+    case 6004: {
+      if (Router.pathname !== '/creator-page-not-found') {
+        Router.replace('/creator-page-not-found');
+      }
+      break;
+    }
     default:
       break;
   }

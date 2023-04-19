@@ -29,9 +29,14 @@ export default function App({
     if (
       isInitialized &&
       !isInOpencord &&
-      !['/oauth', '/404', '/wallet-required', '/stark-required'].includes(
-        router.originRouter.pathname,
-      )
+      ![
+        '/oauth',
+        '/404',
+        '/wallet-required',
+        '/stark-required',
+        '/account-existed',
+        '/creator-page-not-found',
+      ].includes(router.originRouter.pathname)
     ) {
       router.replace('/not-in-oc');
 
