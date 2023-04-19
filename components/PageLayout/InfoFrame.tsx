@@ -55,6 +55,7 @@ export const InfoFrame = (props: {
             />
           )}
           <Text
+            textAlign="center"
             fontSize={'32px'}
             lineHeight="40px"
             fontWeight={'700'}

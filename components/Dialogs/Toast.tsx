@@ -44,7 +44,6 @@ export const Toast = () => {
     >
       <Center
         maxWidth="500px"
-        height="30px"
         padding="6px 20px"
         borderRadius="16px"
         background="#3B3B3B"
