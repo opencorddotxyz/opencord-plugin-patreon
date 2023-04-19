@@ -1,4 +1,5 @@
 import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import Router from 'next/router';
 
 import {
   getAuthToken,
@@ -36,8 +37,8 @@ const authTokenRequestInterceptor = ({
 const authTokenResponseInterceptor = () => {
   return async (response: AxiosResponse): Promise<AxiosResponse> => {
     if (response.status === 401) {
-      if (location.pathname !== '/') {
-        location.replace('/');
+      if (Router.pathname !== '/') {
+        Router.replace('/');
       }
       logout();
     }

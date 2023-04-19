@@ -4,7 +4,6 @@ import { Center, Column, Row } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
 import { Spinner } from '@/components/core/Spinner';
 import { Text } from '@/components/core/Text';
-import { showToast } from '@/components/Dialogs/Toast';
 import { MembershipLevelItem } from '@/components/MembershipLevels/MembershipLevelItem';
 import { MembershipLevelsHeader } from '@/components/MembershipLevels/MembershipLevelsHeader';
 import { CurrentRoles } from '@/components/pages/patron/home/CurrentRoles';
@@ -16,7 +15,6 @@ import { useBreakpoint } from '@/hooks/core/useBreakpoint';
 import { setHomeStates, useHomeStates } from '@/hooks/useAPP';
 import { mintNFT, refreshUserTiers } from '@/net/http/patreon';
 import { MembershipLevel } from '@/net/http/patreonComponents';
-import { is2XX } from '@/net/http/utils';
 import { withDefault } from '@/utils/core/base';
 
 const PatronHomePage = () => {
@@ -41,14 +39,8 @@ const PatronHomePage = () => {
       return;
     }
     setMinting(true);
-    const result = await mintNFT().catch(() => undefined);
+    await mintNFT().catch(() => undefined);
     setMinting(false);
-    if (!is2XX(result)) {
-      // mint failed
-      showToast(
-        result?.message ?? 'Something went wrong, please try again later.',
-      );
-    }
     setMintSuccess(true);
   };
 
@@ -62,12 +54,6 @@ const PatronHomePage = () => {
       userId: '@me',
     }).catch(() => undefined);
     setRefreshing(false);
-    if (!is2XX(result)) {
-      // mint failed
-      showToast(
-        result?.message ?? 'Something went wrong, please try again later.',
-      );
-    }
     setHomeStates(() => {
       return {
         ...result?.data,

@@ -9,8 +9,6 @@ import { memo, useEffect } from 'react';
 
 import { BottomSheet } from '@/components/Dialogs/BottomSheet';
 import { Toast } from '@/components/Dialogs/Toast';
-import MobileVisitTip from '@/components/MobileTip';
-import { useBreakpoint } from '@/hooks/core/useBreakpoint';
 import { useAPP } from '@/hooks/useAPP';
 import { useRouterSafe } from '@/hooks/useRouterSafe';
 
@@ -24,7 +22,6 @@ export default function App({
   }, []);
 
   const router = useRouterSafe();
-  const { isMobile } = useBreakpoint();
   const { homeStates, isInOpencord, isInitFailed, isInitialized } = useAPP();
   const { setup, manageable, connected, eligible, minted } = homeStates ?? {};
 
@@ -90,11 +87,7 @@ export default function App({
       <Header />
       <Toast />
       <BottomSheet />
-      {isMobile ? (
-        <MobileVisitTip />
-      ) : (
-        <Component {...pageProps} key={_router.route} />
-      )}
+      <Component {...pageProps} key={_router.route} />
     </>
   );
 }

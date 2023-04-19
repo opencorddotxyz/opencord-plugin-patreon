@@ -1,8 +1,8 @@
 import { getClient } from '@opencord/client';
 import { AuthInfo } from '@opencord/client/lib/model/opencord';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
-import { useRebuild } from '@/utils/store/useStore';
+import { useRebuild, useStore } from '@/utils/store/useStore';
 
 type Opencord = ReturnType<typeof getClient>;
 
@@ -37,12 +37,17 @@ class OpencordHelper {
 
 export const opencordHelper = new OpencordHelper();
 
+const kCurrentUser = 'kCurrentUser';
+
 export const useOpencord = () => {
   const rebuild = useRebuild();
-  const [currentUser, setCurrentUser] = useState<AuthInfo>();
+  const [currentUser, setCurrentUser] = useStore<AuthInfo>(kCurrentUser);
 
   const getCode = async () => {
     let code: string | undefined;
+    if (currentUser?.code) {
+      return currentUser.code;
+    }
     if (
       opencordHelper.client &&
       opencordHelper.inOpencord &&
