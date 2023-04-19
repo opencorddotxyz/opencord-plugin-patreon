@@ -24,7 +24,10 @@ export const ErrorPageFrame = (props: {
       backgroundSize="625px 528px"
       backgroundRepeat="no-repeat"
     >
-      <Column borderRadius="12px" padding="30px 40px 60px 40px">
+      <Column
+        borderRadius="12px"
+        padding={isMobile ? '0 15px' : '30px 40px 60px 40px'}
+      >
         {loading ? (
           <Center width="260px" height="160px">
             <Spinner size="60px" thickness="6px" />
@@ -38,14 +41,22 @@ export const ErrorPageFrame = (props: {
           />
         )}
         <Text
-          fontSize={'32px'}
-          lineHeight="40px"
-          fontWeight={'700'}
+          fontSize={isMobile ? '18px' : '32px'}
+          lineHeight={isMobile ? '22px' : '40px'}
+          fontWeight={isMobile ? '600' : '700'}
+          color={isMobile ? '#999999' : '#ffffff'}
           margin={'10px'}
         >
           {title}
         </Text>
-        <Row>{props.children}</Row>
+        <Row
+          fontSize={isMobile ? '13px' : '14px'}
+          lineHeight={isMobile ? '16px' : '18px'}
+          fontWeight={'400'}
+          color={isMobile ? '#777777' : 'rgba(255, 255, 255, 0.4)'}
+        >
+          {props.children}
+        </Row>
       </Column>
     </Center>
   );

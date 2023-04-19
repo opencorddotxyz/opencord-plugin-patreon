@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "APP_ENV=development next dev",
+    "staging": "APP_ENV=staging next dev",
     "prod": "APP_ENV=production next dev",
     "build": "next build && next export",
     "build:dev": "APP_ENV=development yarn build",

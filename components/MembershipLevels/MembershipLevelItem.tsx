@@ -282,7 +282,7 @@ export const MembershipLevelItemEditable = (props: {
               </Text>
             ) : (
               <Text userSelect="none" textDecorationLine="underline">
-                Add Role
+                {!isMobile && 'Add Role'}
               </Text>
             )}
             <Image
