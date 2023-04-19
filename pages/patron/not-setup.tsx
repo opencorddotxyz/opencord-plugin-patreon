@@ -4,13 +4,7 @@ import { ErrorPageFrame } from '@/components/PageLayout/ErrorPageFrame';
 const NotSetupPage = () => {
   return (
     <ErrorPageFrame title={'Channel Setup In Progress'}>
-      <Text
-        fontSize={'14px'}
-        lineHeight="18px"
-        fontWeight={'400'}
-        textAlign="center"
-        color={'rgba(255, 255, 255, 0.4)'}
-      >
+      <Text textAlign="center">
         Once the setup is complete, you will be able to claim your Membership
         NFT Pass here.
       </Text>
