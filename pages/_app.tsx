@@ -35,6 +35,7 @@ export default function App({
         '/wallet-required',
         '/stark-required',
         '/account-existed',
+        '/creator-page-not-found',
       ].includes(router.originRouter.pathname)
     ) {
       router.replace('/not-in-oc');
