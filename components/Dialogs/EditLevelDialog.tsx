@@ -84,7 +84,7 @@ export const EditLevelDialog = () => {
       position="fixed"
       top="0"
       left="0"
-      zIndex="10"
+      zIndex="2"
       width="100%"
       height="100%"
       background="rgba(0, 0, 0, 0.7)"
