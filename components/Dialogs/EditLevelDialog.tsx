@@ -223,8 +223,7 @@ export const EditLevelDialog = () => {
                     selectedRole ? [selectedRole] : [],
                     (level: MembershipLevel, roles: Role[]) => {
                       // todo: single select currently, perhaps change to multiple step further
-                      dataSets?.saveLevelRoles &&
-                        dataSets?.saveLevelRoles(level, roles);
+                      dataSets?.saveLevelRoles?.(level, roles);
 
                       return setDataSets({
                         ...dataSets,
