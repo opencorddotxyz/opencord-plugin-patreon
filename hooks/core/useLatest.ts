@@ -1,8 +1,18 @@
 import { useRef } from 'react';
 
-function useLatest<T>(value: T) {
+import { isEmpty } from '@/utils/core/is';
+
+interface LatestOptions {
+  acceptEmpty?: boolean;
+}
+
+function useLatest<T>(value: T, options?: LatestOptions) {
   const ref = useRef(value);
-  ref.current = value;
+  if (options?.acceptEmpty ?? true) {
+    ref.current = value;
+  } else {
+    if (!isEmpty(value)) ref.current = value;
+  }
 
   return ref;
 }

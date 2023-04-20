@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-
+import useLatest from '@/hooks/core/useLatest';
 import { isNotEmpty } from '@/utils/core/is';
 import { store, useStore } from '@/utils/store/useStore';
 
@@ -24,12 +23,7 @@ export const hideToast = () => {
 export const Toast = () => {
   const [text] = useStore(kShowToast);
   const show = isNotEmpty(text);
-  const [info, setInfo] = useState(text);
-  useEffect(() => {
-    if (text) {
-      setInfo(text);
-    }
-  }, [show, text]);
+  const info = useLatest(text, { acceptEmpty: false });
 
   return (
     <Center
@@ -49,7 +43,7 @@ export const Toast = () => {
         background="#3B3B3B"
         boxShadow="0px 4px 6px rgba(40, 40, 40, 0.25)"
       >
-        {info}
+        {info.current}
       </Center>
     </Center>
   );
