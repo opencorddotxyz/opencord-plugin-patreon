@@ -61,8 +61,7 @@ const PatronHomePage = () => {
     });
   };
 
-  const _body = <CurrentRoles roles={roles} nft={nft} />;
-  const __body = !connected ? (
+  const _body = !connected ? (
     <NotConnected />
   ) : !eligible ? (
     <NotEligible
