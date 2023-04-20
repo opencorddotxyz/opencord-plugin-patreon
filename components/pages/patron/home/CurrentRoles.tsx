@@ -69,7 +69,7 @@ export const CurrentRoles = (props: {
                     <Box
                       size="12px"
                       borderRadius="50%"
-                      background={withDefault(e.color, '#666')}
+                      background={withDefault(`#${e.color}`, '#666')}
                       marginRight="6px"
                     />
                     <Text
