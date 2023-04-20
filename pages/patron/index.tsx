@@ -61,7 +61,8 @@ const PatronHomePage = () => {
     });
   };
 
-  const _body = !connected ? (
+  const _body = <CurrentRoles roles={roles} nft={nft} />;
+  const __body = !connected ? (
     <NotConnected />
   ) : !eligible ? (
     <NotEligible
@@ -86,16 +87,20 @@ const PatronHomePage = () => {
     <CurrentRoles roles={roles} nft={nft} />
   );
 
+  const showBlueTip = !connected || !eligible;
+
   const _header = (
     <Column
       borderRadius={'5px'}
+      paddingTop={isMobile && !showBlueTip ? '10px' : ''}
+      width={isMobile && !showBlueTip ? '100%' : ''}
       backgroundImage={
         isMobile
           ? 'linear-gradient(to bottom, #383838 0%, rgba(40, 40, 40, 0) 100%)'
           : ''
       }
     >
-      {isMobile && (!connected || !eligible) && (
+      {isMobile && showBlueTip && (
         <Column padding="15px 15px 0 15px">
           <Row
             width="100%"
