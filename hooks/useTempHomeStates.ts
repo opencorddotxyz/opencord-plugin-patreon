@@ -210,6 +210,8 @@ export const useTempHomeStates = (currentHomeStates?: GetHomepageResponse) => {
     ).catch(() => undefined);
     if (!is2XX(result)) {
       return false;
+    } else {
+      showToast('Role Saved');
     }
 
     setLevelRoles(level, roles);

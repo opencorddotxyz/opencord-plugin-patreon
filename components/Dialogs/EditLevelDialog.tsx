@@ -20,11 +20,16 @@ import { Position } from '../core/Stack/position';
 import { Text } from '../core/Text';
 import { ImagePicker } from '../ImagePicker';
 import { MenuButton } from '../MenuButton';
-import { MobileSelectRolesMenu, showSelectRolesMenu } from './SelectRoles';
+import {
+  MobileSelectRolesMenu,
+  SaveLevelRolesCallback,
+  showSelectRolesMenu,
+} from './SelectRoles';
 import { showToast } from './Toast';
 
 const kEditLevelDialogKey = 'kEditLevelDialogKey';
 interface EditLevelDialogStates {
+  saveLevelRoles?: SaveLevelRolesCallback;
   level?: MembershipLevel;
   onSave?: (level: MembershipLevel) => Promise<boolean>;
 }
@@ -218,6 +223,8 @@ export const EditLevelDialog = () => {
                     selectedRole ? [selectedRole] : [],
                     (level: MembershipLevel, roles: Role[]) => {
                       // todo: single select currently, perhaps change to multiple step further
+                      dataSets?.saveLevelRoles?.(level, roles);
+
                       return setDataSets({
                         ...dataSets,
                         level: { ...level, roles },
