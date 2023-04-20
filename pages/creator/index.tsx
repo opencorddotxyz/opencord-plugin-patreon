@@ -221,6 +221,7 @@ const CreatorManagerPage = () => {
 
                     return true;
                   },
+                  saveLevelRoles,
                 });
               }}
             />
