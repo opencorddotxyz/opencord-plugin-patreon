@@ -1,5 +1,7 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
+import Router from 'next/router';
 
+import { showToast } from '@/components/Dialogs/Toast';
 import { error, info } from '@/utils/core/log';
 
 import { applyAuthTokenInterceptor } from './interceptors/token';
@@ -66,6 +68,41 @@ function replacePathParams(path: string, param: Param) {
   };
 }
 
+function dealWithBusinessErrorInfo(errorCode: number, errorMessage: string) {
+  if ([2000].includes(errorCode)) {
+    showToast(errorMessage);
+  }
+
+  switch (errorCode) {
+    case 6001: {
+      if (Router.pathname !== '/wallet-required') {
+        Router.replace('/wallet-required');
+      }
+      break;
+    }
+    case 6002: {
+      if (Router.pathname !== '/stark-required') {
+        Router.replace('/stark-required');
+      }
+      break;
+    }
+    case 6003: {
+      if (Router.pathname !== '/account-existed') {
+        Router.replace('/account-existed');
+      }
+      break;
+    }
+    case 6004: {
+      if (Router.pathname !== '/creator-page-not-found') {
+        Router.replace('/creator-page-not-found');
+      }
+      break;
+    }
+    default:
+      break;
+  }
+}
+
 async function withTransformData<T = any>(
   url: string,
   pathParam?: Param,
@@ -106,6 +143,22 @@ async function withTransformData<T = any>(
     }
   } catch (err) {
     const errResponse = (err as AxiosError).response;
+
+    if (errResponse?.data) {
+      // deal with logic that with a none 2XX http status but with code
+      const { code, message } = errResponse.data as BusinessInfo;
+      response.code = code;
+      response.message = message;
+      dealWithBusinessErrorInfo(code, message);
+    } else {
+      // deal with logic with node success status, and without code,
+      // maybe show alert info later
+      error('patreon http error =>', {
+        url,
+        err,
+      });
+      throw err;
+    }
 
     error('patreon http error =>', {
       url,

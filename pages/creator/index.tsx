@@ -14,11 +14,14 @@ import {
   MembershipLevelsHeaderEditable,
   MembershipLevelsOutdatedHeader,
 } from '@/components/MembershipLevels/MembershipLevelsHeader';
+import { useBreakpoint } from '@/hooks/core/useBreakpoint';
 import { useHomeStates } from '@/hooks/useAPP';
 import { useTempHomeStates } from '@/hooks/useTempHomeStates';
+import { icons } from '@/utils/assets';
 import { isNotEqual } from '@/utils/core/diff';
 
 const CreatorManagerPage = () => {
+  const { isMobile } = useBreakpoint();
   const { homeStates: currentHomeStates } = useHomeStates();
 
   const {
@@ -47,17 +50,19 @@ const CreatorManagerPage = () => {
         width="100%"
         maxWidth="840px"
         alignItems="start"
-        padding="0 30px 30px 30px"
+        padding={isMobile ? '0 0 15px 0' : '0 30px 30px 30px'}
       >
-        <Text
-          fontSize={'24px'}
-          lineHeight="30px"
-          fontWeight={'700'}
-          textAlign="center"
-          marginBottom="30px"
-        >
-          Patreon Membership NFT Pass
-        </Text>
+        {!isMobile && (
+          <Text
+            fontSize={'24px'}
+            lineHeight="30px"
+            fontWeight={'700'}
+            textAlign="center"
+            marginBottom="30px"
+          >
+            Patreon Membership NFT Pass
+          </Text>
+        )}
         <Text
           fontSize={'16px'}
           lineHeight="20px"
@@ -74,35 +79,52 @@ const CreatorManagerPage = () => {
           borderRadius="4px"
           border="1px solid #373737"
         >
-          <Text
-            color="rgba(255, 255, 255,1)"
-            fontSize={'14px'}
-            lineHeight="18px"
-            fontWeight={'400'}
-            marginBottom="10px"
-          >
-            Avatar
-          </Text>
-          <ImagePicker
-            onSelect={async (files) => {
-              const file = files[0];
-              if (file) {
-                const result = await loadLocalImageWithHash(file);
-                if (result) {
-                  setAvatar(result.url);
-                }
-              }
-            }}
-          >
-            <Image
-              src={avatar}
-              size="64px"
-              borderRadius={'50%'}
+          {!isMobile && (
+            <Text
+              color="rgba(255, 255, 255,1)"
+              fontSize={'14px'}
+              lineHeight="18px"
+              fontWeight={'400'}
               marginBottom="10px"
-            />
-          </ImagePicker>
+            >
+              Avatar
+            </Text>
+          )}
+          <Center width={isMobile ? '100%' : ''}>
+            <ImagePicker
+              onSelect={async (files) => {
+                const file = files[0];
+                if (file) {
+                  const result = await loadLocalImageWithHash(file);
+                  if (result) {
+                    setAvatar(result.url);
+                  }
+                }
+              }}
+            >
+              <Box position="relative">
+                <Image
+                  src={avatar}
+                  size={isMobile ? '80px' : '64px'}
+                  borderRadius={'50%'}
+                  marginBottom="10px"
+                />
+                {isMobile && (
+                  <Image
+                    src={icons('edit-mobile.svg')}
+                    size="18px"
+                    position="absolute"
+                    right="0"
+                    bottom="0"
+                  />
+                )}
+              </Box>
+            </ImagePicker>
+          </Center>
           <Text
-            color="rgba(255, 255, 255,1)"
+            color={
+              isMobile ? 'rgba(255, 255, 255,0.3)' : 'rgba(255, 255, 255,1)'
+            }
             fontSize={'14px'}
             lineHeight="18px"
             fontWeight={'400'}
@@ -119,7 +141,9 @@ const CreatorManagerPage = () => {
             marginBottom="10px"
           />
           <Text
-            color="rgba(255, 255, 255,1)"
+            color={
+              isMobile ? 'rgba(255, 255, 255,0.3)' : 'rgba(255, 255, 255,1)'
+            }
             fontSize={'14px'}
             lineHeight="18px"
             fontWeight={'400'}
@@ -137,7 +161,7 @@ const CreatorManagerPage = () => {
           />
           <Center
             color="#000"
-            width="100px"
+            width={isMobile ? '100%' : '100px'}
             height="30px"
             borderRadius="4px"
             background="#fff"
@@ -197,6 +221,7 @@ const CreatorManagerPage = () => {
 
                     return true;
                   },
+                  saveLevelRoles,
                 });
               }}
             />
@@ -238,7 +263,7 @@ const CreatorManagerPage = () => {
       <Spinner theme="dark" />
     </Center>
   ) : (
-    <Column width="100%" padding="30px">
+    <Column width="100%" padding={isMobile ? '15px' : '30px'}>
       <EditLevelDialog />
       {_body}
       {_membershipLevels}

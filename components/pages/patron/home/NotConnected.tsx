@@ -1,16 +1,18 @@
 import { Center } from '@/components/core/Flex';
 import { Spinner } from '@/components/core/Spinner';
 import { Text } from '@/components/core/Text';
+import { useBreakpoint } from '@/hooks/core/useBreakpoint';
 import { useConnectPatreon } from '@/hooks/useConnectPatreon';
 
 export const NotConnected = () => {
   const { connecting, connectPatreon } = useConnectPatreon();
+  const { isMobile } = useBreakpoint();
 
   return (
     <>
       <Center
         color="#000"
-        width="140px"
+        width={isMobile ? '100%' : '140px'}
         height="30px"
         borderRadius="4px"
         background="#fff"

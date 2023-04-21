@@ -1,11 +1,13 @@
 import '../styles/reset.css';
 import '../styles/fonts.css';
 import '../styles/global.css';
+import 'react-spring-bottom-sheet/dist/style.css';
 
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { memo, useEffect } from 'react';
 
+import { BottomSheet } from '@/components/Dialogs/BottomSheet';
 import { Toast } from '@/components/Dialogs/Toast';
 import { useAPP } from '@/hooks/useAPP';
 import { useRouterSafe } from '@/hooks/useRouterSafe';
@@ -20,21 +22,21 @@ export default function App({
   }, []);
 
   const router = useRouterSafe();
-
-  const { homeStates, isInOpencord, isInitFailed, isInited } = useAPP();
-  const {
-    setup,
-    manageable,
-    connected,
-    eligible,
-    minted,
-  } = homeStates ?? {};
+  const { homeStates, isInOpencord, isInitFailed, isInitialized } = useAPP();
+  const { setup, manageable, connected, eligible, minted } = homeStates ?? {};
 
   useEffect(() => {
     if (
-      isInited &&
+      isInitialized &&
       !isInOpencord &&
-      !['/oauth', '/404'].includes(router.originRouter.pathname)
+      ![
+        '/oauth',
+        '/404',
+        '/wallet-required',
+        '/stark-required',
+        '/account-existed',
+        '/creator-page-not-found',
+      ].includes(router.originRouter.pathname)
     ) {
       router.replace('/not-in-oc');
 
@@ -49,7 +51,7 @@ export default function App({
     }
 
     if (!homeStates) {
-      // not inited yet
+      // not initialized yet
       return;
     }
 
@@ -73,7 +75,7 @@ export default function App({
       return;
     }
   }, [
-    isInited,
+    isInitialized,
     isInOpencord,
     isInitFailed,
     homeStates,
@@ -89,6 +91,7 @@ export default function App({
     <>
       <Header />
       <Toast />
+      <BottomSheet />
       <Component {...pageProps} key={_router.route} />
     </>
   );

@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 
 import { Text } from '@/components/core/Text';
-import { InfoFrame } from '@/components/InfoFrame';
+import { InfoFrame } from '@/components/PageLayout/InfoFrame';
 import { placeholders } from '@/utils/assets';
 
 const ErrorPage: NextPage = () => {

@@ -1,7 +1,7 @@
+import useLatest from '@/hooks/core/useLatest';
 import { isNotEmpty } from '@/utils/core/is';
 import { store, useStore } from '@/utils/store/useStore';
 
-import { Box } from '../core/Box';
 import { Center } from '../core/Flex';
 
 const kShowToast = 'kShowToast';
@@ -23,9 +23,12 @@ export const hideToast = () => {
 export const Toast = () => {
   const [text] = useStore(kShowToast);
   const show = isNotEmpty(text);
+  const info = useLatest(text, { acceptEmpty: false });
 
-  return show ? (
+  return (
     <Center
+      opacity={show ? 1 : 0}
+      transition="0.3s"
       width="100vw"
       top="30px"
       left="0"
@@ -40,10 +43,8 @@ export const Toast = () => {
         background="#3B3B3B"
         boxShadow="0px 4px 6px rgba(40, 40, 40, 0.25)"
       >
-        {text}
+        {info.current}
       </Center>
     </Center>
-  ) : (
-    <Box />
   );
 };

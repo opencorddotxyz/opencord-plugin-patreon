@@ -3,6 +3,7 @@ import { Box } from '@/components/core/Box';
 import { Column, Row } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
 import { Text } from '@/components/core/Text';
+import { useBreakpoint } from '@/hooks/core/useBreakpoint';
 import { withDefault } from '@/utils/core/base';
 
 export const CurrentRoles = (props: {
@@ -10,6 +11,7 @@ export const CurrentRoles = (props: {
   nft: { image: string };
 }) => {
   const { roles, nft } = props;
+  const { isMobile } = useBreakpoint();
 
   return (
     <>
@@ -17,7 +19,7 @@ export const CurrentRoles = (props: {
         width="100%"
         maxWidth="840px"
         alignItems="start"
-        padding="0 30px 30px 30px"
+        padding={isMobile ? '0 0 15px 0' : '0 30px 30px 30px'}
       >
         <Text
           fontSize={'16px'}
@@ -67,7 +69,7 @@ export const CurrentRoles = (props: {
                     <Box
                       size="12px"
                       borderRadius="50%"
-                      background={withDefault(e.color, '#666')}
+                      background={withDefault(`#${e.color}`, '#666')}
                       marginRight="6px"
                     />
                     <Text

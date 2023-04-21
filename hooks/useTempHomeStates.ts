@@ -95,12 +95,9 @@ export const useTempHomeStates = (currentHomeStates?: GetHomepageResponse) => {
     );
     setSaving(false);
     if (!is2XX(result)) {
-      // update failed
-      showToast(
-        result?.message ?? 'Something went wrong, please try again later.',
-      );
-
       return false;
+    } else {
+      showToast('Save Successful');
     }
     setHomeStates(() => {
       return {
@@ -120,12 +117,9 @@ export const useTempHomeStates = (currentHomeStates?: GetHomepageResponse) => {
     const result = await refreshMembershipLevels().catch(() => undefined);
     setSyncing(false);
     if (!is2XX(result)) {
-      // update failed
-      showToast(
-        result?.message ?? 'Something went wrong, please try again later.',
-      );
-
       return false;
+    } else {
+      showToast('Update Successful');
     }
     setHomeStates(() => {
       return {
@@ -185,10 +179,6 @@ export const useTempHomeStates = (currentHomeStates?: GetHomepageResponse) => {
       },
     ).catch(() => undefined);
     if (!is2XX(result)) {
-      showToast(
-        result?.message ?? 'Something went wrong, please try again later.',
-      );
-
       return false;
     }
     setLevelInfo(level);
@@ -219,11 +209,9 @@ export const useTempHomeStates = (currentHomeStates?: GetHomepageResponse) => {
       },
     ).catch(() => undefined);
     if (!is2XX(result)) {
-      showToast(
-        result?.message ?? 'Something went wrong, please try again later.',
-      );
-
       return false;
+    } else {
+      showToast('Role Saved');
     }
 
     setLevelRoles(level, roles);
@@ -253,10 +241,6 @@ export const useTempHomeStates = (currentHomeStates?: GetHomepageResponse) => {
       levelId: level.id,
     }).catch(() => undefined);
     if (!is2XX(result)) {
-      showToast(
-        result?.message ?? 'Something went wrong, please try again later.',
-      );
-
       return false;
     }
     setDeletedOutdatedLevel(level);

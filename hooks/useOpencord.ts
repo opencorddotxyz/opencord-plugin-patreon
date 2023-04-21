@@ -1,27 +1,27 @@
 import { getClient } from '@opencord/client';
 import { AuthInfo } from '@opencord/client/lib/model/opencord';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
-import { useRebuild } from '@/utils/store/useStore';
+import { useRebuild, useStore } from '@/utils/store/useStore';
 
 type Opencord = ReturnType<typeof getClient>;
 
 class OpencordHelper {
   client?: Opencord;
-  inited = false;
+  initialized = false;
   initFailed = false;
   inOpencord = false;
   getCoding = false;
 
   init() {
-    if (this.inited) {
+    if (this.initialized) {
       return true;
     }
     try {
       const oc = getClient({
         debug: process.env.NODE_ENV === 'development',
       });
-      this.inited = true;
+      this.initialized = true;
       this.inOpencord = oc.platform !== 'unknown';
       this.initFailed = oc.version === '';
       if (!this.initFailed) {
@@ -31,18 +31,23 @@ class OpencordHelper {
       this.initFailed = true;
     }
 
-    return this.inited;
+    return this.initialized;
   }
 }
 
 export const opencordHelper = new OpencordHelper();
 
+const kCurrentUser = 'kCurrentUser';
+
 export const useOpencord = () => {
   const rebuild = useRebuild();
-  const [currentUser, setCurrentUser] = useState<AuthInfo>();
+  const [currentUser, setCurrentUser] = useStore<AuthInfo>(kCurrentUser);
 
   const getCode = async () => {
     let code: string | undefined;
+    if (currentUser?.code) {
+      return currentUser.code;
+    }
     if (
       opencordHelper.client &&
       opencordHelper.inOpencord &&
@@ -66,7 +71,7 @@ export const useOpencord = () => {
   };
 
   useEffect(() => {
-    if (!opencordHelper.inited) {
+    if (!opencordHelper.initialized) {
       opencordHelper.init();
       rebuild();
     }
@@ -76,7 +81,7 @@ export const useOpencord = () => {
 
   return {
     currentUser,
-    isInited: opencordHelper.inited,
+    isInitialized: opencordHelper.initialized,
     isInitFailed: opencordHelper.initFailed,
     isInOpencord: opencordHelper.inOpencord,
   };

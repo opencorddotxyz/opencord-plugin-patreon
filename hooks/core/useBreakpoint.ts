@@ -1,14 +1,18 @@
 import { store, useConsumer } from '@/utils/store/useStore';
 
 const _getBreakpoint = () => {
+  if (typeof document === 'undefined') {
+    return {};
+  }
+
   const width = document.body.clientWidth;
   if (width < 576) {
     return { isXS: true, isMobile: true };
   }
-  if (width >= 576 && width < 768) {
+  if (width >= 576 && width < 640) {
     return { isSM: true, isMobile: true };
   }
-  if (width >= 768 && width < 992) {
+  if (width >= 640 && width < 992) {
     return { isMD: true, isPad: true };
   }
   if (width >= 992 && width < 1200) {
@@ -51,7 +55,8 @@ const initScreenReSizeListener = () => {
 
 export const useBreakpoint = (): DeviceSize => {
   initScreenReSizeListener();
+
   const [breakpoint] = useConsumer(kScreenReSizeListenerKey);
 
-  return breakpoint ?? _getBreakpoint();
+  return breakpoint ?? {};
 };

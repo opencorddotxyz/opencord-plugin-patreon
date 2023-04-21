@@ -1,10 +1,9 @@
 import { useState } from 'react';
 
-import { Center, Column } from '@/components/core/Flex';
+import { Center, Column, Row } from '@/components/core/Flex';
 import { Image } from '@/components/core/Image';
 import { Spinner } from '@/components/core/Spinner';
 import { Text } from '@/components/core/Text';
-import { showToast } from '@/components/Dialogs/Toast';
 import { MembershipLevelItem } from '@/components/MembershipLevels/MembershipLevelItem';
 import { MembershipLevelsHeader } from '@/components/MembershipLevels/MembershipLevelsHeader';
 import { CurrentRoles } from '@/components/pages/patron/home/CurrentRoles';
@@ -12,13 +11,14 @@ import { MintSuccess } from '@/components/pages/patron/home/MintSuccess';
 import { NeedMint } from '@/components/pages/patron/home/NeedMint';
 import { NotConnected } from '@/components/pages/patron/home/NotConnected';
 import { NotEligible } from '@/components/pages/patron/home/NotEligible';
+import { useBreakpoint } from '@/hooks/core/useBreakpoint';
 import { setHomeStates, useHomeStates } from '@/hooks/useAPP';
 import { mintNFT, refreshUserTiers } from '@/net/http/patreon';
 import { MembershipLevel } from '@/net/http/patreonComponents';
-import { is2XX } from '@/net/http/utils';
 import { withDefault } from '@/utils/core/base';
 
 const PatronHomePage = () => {
+  const { isMobile } = useBreakpoint();
   const { homeStates } = useHomeStates();
   const { connected, eligible, minted } = homeStates ?? {};
 
@@ -39,14 +39,8 @@ const PatronHomePage = () => {
       return;
     }
     setMinting(true);
-    const result = await mintNFT().catch(() => undefined);
+    await mintNFT().catch(() => undefined);
     setMinting(false);
-    if (!is2XX(result)) {
-      // mint failed
-      showToast(
-        result?.message ?? 'Something went wrong, please try again later.',
-      );
-    }
     setMintSuccess(true);
   };
 
@@ -57,15 +51,9 @@ const PatronHomePage = () => {
     }
     setRefreshing(true);
     const result = await refreshUserTiers({
-      userId: homeStates.userId,
+      userId: '@me',
     }).catch(() => undefined);
     setRefreshing(false);
-    if (!is2XX(result)) {
-      // mint failed
-      showToast(
-        result?.message ?? 'Something went wrong, please try again later.',
-      );
-    }
     setHomeStates(() => {
       return {
         ...result?.data,
@@ -98,8 +86,49 @@ const PatronHomePage = () => {
     <CurrentRoles roles={roles} nft={nft} />
   );
 
+  const showBlueTip = !connected || !eligible;
+
   const _header = (
-    <>
+    <Column
+      borderRadius={'5px'}
+      paddingTop={isMobile && !showBlueTip ? '10px' : ''}
+      width={isMobile && !showBlueTip ? '100%' : ''}
+      backgroundImage={
+        isMobile
+          ? 'linear-gradient(to bottom, #383838 0%, rgba(40, 40, 40, 0) 100%)'
+          : ''
+      }
+    >
+      {isMobile && showBlueTip && (
+        <Column padding="15px 15px 0 15px">
+          <Row
+            width="100%"
+            backgroundColor="rgba(35,191,245,1)"
+            borderRadius="24rem/27rem"
+            padding="1rem"
+          >
+            <Text
+              fontSize={'14px'}
+              lineHeight="18px"
+              fontWeight={'400'}
+              textAlign="center"
+              color={'rgba(255, 255, 255, 0.8)'}
+              maxWidth="600px"
+            >
+              As a {name} patron, you can connect your Patreon account to
+              automatically receive roles based on your membership level and
+              claim your Membership NFT Pass.
+            </Text>
+          </Row>
+          <Row
+            marginBottom="10px"
+            backgroundColor="rgba(35,191,245,1)"
+            transform="translate(0,-60%) rotate(45deg)"
+            borderRadius={'4px'}
+            size="20px"
+          />
+        </Column>
+      )}
       <Image src={avatar} size="72px" borderRadius="50%" />
       <Text
         fontSize={'24px'}
@@ -111,19 +140,21 @@ const PatronHomePage = () => {
         {name}
       </Text>
       {!connected || !eligible ? (
-        <Text
-          fontSize={'14px'}
-          lineHeight="18px"
-          fontWeight={'400'}
-          textAlign="center"
-          color={'rgba(255, 255, 255, 0.8)'}
-          marginBottom="20px"
-          maxWidth="600px"
-        >
-          As a {name} patron, you can connect your Patreon account to
-          automatically receive roles based on your membership level and claim
-          your Membership NFT Pass.
-        </Text>
+        !isMobile && (
+          <Text
+            fontSize={'14px'}
+            lineHeight="18px"
+            fontWeight={'400'}
+            textAlign="center"
+            color={'rgba(255, 255, 255, 0.8)'}
+            marginBottom="20px"
+            maxWidth="600px"
+          >
+            As a {name} patron, you can connect your Patreon account to
+            automatically receive roles based on your membership level and claim
+            your Membership NFT Pass.
+          </Text>
+        )
       ) : (
         <Text
           fontSize={'14px'}
@@ -137,7 +168,7 @@ const PatronHomePage = () => {
           ✅ Welcome back, {name} patron!
         </Text>
       )}
-    </>
+    </Column>
   );
 
   const _membershipLevels = (
@@ -168,7 +199,7 @@ const PatronHomePage = () => {
       <Spinner theme="dark" />
     </Center>
   ) : (
-    <Column width="100%" padding="30px">
+    <Column width="100%" padding={isMobile ? '15px' : '30px'}>
       {_header}
       {_body}
       {_membershipLevels}

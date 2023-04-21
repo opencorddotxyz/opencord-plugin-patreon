@@ -5,9 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "APP_ENV=development next dev",
+    "staging": "APP_ENV=staging next dev",
     "prod": "APP_ENV=production next dev",
     "build": "next build && next export",
     "build:dev": "APP_ENV=development yarn build",
+    "build:staging": "APP_ENV=staging yarn build",
     "preview": "yarn build && next start",
     "preview:dev": "yarn build && next start"
   },
@@ -19,6 +21,7 @@
     "next": "^13.2.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-spring-bottom-sheet": "^3.4.1",
     "ts-md5": "^1.3.1"
   },
   "devDependencies": {
