@@ -19,19 +19,17 @@ const OAuthPage: NextPage = () => {
   useInit(async () => {
     const { code, state: token } = query;
     if (!code || !token) {
-      setError(true);
-
       return;
     }
     setError(false);
     setLoading(true);
     setOAuthToken(token);
     const result = await validateOAuth2Token({ code }).catch(() => undefined);
-    setLoading(false);
-    setOAuthToken(undefined);
     if (!is2XX(result)) {
       setError(true);
     }
+    setLoading(false);
+    setOAuthToken(undefined);
   }, [query]);
 
   const title = error ? 'Oops!' : loading ? 'Connecting...' : 'Connected';
