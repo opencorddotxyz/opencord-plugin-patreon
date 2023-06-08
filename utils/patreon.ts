@@ -5,6 +5,7 @@ const scopes = [
   'identity.memberships',
   'campaigns',
   'campaigns.members',
+  'w:campaigns.webhook',
 ];
 
 const formatURL = ({ protocol, host, pathname, query }) => {
